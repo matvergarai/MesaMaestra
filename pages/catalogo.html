@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo - MesaMaestra</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="pagina-catalogo">
+  <div id="navbar-container"></div>
+
+  <main class="container catalogo-main">
+    <div class="catalogo-top anim-fade-in">
+      <div class="encabezado-pagina encabezado-pagina--catalogo">
+        <h1 class="titulo-pagina">Catálogo Completo</h1>
+        <p class="encabezado-subtitulo">¡Encuentra tu próximo juego favorito!</p>
+      </div>
+
+      <div class="catalogo-filtros">
+      <div class="catalogo-filtro-wrap">
+        <span class="catalogo-filtro-icono catalogo-filtro-icono--izq" aria-hidden="true">🔍</span>
+        <input type="text" class="form-control catalogo-filtro-input" id="buscar-juego" placeholder="Buscar juego...">
+        <span class="catalogo-filtro-icono catalogo-filtro-icono--der" aria-hidden="true">🔍</span>
+      </div>
+      <div class="catalogo-filtro-wrap">
+        <span class="catalogo-filtro-icono catalogo-filtro-icono--izq" aria-hidden="true">🎲</span>
+        <div class="catalogo-dropdown" id="filtro-categoria-dropdown">
+          <button type="button" class="catalogo-filtro-input catalogo-dropdown-btn"
+            id="filtro-categoria-btn" aria-expanded="false" aria-haspopup="listbox"
+            aria-controls="filtro-categoria-lista">
+            <span id="filtro-categoria-texto">Todas las categorías</span>
+          </button>
+          <div class="catalogo-dropdown-panel" id="filtro-categoria-panel" aria-hidden="true">
+            <div class="catalogo-dropdown-lista-wrap">
+              <ul class="catalogo-dropdown-lista" id="filtro-categoria-lista" role="listbox"></ul>
+            </div>
+          </div>
+          <input type="hidden" id="filtro-categoria" value="">
+        </div>
+        <span class="catalogo-filtro-icono catalogo-filtro-icono--der" aria-hidden="true">🎲</span>
+      </div>
+    </div>
+    </div>
+
+    <div class="catalogo-juegos-area">
+      <div class="catalogo-juegos-scroll" id="catalogo-juegos-scroll">
+        <div class="row" id="catalogo-juegos"></div>
+      </div>
+      <div class="catalogo-scroll-controles" id="catalogo-scroll-controles">
+        <button type="button" class="catalogo-scroll-btn" id="catalogo-scroll-arriba"
+          aria-label="Ver juegos anteriores" title="Subir">
+          <span aria-hidden="true">▲</span>
+        </button>
+        <button type="button" class="catalogo-scroll-btn" id="catalogo-scroll-abajo"
+          aria-label="Ver más juegos" title="Bajar">
+          <span aria-hidden="true">▼</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/carrito.js"></script>
+  <script src="../js/productos.js"></script>
+  <script src="../js/componentes.js"></script>
+  <script>
+    /* Catálogo: filtro por categoría, búsqueda con debounce y renderizado de cards */
+    document.addEventListener('DOMContentLoaded', function () {
+      renderizarNavbar('../');
+      renderizarFooter('../');
+
+      const filtro = document.getElementById('filtro-categoria');
+      const dropdown = document.getElementById('filtro-categoria-dropdown');
+      const btnCategoria = document.getElementById('filtro-categoria-btn');
+      const panelCategoria = document.getElementById('filtro-categoria-panel');
+      const listaCategoria = document.getElementById('filtro-categoria-lista');
+      const textoCategoria = document.getElementById('filtro-categoria-texto');
+
+      const opcionesCategoria = [
+        { value: '', label: 'Todas las categorías' }
+      ].concat(CATEGORIAS.map(function (cat) {
+        return { value: cat.id, label: cat.icono + ' ' + cat.nombre };
+      }));
+
+      opcionesCategoria.forEach(function (op, i) {
+        const li = document.createElement('li');
+        li.className = 'catalogo-dropdown-opcion' + (i === 0 ? ' is-selected' : '');
+        li.setAttribute('role', 'option');
+        li.setAttribute('data-value', op.value);
+        li.textContent = op.label;
+        listaCategoria.appendChild(li);
+      });
+
+      function cerrarDropdownCategoria() {
+        dropdown.classList.remove('is-abierto');
+        btnCategoria.setAttribute('aria-expanded', 'false');
+        panelCategoria.setAttribute('aria-hidden', 'true');
+      }
+
+      function abrirDropdownCategoria() {
+        dropdown.classList.add('is-abierto');
+        btnCategoria.setAttribute('aria-expanded', 'true');
+        panelCategoria.setAttribute('aria-hidden', 'false');
+      }
+
+      function seleccionarCategoria(valor, etiqueta) {
+        filtro.value = valor;
+        textoCategoria.textContent = etiqueta;
+        listaCategoria.querySelectorAll('.catalogo-dropdown-opcion').forEach(function (el) {
+          el.classList.toggle('is-selected', el.dataset.value === valor);
+        });
+        cerrarDropdownCategoria();
+        renderizarCatalogo(true);
+      }
+
+      btnCategoria.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (dropdown.classList.contains('is-abierto')) {
+          cerrarDropdownCategoria();
+        } else {
+          abrirDropdownCategoria();
+        }
+      });
+
+      listaCategoria.addEventListener('click', function (e) {
+        const opcion = e.target.closest('.catalogo-dropdown-opcion');
+        if (!opcion) return;
+        seleccionarCategoria(opcion.dataset.value, opcion.textContent);
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target)) cerrarDropdownCategoria();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') cerrarDropdownCategoria();
+      });
+
+      let catalogoPrimeraCarga = true;
+
+      function renderizarCatalogo(conAnimacion) {
+        const busqueda = document.getElementById('buscar-juego').value.toLowerCase();
+        const categoria = filtro.value;
+        const contenedor = document.getElementById('catalogo-juegos');
+        const animar = conAnimacion !== false && (catalogoPrimeraCarga || conAnimacion === true);
+
+        let juegos = obtenerJuegos();
+        if (categoria) juegos = juegos.filter(j => j.categoria === categoria);
+        if (busqueda) juegos = juegos.filter(j => j.nombre.toLowerCase().includes(busqueda));
+
+        if (juegos.length === 0) {
+          if (typeof cerrarNubeJuego === 'function') cerrarNubeJuego();
+          contenedor.innerHTML = `
+            <div class="col-12 catalogo-vacio-wrap">
+              <div class="catalogo-vacio texto-sobre-fondo">
+                <p class="catalogo-vacio-titulo">
+                  <span class="catalogo-vacio-emoji" aria-hidden="true">😔</span>
+                  Lamentablemente no tenemos el juego que estás buscando en estos momentos.
+                </p>
+                <p class="catalogo-vacio-texto">No dudes en contactarnos para ayudarte a conseguirlo de ser posible o a recomendarte algo parecido a lo que buscas.</p>
+                <a href="mailto:contacto@mesamaestra.cl" class="catalogo-vacio-contacto">contacto@mesamaestra.cl</a>
+                <div class="catalogo-vacio-firma">
+                  <span class="catalogo-vacio-atte">Atte.</span>
+                  <img src="../img/logo.svg" alt="MesaMaestra" class="catalogo-vacio-logo">
+                </div>
+              </div>
+            </div>`;
+          return;
+        }
+
+        renderizarListaJuegos(contenedor, juegos, '../', { animar: animar });
+        catalogoPrimeraCarga = false;
+      }
+
+      const scrollJuegos = document.getElementById('catalogo-juegos-scroll');
+      const btnScrollArriba = document.getElementById('catalogo-scroll-arriba');
+      const btnScrollAbajo = document.getElementById('catalogo-scroll-abajo');
+      const controlesScroll = document.getElementById('catalogo-scroll-controles');
+
+      function obtenerFilasCards() {
+        const cards = Array.from(document.querySelectorAll('#catalogo-juegos > .col-md-6'));
+        const filas = new Map();
+        cards.forEach(function (card) {
+          const top = card.offsetTop;
+          if (!filas.has(top)) filas.set(top, card);
+        });
+        return Array.from(filas.keys()).sort(function (a, b) { return a - b; });
+      }
+
+      function hayResultadosJuegos() {
+        return document.querySelector('#catalogo-juegos > .catalogo-vacio-wrap') === null
+          && document.querySelectorAll('#catalogo-juegos > .col-md-6').length > 0;
+      }
+
+      function actualizarControlesScroll() {
+        if (!scrollJuegos || !controlesScroll) return;
+        const conResultados = hayResultadosJuegos();
+        const maxScroll = scrollJuegos.scrollHeight - scrollJuegos.clientHeight;
+        const necesitaScroll = conResultados && maxScroll > 4;
+        controlesScroll.classList.toggle('is-oculto', !necesitaScroll);
+        btnScrollArriba.disabled = !conResultados || scrollJuegos.scrollTop <= 0;
+        btnScrollAbajo.disabled = !conResultados || scrollJuegos.scrollTop >= maxScroll - 1;
+      }
+
+      function desplazarJuegos(direccion) {
+        const filas = obtenerFilasCards();
+        if (!filas.length) return;
+
+        const scrollActual = scrollJuegos.scrollTop;
+        const margen = 8;
+
+        if (direccion > 0) {
+          const siguiente = filas.find(function (top) { return top > scrollActual + margen; });
+          if (siguiente !== undefined) {
+            scrollJuegos.scrollTo({ top: siguiente, behavior: 'auto' });
+          }
+          return;
+        }
+
+        let anterior = null;
+        filas.forEach(function (top) {
+          if (top < scrollActual - margen) anterior = top;
+        });
+        if (anterior !== null) {
+          scrollJuegos.scrollTo({ top: anterior, behavior: 'auto' });
+        }
+      }
+
+      btnScrollArriba.addEventListener('click', function () { desplazarJuegos(-1); });
+      btnScrollAbajo.addEventListener('click', function () { desplazarJuegos(1); });
+      scrollJuegos.addEventListener('scroll', actualizarControlesScroll);
+      window.addEventListener('resize', actualizarControlesScroll);
+
+      const renderizarCatalogoOriginal = renderizarCatalogo;
+      renderizarCatalogo = function (conAnimacion) {
+        renderizarCatalogoOriginal(conAnimacion);
+        scrollJuegos.scrollTop = 0;
+        requestAnimationFrame(actualizarControlesScroll);
+      };
+
+      let debounceBusqueda = null;
+      document.getElementById('buscar-juego').addEventListener('input', function () {
+        clearTimeout(debounceBusqueda);
+        debounceBusqueda = setTimeout(function () { renderizarCatalogo(false); }, 200);
+      });
+
+      renderizarCatalogo(true);
+    });
+  </script>
+</body>
+</html>

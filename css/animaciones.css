@@ -1,0 +1,449 @@
+/**
+ * MesaMaestra - animaciones.css
+ * Keyframes, transiciones y clases de animación reutilizables para la app.
+ * Incluye soporte para prefers-reduced-motion para mejor accesibilidad.
+ */
+
+/* ─── Aparición de tarjetas ────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anim-fade-in {
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* Sin animación al filtrar o actualizar listas */
+.anim-fade-in--instante {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+/* Animación 2: escala y brillo al pasar el cursor (transición, no animation) */
+.btn-pulse {
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.btn-pulse:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 24px rgba(30, 39, 97, 0.28);
+}
+
+.btn-secundario.btn-pulse:hover {
+  box-shadow: 0 8px 28px rgba(255, 201, 71, 0.55);
+}
+
+.btn-principal.btn-pulse:hover {
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.45);
+}
+
+.btn-carrito-juego.btn-pulse:hover {
+  box-shadow:
+    0 8px 26px rgba(255, 107, 53, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Animación 3: deslizamiento del encabezado */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anim-slide-nav {
+  animation: slideDown 0.5s ease;
+}
+
+/* Animación 4: rebote en badge de descuento */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-8px); }
+  60% { transform: translateY(-4px); }
+}
+
+.badge-descuento {
+  animation: none;
+}
+
+.card-juego:hover .badge-descuento {
+  animation: bounce 2s infinite;
+}
+
+/* ===== ANIMACIONES DESTACADAS - CATEGORÍAS ===== */
+
+/* Entrada escalonada de tarjetas de categoría */
+@keyframes categoriaEntrada {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.9) rotateX(10deg);
+  }
+  60% {
+    transform: translateY(-8px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0);
+  }
+}
+
+.anim-categoria {
+  animation: categoriaEntrada 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Brillo que recorre la tarjeta al hover */
+@keyframes brilloCategoria {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.categoria-card {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.categoria-card-inner {
+  position: relative;
+  border-radius: var(--radio-borde);
+  overflow: hidden;
+  background: #ffffff;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+
+.categoria-card-inner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+}
+
+.categoria-card:hover .categoria-card-inner::after {
+  opacity: 1;
+  animation: brilloCategoria 0.8s ease;
+}
+
+.categoria-card:hover .categoria-card-inner {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 16px 32px rgba(30, 39, 97, 0.22),
+    0 0 0 3px rgba(255, 107, 53, 0.35);
+}
+
+.categoria-card-wrapper {
+  padding: 3px;
+  border-radius: calc(var(--radio-borde) + 3px);
+  background: linear-gradient(135deg, var(--color-secundario), var(--color-acento), var(--color-hero-fin));
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  transition: background-position 0.6s ease, box-shadow 0.4s ease;
+}
+
+.categoria-card:hover .categoria-card-wrapper {
+  background-position: 100% 50%;
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+}
+
+/* Hover en toda la card: transparencia en imagen + botón Explorar */
+.categoria-card:hover .categoria-img {
+  opacity: 0.4;
+  transform: scale(1.05);
+}
+
+.categoria-card:hover .categoria-img-wrap:not(.tiene-imagen) .categoria-img-fondo {
+  opacity: 0.35;
+  transform: scale(1.05);
+}
+
+/* Overlay y botón Explorar: visible al pasar sobre toda la card */
+.categoria-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 24, 43, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.categoria-card:hover .categoria-overlay {
+  opacity: 1;
+}
+
+.categoria-explorar {
+  background: var(--color-secundario);
+  color: white;
+  padding: 0.5rem 1.4rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.categoria-card:hover .categoria-explorar {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ===== HERO Y LOGO ===== */
+
+@keyframes logoBrillo {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 201, 71, 0.4)); }
+  50% { filter: drop-shadow(0 0 12px rgba(255, 107, 53, 0.8)); }
+}
+
+.logo-animado {
+  animation: logoBrillo 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.logo-animado:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+/* Gradiente animado del hero */
+@keyframes heroGradiente {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.fondo-global {
+  animation: heroGradiente 10s ease infinite;
+}
+
+/* Borde animado de cards de juego */
+@keyframes cardBordeBrillo {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Brillo que cruza el hero */
+@keyframes heroBrilloPasada {
+  0% { transform: translateX(-120%) skewX(-15deg); opacity: 0; }
+  15% { opacity: 0.6; }
+  50% { transform: translateX(120%) skewX(-15deg); opacity: 0; }
+  100% { transform: translateX(120%) skewX(-15deg); opacity: 0; }
+}
+
+.hero-brillo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-brillo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  animation: heroBrilloPasada 5s ease-in-out infinite;
+}
+
+/* Iconos decorativos del fondo global */
+.fondo-global .hero-icono {
+  z-index: 2;
+}
+
+@keyframes heroIconoFlotar {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.35;
+  }
+  25% {
+    transform: translateY(-18px) rotate(8deg) scale(1.08);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(-8px) rotate(-5deg) scale(1);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translateY(-22px) rotate(12deg) scale(1.05);
+    opacity: 0.5;
+  }
+}
+
+@keyframes heroIconoEntrada {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(-30deg);
+  }
+  to {
+    opacity: 0.4;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.hero-icono {
+  position: absolute;
+  line-height: 1;
+  animation: heroIconoFlotar 5s ease-in-out infinite, heroIconoEntrada 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.hero-icono--1  { top: 12%; left: 6%;   font-size: 2.8rem; animation-delay: 0s, 0.1s; }
+.hero-icono--2  { top: 22%; right: 8%;  font-size: 2.2rem; animation-delay: 0.8s, 0.2s; }
+.hero-icono--3  { top: 55%; left: 4%;   font-size: 2rem;   animation-delay: 1.5s, 0.3s; }
+.hero-icono--4  { bottom: 18%; left: 12%; font-size: 2.4rem; animation-delay: 2s, 0.4s; }
+.hero-icono--5  { top: 8%;  right: 22%; font-size: 2.6rem; animation-delay: 0.4s, 0.5s; }
+.hero-icono--6  { bottom: 25%; right: 6%; font-size: 2.3rem; animation-delay: 1.2s, 0.6s; }
+.hero-icono--7  { top: 45%; right: 4%;  font-size: 1.9rem; animation-delay: 2.5s, 0.7s; }
+.hero-icono--8  { top: 35%; left: 18%; font-size: 2.1rem; animation-delay: 1.8s, 0.8s; }
+.hero-icono--9  { bottom: 12%; right: 28%; font-size: 2rem; animation-delay: 0.6s, 0.9s; }
+.hero-icono--10 { top: 18%; left: 42%; font-size: 1.7rem; animation-delay: 3s, 1s; }
+
+@keyframes heroTitulo {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heroMarcaBrillo {
+  0%, 100% {
+    text-shadow: 0 0 12px rgba(255, 201, 71, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 28px rgba(255, 201, 71, 0.9), 0 0 48px rgba(255, 107, 53, 0.4);
+    transform: scale(1.03);
+  }
+}
+
+.hero-titulo {
+  animation: heroTitulo 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.hero-marca {
+  animation: heroMarcaBrillo 3s ease-in-out 1.2s infinite;
+}
+
+.hero-subtitulo {
+  opacity: 0;
+  animation: fadeInUp 0.9s ease 0.4s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Solo opacidad en la entrada: así el transform queda libre para el hover */
+.hero-btn {
+  opacity: 0;
+  animation: fadeIn 0.9s ease 0.8s forwards;
+}
+
+.hero-section h1 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.hero-section .lead {
+  font-weight: 400;
+  opacity: 0.92;
+}
+
+/* ===== RENDIMIENTO Y ACCESIBILIDAD ===== */
+
+/* Páginas con muchas cards: fondo estático, sin iconos flotantes */
+body.pagina-catalogo .fondo-global,
+body.pagina-listado .fondo-global {
+  animation: none;
+  background-size: 100% 100%;
+}
+
+body.pagina-catalogo .hero-brillo,
+body.pagina-catalogo .hero-icono,
+body.pagina-listado .hero-brillo,
+body.pagina-listado .hero-icono {
+  display: none;
+}
+
+/* Aceleración del scroll en listados (no en catálogo: interfiere con el pintado) */
+#juegos-categoria > .col-md-6,
+#destacados-home > .col-md-6 {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .anim-fade-in,
+  .anim-categoria,
+  .anim-slide-nav {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-subtitulo,
+  .hero-btn {
+    opacity: 1;
+    animation: none;
+  }
+
+  .fondo-global,
+  .hero-brillo,
+  .hero-icono,
+  .card-juego::before,
+  .badge-descuento {
+    animation: none !important;
+  }
+}
+

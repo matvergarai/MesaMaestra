@@ -1,0 +1,35 @@
+/* Variables CSS - MesaMaestra | Paleta "Game Night" */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
+:root {
+  /* Azul índigo profundo */
+  --color-principal: #1e2761;
+  --color-principal-hover: #151b45;
+
+  /* Coral vibrante */
+  --color-secundario: #ff6b35;
+  --color-secundario-hover: #e85a28;
+
+  /* Dorado ámbar */
+  --color-acento: #ffc947;
+  --color-acento-hover: #f0b82e;
+
+  /* Púrpura para gradientes del hero */
+  --color-hero-fin: #3d2c8d;
+
+  --color-fondo: #eef2f9;
+  --color-fondo-suave: rgba(255, 255, 255, 0.82);
+  --color-texto: #14182b;
+  --color-texto-claro: #ffffff;
+  --color-exito: #22c55e;
+  --color-error: #ef4444;
+  --color-borde: #e2e8f0;
+  --fuente-principal: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  --fuente-titulos: 'Outfit', 'Segoe UI', sans-serif;
+  --espaciado-sm: 0.5rem;
+  --espaciado-md: 1rem;
+  --espaciado-lg: 2rem;
+  --radio-borde: 0.75rem;
+  --sombra-card: 0 8px 24px rgba(30, 39, 97, 0.12);
+  --transicion: 0.3s ease;
+}

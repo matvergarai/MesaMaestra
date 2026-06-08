@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin - MesaMaestra</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <main class="container admin-main my-5">
+    <div class="encabezado-pagina anim-fade-in">
+      <h1 class="titulo-pagina">Panel de Administración</h1>
+      <p class="encabezado-subtitulo">Gestión de inventario, ofertas y usuarios registrados</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-lg-6">
+        <div class="panel-admin panel-admin-inventario anim-fade-in" id="panel-inventario" style="animation-delay: 0.1s">
+          <h3>Inventario de Juegos</h3>
+          <p class="panel-admin-resumen">
+            Mostrando: <strong id="total-productos">0</strong>
+          </p>
+          <div class="admin-buscador-wrap">
+            <label for="buscar-inventario" class="visually-hidden">Buscar en inventario</label>
+            <span class="admin-buscador-icono" aria-hidden="true">🔍</span>
+            <input type="search" class="admin-buscador" id="buscar-inventario"
+              placeholder="Buscar por juego, autor, editorial o categoría..." autocomplete="off">
+          </div>
+          <div class="panel-admin-tabla-wrap panel-admin-scroll-y">
+            <table class="table table-sm panel-admin-tabla panel-admin-tabla--inventario">
+              <thead>
+                <tr>
+                  <th class="admin-col-juego">Juego</th>
+                  <th class="admin-col-autor">Autor</th>
+                  <th class="admin-col-editorial">Editorial</th>
+                  <th class="admin-col-categoria">Categoría</th>
+                  <th class="admin-col-precio">Precio</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-inventario"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="panel-admin anim-fade-in" style="animation-delay: 0.18s">
+          <h3>Usuarios Registrados</h3>
+          <p class="panel-admin-resumen">Total: <strong id="total-usuarios">0</strong></p>
+          <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--usuarios">
+            <table class="table table-sm panel-admin-tabla panel-admin-tabla--usuarios">
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Email</th>
+                  <th>Rol</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-usuarios"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="panel-admin panel-admin-ofertas anim-fade-in" style="animation-delay: 0.26s">
+          <div class="admin-ofertas-cabecera">
+            <h3>Gestión de ofertas</h3>
+            <button type="button" class="btn btn-principal btn-pulse btn-sm" id="btn-agregar-oferta">
+              Agregar oferta
+            </button>
+          </div>
+
+          <div id="picker-inventario" class="admin-picker-inventario d-none">
+            <p class="admin-picker-titulo">Selecciona un juego del inventario</p>
+            <div class="admin-buscador-wrap">
+              <label for="buscar-picker" class="visually-hidden">Buscar juego para oferta</label>
+              <span class="admin-buscador-icono" aria-hidden="true">🔍</span>
+              <input type="search" class="admin-buscador" id="buscar-picker"
+                placeholder="Buscar juego..." autocomplete="off">
+            </div>
+            <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--picker">
+              <table class="table table-sm panel-admin-tabla panel-admin-tabla--picker">
+                <thead>
+                  <tr>
+                    <th class="admin-col-juego">Juego</th>
+                    <th class="admin-col-autor">Autor</th>
+                    <th class="admin-col-editorial">Editorial</th>
+                    <th class="admin-col-categoria">Categoría</th>
+                    <th class="admin-col-precio">Precio</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-picker-inventario"></tbody>
+              </table>
+            </div>
+            <div class="admin-picker-acciones">
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-cancelar-picker">
+                Cancelar
+              </button>
+            </div>
+          </div>
+
+          <div id="ofertas-editor" class="admin-ofertas-editor d-none">
+            <p class="panel-admin-resumen admin-ofertas-juego">
+              Editando: <strong id="oferta-juego-nombre"></strong>
+            </p>
+
+            <form id="form-oferta" class="admin-ofertas-form">
+              <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-4">
+                  <span class="admin-ofertas-etiqueta">¿En oferta?</span>
+                  <div class="admin-oferta-opciones" role="group" aria-label="Estado de oferta">
+                    <label class="admin-oferta-opcion">
+                      <input type="radio" name="oferta-activa" value="si">
+                      <span>Sí</span>
+                    </label>
+                    <label class="admin-oferta-opcion">
+                      <input type="radio" name="oferta-activa" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4" id="oferta-porcentaje-wrap">
+                  <label for="oferta-porcentaje" class="admin-ofertas-etiqueta">Porcentaje de descuento</label>
+                  <div class="input-group admin-oferta-input-grupo">
+                    <input type="number" class="form-control admin-oferta-input" id="oferta-porcentaje"
+                      min="1" max="90" step="1" value="10">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="admin-ofertas-botones">
+                    <button type="button" class="btn btn-outline-secondary" id="btn-cancelar-oferta">
+                      Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-principal btn-pulse">Guardar oferta</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="admin-oferta-preview" id="oferta-preview" aria-live="polite"></div>
+              <div class="mensaje-exito d-none" id="mensaje-exito-oferta"></div>
+            </form>
+          </div>
+
+          <div class="admin-ofertas-activas">
+            <h4 class="admin-ofertas-lista-titulo">Juegos en oferta</h4>
+            <p class="panel-admin-resumen">Total: <strong id="total-ofertas">0</strong></p>
+            <div class="admin-buscador-wrap">
+              <label for="buscar-ofertas" class="visually-hidden">Buscar juego en oferta</label>
+              <span class="admin-buscador-icono" aria-hidden="true">🔍</span>
+              <input type="search" class="admin-buscador" id="buscar-ofertas"
+                placeholder="Buscar juego en oferta..." autocomplete="off">
+            </div>
+            <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--ofertas">
+              <table class="table table-sm panel-admin-tabla panel-admin-tabla--ofertas">
+                <thead>
+                  <tr>
+                    <th class="admin-col-juego">Juego</th>
+                    <th class="admin-col-marca">Marca</th>
+                    <th class="admin-col-precio">P. normal</th>
+                    <th class="admin-col-precio">P. oferta</th>
+                    <th class="admin-col-descuento">Dcto.</th>
+                    <th class="admin-col-editar">Editar</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-ofertas"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/carrito.js"></script>
+  <script src="../js/productos.js"></script>
+  <script src="../js/componentes.js"></script>
+  <script>
+    /* Panel admin: inventario, gestión de ofertas y búsqueda de productos */
+    document.addEventListener('DOMContentLoaded', function () {
+      renderizarNavbar('../');
+      renderizarFooter('../');
+
+      if (!requiereRol('admin', '../')) return;
+
+      let juegoOfertaSeleccionado = null;
+      let terminoBusquedaActual = '';
+      let terminoPickerActual = '';
+      let terminoBusquedaOfertas = '';
+
+      const tablaInv = document.getElementById('tabla-inventario');
+      const tablaPicker = document.getElementById('tabla-picker-inventario');
+      const totalProductos = document.getElementById('total-productos');
+      const editorOfertas = document.getElementById('ofertas-editor');
+      const pickerInventario = document.getElementById('picker-inventario');
+      const formOferta = document.getElementById('form-oferta');
+      const inputPorcentaje = document.getElementById('oferta-porcentaje');
+      const wrapPorcentaje = document.getElementById('oferta-porcentaje-wrap');
+      const previewOferta = document.getElementById('oferta-preview');
+      const mensajeExitoOferta = document.getElementById('mensaje-exito-oferta');
+      const tablaOfertas = document.getElementById('tabla-ofertas');
+      const totalOfertas = document.getElementById('total-ofertas');
+      const btnAgregarOferta = document.getElementById('btn-agregar-oferta');
+
+      function obtenerJuegosOrdenados() {
+        return obtenerJuegos().slice().sort(function (a, b) {
+          return a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
+        });
+      }
+
+      function crearPrecioHtml(j) {
+        if (j.descuento) {
+          return `<div class="admin-precio-celda">
+            <span class="admin-precio-normal">${formatearPrecio(j.precio)}</span>
+            <span class="admin-precio-oferta">${formatearPrecio(j.precioOferta)}</span>
+          </div>`;
+        }
+        return `<span class="admin-precio-unico">${formatearPrecio(j.precio)}</span>`;
+      }
+
+      function crearFilaInventario(j, esPicker) {
+        const cat = CATEGORIAS.find(function (c) { return c.id === j.categoria; });
+        const nombreJuego = '"' + formatearNombreJuego(j.nombre) + '"';
+        const claseFila = esPicker ? 'admin-fila-picker' : 'admin-fila-inventario';
+        const seleccionado = juegoOfertaSeleccionado === j.id ? ' is-seleccionado' : '';
+
+        return `
+          <tr class="${claseFila}${seleccionado}" data-juego-id="${j.id}"${esPicker ? ' tabindex="0" role="button"' : ''}>
+            <td class="admin-celda-juego">${nombreJuego}</td>
+            <td class="admin-celda-autor">${j.autor}</td>
+            <td class="admin-celda-editorial">${j.marca}</td>
+            <td class="admin-celda-categoria">${cat ? cat.nombre : j.categoria}</td>
+            <td class="admin-celda-precio">${crearPrecioHtml(j)}</td>
+          </tr>`;
+      }
+
+      function filtrarJuegos(juegos, termino) {
+        const t = (termino || '').toLowerCase().trim();
+        if (!t) return juegos;
+        return juegos.filter(function (j) {
+          const cat = CATEGORIAS.find(function (c) { return c.id === j.categoria; });
+          const catNombre = cat ? cat.nombre : j.categoria;
+          return j.nombre.toLowerCase().includes(t)
+            || j.autor.toLowerCase().includes(t)
+            || j.marca.toLowerCase().includes(t)
+            || catNombre.toLowerCase().includes(t);
+        });
+      }
+
+      function renderizarInventario(busqueda) {
+        terminoBusquedaActual = busqueda || '';
+        const filtrados = filtrarJuegos(obtenerJuegosOrdenados(), terminoBusquedaActual);
+
+        totalProductos.textContent = terminoBusquedaActual.trim()
+          ? filtrados.length + ' de ' + JUEGOS.length
+          : String(JUEGOS.length);
+
+        if (!filtrados.length) {
+          tablaInv.innerHTML = `
+            <tr>
+              <td colspan="5" class="admin-tabla-vacio">No hay juegos que coincidan con la búsqueda.</td>
+            </tr>`;
+          return;
+        }
+
+        tablaInv.innerHTML = filtrados.map(function (j) {
+          return crearFilaInventario(j, false);
+        }).join('');
+      }
+
+      function renderizarPicker(busqueda) {
+        terminoPickerActual = busqueda || '';
+        const filtrados = filtrarJuegos(obtenerJuegosOrdenados(), terminoPickerActual);
+
+        if (!filtrados.length) {
+          tablaPicker.innerHTML = `
+            <tr>
+              <td colspan="5" class="admin-tabla-vacio">No hay juegos que coincidan con la búsqueda.</td>
+            </tr>`;
+          return;
+        }
+
+        tablaPicker.innerHTML = filtrados.map(function (j) {
+          return crearFilaInventario(j, true);
+        }).join('');
+      }
+
+      function cerrarPicker() {
+        pickerInventario.classList.add('d-none');
+        btnAgregarOferta.classList.remove('d-none');
+        document.getElementById('panel-inventario').classList.remove('is-resaltado');
+      }
+
+      function abrirPicker() {
+        editorOfertas.classList.add('d-none');
+        mensajeExitoOferta.classList.add('d-none');
+        pickerInventario.classList.remove('d-none');
+        btnAgregarOferta.classList.add('d-none');
+        document.getElementById('buscar-picker').value = '';
+        terminoPickerActual = '';
+        renderizarPicker('');
+        document.getElementById('panel-inventario').classList.add('is-resaltado');
+        document.getElementById('panel-inventario').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        pickerInventario.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function cerrarEditor() {
+        juegoOfertaSeleccionado = null;
+        editorOfertas.classList.add('d-none');
+        mensajeExitoOferta.classList.add('d-none');
+        cerrarPicker();
+        renderizarInventario(terminoBusquedaActual);
+        renderizarTablaOfertas();
+      }
+
+      function ofertaEstaActiva() {
+        const seleccion = formOferta.querySelector('input[name="oferta-activa"]:checked');
+        return seleccion && seleccion.value === 'si';
+      }
+
+      function actualizarVistaPorcentaje() {
+        const activa = ofertaEstaActiva();
+        wrapPorcentaje.classList.toggle('is-deshabilitado', !activa);
+        inputPorcentaje.disabled = !activa;
+      }
+
+      function actualizarPreviewOferta() {
+        if (!juegoOfertaSeleccionado) return;
+
+        const juegoBase = JUEGOS.find(function (j) { return j.id === juegoOfertaSeleccionado; });
+        if (!juegoBase) return;
+
+        const activa = ofertaEstaActiva();
+        const porcentaje = Math.max(1, Math.min(90, parseInt(inputPorcentaje.value, 10) || 10));
+
+        if (!activa) {
+          previewOferta.innerHTML = `
+            <p class="admin-oferta-preview-texto">
+              Precio en tienda: <strong>${formatearPrecio(juegoBase.precio)}</strong>
+              <span class="admin-oferta-preview-nota">(sin descuento)</span>
+            </p>`;
+          return;
+        }
+
+        const precioFinal = calcularPrecioConDescuento(juegoBase.precio, porcentaje);
+        previewOferta.innerHTML = `
+          <p class="admin-oferta-preview-texto">
+            <span class="admin-precio-normal">${formatearPrecio(juegoBase.precio)}</span>
+            →
+            <strong class="admin-precio-oferta">${formatearPrecio(precioFinal)}</strong>
+            <span class="admin-oferta-preview-pct">(-${porcentaje}%)</span>
+          </p>`;
+      }
+
+      function renderizarTablaOfertas(busqueda) {
+        if (typeof busqueda !== 'undefined') {
+          terminoBusquedaOfertas = busqueda || '';
+        }
+
+        const enOferta = obtenerJuegosEnOferta().slice().sort(function (a, b) {
+          return a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
+        });
+
+        const totalEnOferta = enOferta.length;
+        const filtrados = filtrarJuegos(enOferta, terminoBusquedaOfertas);
+
+        totalOfertas.textContent = terminoBusquedaOfertas.trim()
+          ? filtrados.length + ' de ' + totalEnOferta
+          : String(totalEnOferta);
+
+        if (!totalEnOferta) {
+          tablaOfertas.innerHTML = `
+            <tr>
+              <td colspan="6" class="admin-tabla-vacio">No hay juegos en oferta.</td>
+            </tr>`;
+          return;
+        }
+
+        if (!filtrados.length) {
+          tablaOfertas.innerHTML = `
+            <tr>
+              <td colspan="6" class="admin-tabla-vacio">No hay juegos en oferta que coincidan con la búsqueda.</td>
+            </tr>`;
+          return;
+        }
+
+        tablaOfertas.innerHTML = filtrados.map(function (j) {
+          const pct = j.porcentajeDescuento || inferirPorcentajeDescuento(j);
+          const seleccionado = juegoOfertaSeleccionado === j.id ? ' is-seleccionado' : '';
+          return `
+            <tr class="admin-fila-oferta${seleccionado}" data-juego-id="${j.id}">
+              <td class="admin-celda-juego">"${formatearNombreJuego(j.nombre)}"</td>
+              <td class="admin-celda-marca">${j.marca}</td>
+              <td class="admin-celda-precio"><span class="admin-precio-normal is-solo">${formatearPrecio(j.precio)}</span></td>
+              <td class="admin-celda-precio"><span class="admin-precio-oferta">${formatearPrecio(j.precioOferta)}</span></td>
+              <td class="admin-celda-descuento">-${pct}%</td>
+              <td class="admin-celda-editar">
+                <button type="button" class="admin-oferta-btn is-si admin-oferta-btn--editar" data-juego-id="${j.id}"
+                  aria-label="Editar oferta de ${j.nombre}">Editar</button>
+              </td>
+            </tr>`;
+        }).join('');
+      }
+
+      function abrirEditorOferta(juegoId, preferirNuevaOferta) {
+        const juego = JUEGOS.find(function (j) { return j.id === juegoId; });
+        if (!juego) return;
+
+        juegoOfertaSeleccionado = juegoId;
+        const config = obtenerConfigOferta(juegoId);
+
+        cerrarPicker();
+        document.getElementById('oferta-juego-nombre').textContent = '"' + formatearNombreJuego(juego.nombre) + '"';
+        editorOfertas.classList.remove('d-none');
+        mensajeExitoOferta.classList.add('d-none');
+
+        const activa = preferirNuevaOferta ? true : config.activa;
+        const porcentaje = preferirNuevaOferta && !config.activa ? 10 : config.porcentaje;
+
+        formOferta.querySelector('input[name="oferta-activa"][value="' + (activa ? 'si' : 'no') + '"]').checked = true;
+        inputPorcentaje.value = porcentaje;
+
+        actualizarVistaPorcentaje();
+        actualizarPreviewOferta();
+        renderizarInventario(terminoBusquedaActual);
+        renderizarTablaOfertas();
+
+        editorOfertas.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      btnAgregarOferta.addEventListener('click', abrirPicker);
+
+      document.getElementById('btn-cancelar-picker').addEventListener('click', cerrarPicker);
+
+      document.getElementById('btn-cancelar-oferta').addEventListener('click', cerrarEditor);
+
+      tablaPicker.addEventListener('click', function (e) {
+        const fila = e.target.closest('.admin-fila-picker');
+        if (!fila) return;
+        abrirEditorOferta(parseInt(fila.dataset.juegoId, 10), true);
+      });
+
+      tablaPicker.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const fila = e.target.closest('.admin-fila-picker');
+        if (!fila) return;
+        e.preventDefault();
+        abrirEditorOferta(parseInt(fila.dataset.juegoId, 10), true);
+      });
+
+      tablaOfertas.addEventListener('click', function (e) {
+        const btn = e.target.closest('.admin-oferta-btn--editar');
+        if (!btn) return;
+        abrirEditorOferta(parseInt(btn.dataset.juegoId, 10), false);
+      });
+
+      formOferta.querySelectorAll('input[name="oferta-activa"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          actualizarVistaPorcentaje();
+          actualizarPreviewOferta();
+        });
+      });
+
+      inputPorcentaje.addEventListener('input', actualizarPreviewOferta);
+
+      formOferta.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!juegoOfertaSeleccionado) return;
+
+        guardarOfertaJuego(juegoOfertaSeleccionado, {
+          activa: ofertaEstaActiva(),
+          porcentaje: parseInt(inputPorcentaje.value, 10) || 10
+        });
+
+        mensajeExitoOferta.textContent = 'Oferta guardada correctamente.';
+        mensajeExitoOferta.classList.remove('d-none');
+
+        renderizarInventario(terminoBusquedaActual);
+        renderizarTablaOfertas();
+        actualizarPreviewOferta();
+      });
+
+      document.getElementById('buscar-inventario').addEventListener('input', function (e) {
+        renderizarInventario(e.target.value);
+      });
+
+      document.getElementById('buscar-picker').addEventListener('input', function (e) {
+        renderizarPicker(e.target.value);
+      });
+
+      document.getElementById('buscar-ofertas').addEventListener('input', function (e) {
+        renderizarTablaOfertas(e.target.value);
+      });
+
+      renderizarInventario('');
+      renderizarTablaOfertas();
+
+      const usuarios = obtenerUsuarios();
+      document.getElementById('total-usuarios').textContent = usuarios.length;
+      const tablaUsu = document.getElementById('tabla-usuarios');
+      usuarios.forEach(function (u) {
+        const claseRol = u.rol === 'admin' ? 'admin-badge-rol' : 'admin-badge-cliente';
+        tablaUsu.innerHTML += `
+          <tr>
+            <td class="admin-celda-usuario">${u.usuario}</td>
+            <td class="admin-celda-email">${u.email}</td>
+            <td><span class="badge ${claseRol}">${u.rol}</span></td>
+          </tr>`;
+      });
+    });
+  </script>
+</body>
+</html>
