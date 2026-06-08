@@ -56,15 +56,23 @@
 
           <div class="mb-3">
             <label for="password" class="form-label">Contraseña <span class="auth-requerido">*</span></label>
-            <input type="password" class="form-control" id="password" name="password" required
-              autocomplete="new-password">
+            <div class="auth-password-wrap">
+              <input type="password" class="form-control" id="password" name="password" required
+                autocomplete="new-password">
+              <button type="button" class="auth-password-toggle" data-password-toggle
+                aria-label="Mostrar contraseña">Mostrar</button>
+            </div>
             <div class="mensaje-error" id="error-password"></div>
           </div>
 
           <div class="mb-0">
             <label for="confirmarPassword" class="form-label">Confirmar contraseña <span class="auth-requerido">*</span></label>
-            <input type="password" class="form-control" id="confirmarPassword" name="confirmarPassword" required
-              autocomplete="new-password">
+            <div class="auth-password-wrap">
+              <input type="password" class="form-control" id="confirmarPassword" name="confirmarPassword" required
+                autocomplete="new-password">
+              <button type="button" class="auth-password-toggle" data-password-toggle
+                aria-label="Mostrar contraseña">Mostrar</button>
+            </div>
             <div class="mensaje-error" id="error-confirmarPassword"></div>
           </div>
         </section>

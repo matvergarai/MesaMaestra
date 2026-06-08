@@ -1499,6 +1499,24 @@ body.pagina-catalogo #footer-container {
   color: var(--color-acento);
 }
 
+.footer-enlace-btn {
+  display: inline;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.footer-contacto-aviso {
+  font-size: 0.82rem;
+  color: var(--color-acento);
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  line-height: 1.45;
+}
+
 .footer-divider {
   border-color: rgba(255, 255, 255, 0.12);
   margin: var(--espaciado-md) 0;
@@ -1585,6 +1603,47 @@ body.pagina-catalogo #footer-container {
   font-weight: 500;
   font-size: 0.82rem;
   color: #6b7280;
+}
+
+.auth-password-wrap,
+.perfil-password-wrap {
+  position: relative;
+}
+
+.auth-password-wrap .form-control,
+.perfil-password-wrap .form-control {
+  padding-right: 5.5rem;
+}
+
+/* Oculta el ojo nativo de Edge/IE para no duplicar el botón "Mostrar" */
+.auth-password-wrap input[type="password"]::-ms-reveal,
+.auth-password-wrap input[type="password"]::-ms-clear,
+.perfil-password-wrap input[type="password"]::-ms-reveal,
+.perfil-password-wrap input[type="password"]::-ms-clear {
+  display: none;
+}
+
+.auth-password-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--color-principal);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  border-radius: 0.35rem;
+  transition:
+    color var(--transicion),
+    background var(--transicion);
+}
+
+.auth-password-toggle:hover {
+  color: var(--color-secundario);
+  background: rgba(30, 39, 97, 0.06);
 }
 
 .formulario-auth .form-control {

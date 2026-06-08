@@ -14,6 +14,7 @@ function mostrarError(input, mensaje) {
     errorEl.textContent = mensaje;
     errorEl.classList.add('visible');
   }
+  mantenerVisibilidadPassword(input);
 }
 
 function mostrarValido(input) {
@@ -24,6 +25,7 @@ function mostrarValido(input) {
     errorEl.textContent = '';
     errorEl.classList.remove('visible');
   }
+  mantenerVisibilidadPassword(input);
 }
 
 function limpiarValidaciones(formulario) {
@@ -35,6 +37,61 @@ function limpiarValidaciones(formulario) {
       errorEl.textContent = '';
       errorEl.classList.remove('visible');
     }
+  });
+}
+
+/* ─── Mostrar / ocultar contraseña ─────────────────────────── */
+
+function obtenerTogglePassword(input) {
+  const wrap = input.closest('.auth-password-wrap, .perfil-password-wrap');
+  return wrap ? wrap.querySelector('[data-password-toggle]') : null;
+}
+
+function mantenerVisibilidadPassword(input) {
+  if (input.dataset.passwordVisible === 'true') {
+    input.type = 'text';
+    const btn = obtenerTogglePassword(input);
+    if (btn) {
+      btn.textContent = 'Ocultar';
+      btn.setAttribute('aria-label', 'Ocultar contraseña');
+    }
+  }
+}
+
+function resetearVisibilidadPassword(input) {
+  input.type = 'password';
+  delete input.dataset.passwordVisible;
+  const btn = obtenerTogglePassword(input);
+  if (btn) {
+    btn.textContent = 'Mostrar';
+    btn.setAttribute('aria-label', 'Mostrar contraseña');
+  }
+}
+
+function alternarVisibilidadPassword(input) {
+  const mostrar = input.type === 'password';
+  input.type = mostrar ? 'text' : 'password';
+  if (mostrar) {
+    input.dataset.passwordVisible = 'true';
+  } else {
+    delete input.dataset.passwordVisible;
+  }
+  const btn = obtenerTogglePassword(input);
+  if (btn) {
+    btn.textContent = mostrar ? 'Ocultar' : 'Mostrar';
+    btn.setAttribute('aria-label', mostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
+  }
+}
+
+function initPasswordToggles(root) {
+  (root || document).querySelectorAll('.auth-password-wrap, .perfil-password-wrap').forEach(function (wrap) {
+    const input = wrap.querySelector('input.form-control');
+    const btn = wrap.querySelector('[data-password-toggle]');
+    if (!input || !btn || btn.dataset.initialized) return;
+    btn.dataset.initialized = 'true';
+    btn.addEventListener('click', function () {
+      alternarVisibilidadPassword(input);
+    });
   });
 }
 
@@ -59,9 +116,8 @@ function validarEmail(input) {
   return true;
 }
 
-/** Exige 6–18 caracteres, mayúscula, minúscula, número y carácter especial. */
-function validarPassword(input) {
-  const password = input.value;
+/** @returns {string[]} Lista de requisitos no cumplidos. */
+function obtenerErroresPassword(password) {
   const errores = [];
 
   if (password.length < 6 || password.length > 18) {
@@ -80,6 +136,13 @@ function validarPassword(input) {
     errores.push('al menos un carácter especial');
   }
 
+  return errores;
+}
+
+/** Exige 6–18 caracteres, mayúscula, minúscula, número y carácter especial. */
+function validarPassword(input) {
+  const errores = obtenerErroresPassword(input.value);
+
   if (errores.length > 0) {
     mostrarError(input, 'La contraseña debe tener ' + errores.join(', ') + '.');
     return false;
@@ -88,9 +151,26 @@ function validarPassword(input) {
   return true;
 }
 
-function validarPasswordCoincide(password, confirmar) {
+function validarPasswordCoincide(password, confirmar, passwordEsValida) {
+  if (!confirmar.value.trim()) {
+    mostrarError(confirmar, 'Confirma tu contraseña.');
+    return false;
+  }
   if (password.value !== confirmar.value) {
     mostrarError(confirmar, 'Las contraseñas no coinciden.');
+    return false;
+  }
+  if (passwordEsValida === undefined) {
+    passwordEsValida = obtenerErroresPassword(password.value).length === 0;
+  }
+  if (!passwordEsValida) {
+    confirmar.classList.remove('campo-valido', 'campo-invalido');
+    const errorEl = document.getElementById('error-' + confirmar.id);
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.classList.remove('visible');
+    }
+    mantenerVisibilidadPassword(confirmar);
     return false;
   }
   mostrarValido(confirmar);
@@ -98,7 +178,16 @@ function validarPasswordCoincide(password, confirmar) {
 }
 
 function validarEdadMinima(input, edadMinima) {
+  if (!input.value.trim()) {
+    return false;
+  }
+
   const fecha = new Date(input.value);
+  if (Number.isNaN(fecha.getTime())) {
+    mostrarError(input, 'Ingrese una fecha de nacimiento válida.');
+    return false;
+  }
+
   const hoy = new Date();
   let edad = hoy.getFullYear() - fecha.getFullYear();
   const mes = hoy.getMonth() - fecha.getMonth();
@@ -131,8 +220,9 @@ function validarRegistro(event) {
   valido = validarCampoVacio(nombre, 'Nombre completo') && valido;
   valido = validarCampoVacio(usuario, 'Nombre de usuario') && valido;
   valido = validarEmail(email) && valido;
-  valido = validarPassword(password) && valido;
-  valido = validarPasswordCoincide(password, confirmar) && valido;
+  const passwordValida = validarPassword(password);
+  valido = passwordValida && valido;
+  valido = validarPasswordCoincide(password, confirmar, passwordValida) && valido;
   valido = validarCampoVacio(fechaNac, 'Fecha de nacimiento') && valido;
   valido = validarEdadMinima(fechaNac, 13) && valido;
 
@@ -247,8 +337,9 @@ function validarPerfil(event) {
   valido = validarEdadMinima(fechaNac, 13) && valido;
 
   if (form.password.value) {
-    valido = validarPassword(form.password) && valido;
-    valido = validarPasswordCoincide(form.password, form.confirmarPassword) && valido;
+    const passwordValida = validarPassword(form.password);
+    valido = passwordValida && valido;
+    valido = validarPasswordCoincide(form.password, form.confirmarPassword, passwordValida) && valido;
   }
 
   if (!valido) return false;
@@ -285,6 +376,7 @@ function limpiarFormulario(formId) {
   if (form) {
     form.reset();
     limpiarValidaciones(form);
+    form.querySelectorAll('.auth-password-wrap input, .perfil-password-wrap input').forEach(resetearVisibilidadPassword);
     const mensajes = form.parentElement.querySelectorAll('.mensaje-exito, .mensaje-error');
     mensajes.forEach(m => {
       m.textContent = '';
@@ -292,3 +384,7 @@ function limpiarFormulario(formId) {
     });
   }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  initPasswordToggles(document);
+});

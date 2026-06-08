@@ -145,9 +145,12 @@ function renderizarFooter(basePath) {
           <div class="col-12 col-sm-6 col-lg-4 footer-contacto">
             <h5 class="footer-titulo">Contacto</h5>
             <p class="footer-texto">
-              <a href="mailto:contacto@mesamaestra.cl" class="footer-enlace">contacto@mesamaestra.cl</a><br>
-              <a href="tel:+56223456789" class="footer-enlace">+56 2 2345 6789</a>
+              <button type="button" class="footer-enlace footer-enlace-btn"
+                data-contacto="contacto@mesamaestra.cl">contacto@mesamaestra.cl</button><br>
+              <button type="button" class="footer-enlace footer-enlace-btn"
+                data-contacto="+56 2 2345 6789">+56 2 2345 6789</button>
             </p>
+            <p class="footer-contacto-aviso d-none" id="footer-contacto-aviso" role="status" aria-live="polite"></p>
           </div>
           <div class="col-12 col-sm-6 col-lg-4 footer-horario">
             <h5 class="footer-titulo">Horario</h5>
@@ -161,6 +164,31 @@ function renderizarFooter(basePath) {
         <p class="footer-copy">&copy; 2026 MesaMaestra - Desarrollo Full Stack 2</p>
       </div>
     </footer>`;
+
+  initFooterContacto();
+}
+
+/** Contacto simulado: copia el dato y muestra aviso sin abrir mailto/tel. */
+function initFooterContacto() {
+  const aviso = document.getElementById('footer-contacto-aviso');
+  document.querySelectorAll('.footer-enlace-btn[data-contacto]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const dato = btn.getAttribute('data-contacto') || btn.textContent.trim();
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(dato).catch(function () {});
+      }
+
+      if (aviso) {
+        aviso.textContent = 'Contacto simulado: ' + dato + ' (copiado al portapapeles)';
+        aviso.classList.remove('d-none');
+        clearTimeout(aviso._timeoutId);
+        aviso._timeoutId = setTimeout(function () {
+          aviso.classList.add('d-none');
+        }, 3500);
+      }
+    });
+  });
 }
 
 /* ─── Fondo global ─────────────────────────────────────────── */

@@ -28,8 +28,12 @@
 
         <div class="mb-0">
           <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="password" name="password" required
-            autocomplete="current-password" placeholder="Tu contraseña">
+          <div class="auth-password-wrap">
+            <input type="password" class="form-control" id="password" name="password" required
+              autocomplete="current-password" placeholder="Tu contraseña">
+            <button type="button" class="auth-password-toggle" data-password-toggle
+              aria-label="Mostrar contraseña">Mostrar</button>
+          </div>
           <div class="mensaje-error" id="error-password"></div>
         </div>
 
