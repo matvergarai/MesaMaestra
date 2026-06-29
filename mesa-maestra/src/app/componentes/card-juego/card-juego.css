@@ -1,0 +1,3 @@
+/* El elemento anfitrión actúa como columna Bootstrap; display: block evita huecos en la grilla. */
+:host {  display: block;
+}

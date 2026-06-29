@@ -1,0 +1,13 @@
+<main class="container my-5">
+  <div class="encabezado-pagina anim-fade-in">
+    <h1 class="titulo-pagina">Nuestras Categorías</h1>
+    <p class="encabezado-subtitulo">Elige el estilo de juego que más te guste explorando nuestras categorías</p>
+  </div>
+  <div class="row g-4">
+    @for (cat of categorias; track cat.id; let i = $index) {
+      <div class="col-6 col-md-3">
+        <app-card-categoria [categoria]="cat" [indice]="i" [extraHtml]="badgeHtml(cat.id)" />
+      </div>
+    }
+  </div>
+</main>

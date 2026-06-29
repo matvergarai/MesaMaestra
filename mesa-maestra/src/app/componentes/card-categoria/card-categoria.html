@@ -1,0 +1,25 @@
+<a [routerLink]="['/categoria', categoria.id]" class="text-decoration-none categoria-card h-100">
+  <div class="categoria-card-wrapper anim-categoria h-100" [style.animation-delay]="delayAnim">
+    <div class="categoria-card-inner h-100">
+      <div class="categoria-img-wrap" [class]="'categoria-img--' + categoria.id" [class.tiene-imagen]="imagenOk">
+        <div class="categoria-img-fondo" aria-hidden="true">{{ categoria.icono }}</div>
+        <img [src]="categoria.imagen" [alt]="categoria.nombre" class="categoria-img"
+          loading="lazy" decoding="async"
+          [attr.data-respaldo]="categoria.imagenRespaldo"
+          (load)="onLoadImagen($event)"
+          #imgCat
+          (error)="onErrorImagen(imgCat)">
+        <div class="categoria-overlay">
+          <span class="categoria-explorar">Explorar →</span>
+        </div>
+      </div>
+      <div class="categoria-card-body" [class]="'categoria-body--' + categoria.id">
+        <h4>{{ categoria.nombre }}</h4>
+        <p class="categoria-desc small mb-0">{{ categoria.descripcion }}</p>
+        @if (extraHtml) {
+          <span [innerHTML]="extraHtml"></span>
+        }
+      </div>
+    </div>
+  </div>
+</a>

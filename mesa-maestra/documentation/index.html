@@ -1,0 +1,406 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>mesa-maestra documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">mesa-maestra documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+    <button type="button"
+        class="search-input-clear"
+        aria-label="Clear search"
+        data-search-input-clear>&times;</button>
+</div>
+            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content readme">
+                   <div class="content-data">
+
+
+<h1>MesaMaestra — Angular</h1>
+<p align="center">
+  <img src="public/img/logo.svg" alt="Logo MesaMaestra" width="120">
+</p><blockquote>
+<p>SPA de tienda ficticia de juegos de mesa. Angular 22, Bootstrap 5, formularios reactivos, servicios, guards, Compodoc y pruebas unitarias.</p>
+</blockquote>
+<h2>Índice</h2>
+<ul>
+<li><a href="#requisitos">Requisitos</a></li>
+<li><a href="#instalaci%C3%B3n">Instalación</a></li>
+<li><a href="#scripts">Scripts</a></li>
+<li><a href="#rutas-y-guards">Rutas y guards</a></li>
+<li><a href="#cuentas-de-prueba">Cuentas de prueba</a></li>
+<li><a href="#arquitectura">Arquitectura</a></li>
+<li><a href="#servicios">Servicios</a></li>
+<li><a href="#componentes-compartidos">Componentes compartidos</a></li>
+<li><a href="#formularios-reactivos">Formularios reactivos</a></li>
+<li><a href="#directivas-y-comunicaci%C3%B3n-entre-componentes">Directivas y comunicación entre componentes</a></li>
+<li><a href="#documentaci%C3%B3n-compodoc">Documentación Compodoc</a></li>
+<li><a href="#pruebas-unitarias">Pruebas unitarias</a></li>
+<li><a href="#build-de-producci%C3%B3n">Build de producción</a></li>
+<li><a href="#autor">Autor</a></li>
+</ul>
+<h2>Requisitos</h2>
+<table class="table table-bordered compodoc-table">
+<thead>
+<tr><th>Herramienta</th><th>Versión mínima</th></tr>
+</thead>
+<tbody>
+<tr><td>Node.js</td><td>v20 LTS</td></tr>
+<tr><td>npm</td><td>v10+</td></tr>
+</tbody>
+</table>
+<p>Este proyecto usa <strong>Angular 22</strong>, <strong>TypeScript 6</strong> y <strong>Vitest</strong> para pruebas.</p>
+<h2>Instalación</h2>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">cd mesa-maestra
+npm install
+npm start</code></pre></div><p>Abrir: <strong><a href="http://localhost:4200/">http://localhost:4200/</a></strong></p>
+<h2>Scripts</h2>
+<table class="table table-bordered compodoc-table">
+<thead>
+<tr><th>Comando</th><th>Descripción</th></tr>
+</thead>
+<tbody>
+<tr><td><code>npm start</code></td><td>Servidor de desarrollo (<code>ng serve</code>)</td></tr>
+<tr><td><code>npm run build</code></td><td>Compilar para producción en <code>dist/</code></td></tr>
+<tr><td><code>npm test</code></td><td>Ejecutar pruebas unitarias (Vitest, modo watch)</td></tr>
+<tr><td><code>ng test --no-watch</code></td><td>Ejecutar pruebas una sola vez</td></tr>
+<tr><td><code>npm run doc</code></td><td>Generar documentación Compodoc</td></tr>
+<tr><td><code>npm run doc:serve</code></td><td>Compodoc con servidor en <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a></td></tr>
+</tbody>
+</table>
+<h2>Rutas y guards</h2>
+<p>Definidas en <code>src/app/app.routes.ts</code>:</p>
+<table class="table table-bordered compodoc-table">
+<thead>
+<tr><th>Ruta</th><th>Componente</th><th>Guard</th></tr>
+</thead>
+<tbody>
+<tr><td><code>/</code></td><td>Home</td><td>—</td></tr>
+<tr><td><code>/login</code></td><td>Login</td><td>—</td></tr>
+<tr><td><code>/registro</code></td><td>Registro</td><td>—</td></tr>
+<tr><td><code>/recuperar</code></td><td>Recuperar</td><td>—</td></tr>
+<tr><td><code>/perfil</code></td><td>Perfil</td><td><code>authGuard</code></td></tr>
+<tr><td><code>/categorias</code></td><td>Categorias</td><td>—</td></tr>
+<tr><td><code>/categoria/:id</code></td><td>Categoria</td><td>—</td></tr>
+<tr><td><code>/catalogo</code></td><td>Catalogo</td><td>—</td></tr>
+<tr><td><code>/carrito</code></td><td>CarritoPage</td><td>—</td></tr>
+<tr><td><code>/pago-exitoso</code></td><td>PagoExitoso</td><td>—</td></tr>
+<tr><td><code>/admin</code></td><td>Admin</td><td><code>adminGuard</code></td></tr>
+<tr><td><code>**</code></td><td>—</td><td>Redirige a <code>/</code></td></tr>
+</tbody>
+</table>
+<h2>Cuentas de prueba</h2>
+<table class="table table-bordered compodoc-table">
+<thead>
+<tr><th>Usuario</th><th>Contraseña</th><th>Rol</th></tr>
+</thead>
+<tbody>
+<tr><td><code>admin</code></td><td><code>Admin123</code></td><td>Admin</td></tr>
+<tr><td><code>cliente</code></td><td><code>Cliente123</code></td><td>Cliente</td></tr>
+</tbody>
+</table>
+<p>Los usuarios registrados desde <code>/registro</code> se guardan en <code>localStorage</code> con rol <code>cliente</code>.</p>
+<h2>Arquitectura</h2>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">src/app/
+├── app.ts / app.html / app.routes.ts   # Shell y routing
+├── componentes/
+│   ├── navbar/                         # Navegación y sesión
+│   ├── footer/                         # Pie de página
+│   ├── card-juego/                     # Tarjeta de producto
+│   ├── card-categoria/                 # Tarjeta de categoría
+│   └── juego-nube/                     # Tooltip flotante de info
+├── servicios/
+│   ├── auth.ts                         # Login, registro, sesión
+│   ├── carrito.ts                      # Carrito por usuario
+│   ├── productos.ts                    # Catálogo, ofertas, filtros
+│   └── juego-nube.ts                   # Estado de la nube informativa
+├── guards/
+│   ├── auth-guard.ts                   # Protege /perfil
+│   └── admin-guard.ts                  # Protege /admin
+├── pages/                              # Vistas por ruta
+├── models/                             # Juego, Categoria, Usuario, ItemCarrito
+├── datos/productos.data.ts             # 12 juegos y 4 categorías
+└── utilidades/validadores.ts           # Validadores de formularios</code></pre></div><p>Estilos globales en <code>src/styles/</code> (CSS migrado del proyecto original). Imágenes en <code>public/img/</code>.</p>
+<h2>Servicios</h2>
+<h3><code>Auth</code></h3>
+<ul>
+<li>Inicio y cierre de sesión</li>
+<li>Registro de usuarios</li>
+<li>Persistencia en <code>localStorage</code> (<code>mm_usuarios</code>, <code>mm_sesion</code>)</li>
+<li>Usuarios demo precargados (<code>admin</code>, <code>cliente</code>)</li>
+</ul>
+<h3><code>Carrito</code></h3>
+<ul>
+<li>Carrito separado para invitado y usuarios autenticados</li>
+<li>Fusión del carrito de invitado al iniciar sesión</li>
+<li>Agregar, quitar y modificar cantidades</li>
+</ul>
+<h3><code>Productos</code></h3>
+<ul>
+<li>Catálogo estático con categorías y ofertas</li>
+<li>Filtros, búsqueda y formateo de precios</li>
+<li>Gestión de descuentos desde el panel admin</li>
+</ul>
+<h3><code>JuegoNubeService</code></h3>
+<ul>
+<li>Controla el panel flotante de descripción/recomendación en las tarjetas de juego</li>
+</ul>
+<h2>Componentes compartidos</h2>
+<table class="table table-bordered compodoc-table">
+<thead>
+<tr><th>Componente</th><th>Selector</th><th>Descripción</th></tr>
+</thead>
+<tbody>
+<tr><td>CardJuego</td><td><code>app-card-juego</code></td><td>Tarjeta de juego con <code>@Input</code> (juego, índice) y <code>@Output</code> (juegoAgregado)</td></tr>
+<tr><td>CardCategoria</td><td><code>app-card-categoria</code></td><td>Enlace visual a cada categoría</td></tr>
+<tr><td>Navbar</td><td><code>app-navbar</code></td><td>Menú, carrito y estado de sesión</td></tr>
+<tr><td>Footer</td><td><code>app-footer</code></td><td>Contacto y horario</td></tr>
+<tr><td>JuegoNube</td><td><code>app-juego-nube</code></td><td>Nube informativa global</td></tr>
+</tbody>
+</table>
+<h2>Formularios reactivos</h2>
+<table class="table table-bordered compodoc-table">
+<thead>
+<tr><th>Página</th><th>Archivo</th><th>Validaciones destacadas</th></tr>
+</thead>
+<tbody>
+<tr><td>Login</td><td><code>pages/login/login.ts</code></td><td>Usuario y contraseña requeridos</td></tr>
+<tr><td>Registro</td><td><code>pages/registro/registro.ts</code></td><td>RUT, email, contraseña (5 reglas), confirmación</td></tr>
+<tr><td>Recuperar</td><td><code>pages/recuperar/recuperar.ts</code></td><td>Email registrado</td></tr>
+<tr><td>Perfil</td><td><code>pages/perfil/perfil.ts</code></td><td>Edición de datos del usuario logueado</td></tr>
+</tbody>
+</table>
+<p>Validadores personalizados en <code>utilidades/validadores.ts</code> (equivalente a <code>validaciones.js</code> del proyecto original).</p>
+<h2>Directivas y comunicación entre componentes</h2>
+<p>Ejemplos implementados en el proyecto:</p>
+<ul>
+<li><strong><code>*ngFor</code>:</strong> listado de categorías y destacados en <code>home.html</code></li>
+<li><strong><code>*ngIf</code>:</strong> mensajes condicionales en <code>login.html</code> y <code>navbar.html</code></li>
+<li><strong><code>[(ngModel)]</code>:</strong> búsqueda en catálogo/admin, checkbox &quot;recordar usuario&quot; en login</li>
+<li><strong><code>@Input</code>:</strong> datos en <code>card-juego</code> y <code>card-categoria</code></li>
+<li><strong><code>@Output</code>:</strong> evento <code>juegoAgregado</code> en <code>card-juego</code></li>
+</ul>
+<h2>Documentación Compodoc</h2>
+<p>Generar documentación del frontend:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run doc</code></pre></div><p>Ver en el navegador:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run doc:serve</code></pre></div><p>Salida en <code>documentation/</code> (componentes, servicios, interfaces, rutas).</p>
+<h2>Pruebas unitarias</h2>
+<p>Archivos de prueba:</p>
+<table class="table table-bordered compodoc-table">
+<thead>
+<tr><th>Archivo</th><th>Qué prueba</th></tr>
+</thead>
+<tbody>
+<tr><td><code>app.spec.ts</code></td><td>Creación del componente raíz y render del hero en home</td></tr>
+<tr><td><code>pages/login/login.spec.ts</code></td><td>Formulario inválido vacío y login con credenciales válidas</td></tr>
+<tr><td><code>pages/registro/registro.spec.ts</code></td><td>Creación del componente y validaciones del formulario</td></tr>
+</tbody>
+</table>
+<p>Ejecutar:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm test
+# o una sola ejecución:
+ng test --no-watch</code></pre></div><h2>Build de producción</h2>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build</code></pre></div><p>Los archivos compilados quedan en <code>dist/mesa-maestra/</code>. Para servirlos localmente:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npx serve dist/mesa-maestra/browser</code></pre></div><h2>Autor</h2>
+<p><strong>matvergarai</strong><br>Duoc UC — Desarrollo Full Stack 2 — 2026</p>
+<p>Repositorio: <a href="https://github.com/matvergarai/MesaMaestra">github.com/matvergarai/MesaMaestra</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'readme';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var updateDarkModeSwitchOffset = function () {
+                    var content = document.querySelector('.content');
+                    var scrollbarWidth = 0;
+
+                    if (content) {
+                         scrollbarWidth = Math.max(0, content.offsetWidth - content.clientWidth);
+                    }
+
+                    document.documentElement.style.setProperty(
+                         '--content-scrollbar-width',
+                         scrollbarWidth + 'px'
+                    );
+               };
+
+               updateDarkModeSwitchOffset();
+               requestAnimationFrame(updateDarkModeSwitchOffset);
+               window.addEventListener('resize', updateDarkModeSwitchOffset);
+
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

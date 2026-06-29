@@ -1,0 +1,33 @@
+<main class="container auth-main my-5">
+  <div class="encabezado-pagina anim-fade-in">
+    <h1 class="titulo-pagina">Recuperar contraseña</h1>
+    <p class="encabezado-subtitulo">Te enviaremos instrucciones a tu correo (simulado)</p>
+  </div>
+
+  <div class="formulario-auth anim-fade-in" style="animation-delay: 0.1s">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
+      <div class="mb-0">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input type="email" class="form-control" id="email" formControlName="email"
+          autocomplete="email" placeholder="tu@correo.com"
+          [class.campo-invalido]="campoInvalido()"
+          [class.campo-valido]="formulario.get('email')?.valid && formulario.get('email')?.touched">
+        @if (campoInvalido()) {
+          <div class="mensaje-error visible">Ingrese un correo electrónico válido.</div>
+        }
+      </div>
+
+      @if (mensaje()) {
+        <div [class]="mensajeEsExito() ? 'mensaje-exito mt-3' : 'mensaje-error visible mt-3'">{{ mensaje() }}</div>
+      }
+
+      <div class="auth-acciones">
+        <button type="submit" class="btn btn-principal btn-pulse w-100">Enviar enlace</button>
+      </div>
+    </form>
+
+    <nav class="auth-enlaces" aria-label="Opciones de acceso">
+      <a routerLink="/login" class="auth-enlace">Volver al inicio de sesión</a>
+    </nav>
+  </div>
+</main>

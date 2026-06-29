@@ -1,0 +1,32 @@
+<footer class="footer-mesamaestra">
+  <div class="container">
+    <div class="row g-4 footer-grid">
+      <div class="col-12 col-lg-4 footer-marca">
+        <img src="img/logo.svg" alt="MesaMaestra" class="footer-logo"
+          onerror="this.outerHTML='<h5 class=\'footer-titulo-marca\'>🎲 MesaMaestra</h5>'">
+        <p class="footer-texto">Tu tienda de juegos de mesa favorita en Chile.</p>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4 footer-contacto">
+        <h5 class="footer-titulo">Contacto</h5>
+        <p class="footer-texto">
+          <button type="button" class="footer-enlace footer-enlace-btn"
+            (click)="copiarContacto('contacto@mesamaestra.cl')">contacto@mesamaestra.cl</button><br>
+          <button type="button" class="footer-enlace footer-enlace-btn"
+            (click)="copiarContacto('+56 2 2345 6789')">+56 2 2345 6789</button>
+        </p>
+        @if (avisoContacto()) {
+          <p class="footer-contacto-aviso" role="status" aria-live="polite">{{ avisoContacto() }}</p>
+        }
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4 footer-horario">
+        <h5 class="footer-titulo">Horario</h5>
+        <p class="footer-texto">
+          Lunes a Viernes: 9:00 a 20:00<br>
+          Sábados y Domingos: 10:00 a 15:00
+        </p>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <p class="footer-copy">&copy; 2026 MesaMaestra - Desarrollo Full Stack 2</p>
+  </div>
+</footer>

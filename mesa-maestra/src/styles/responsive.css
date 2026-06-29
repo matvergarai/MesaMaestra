@@ -1,0 +1,423 @@
+/**
+ * MesaMaestra - responsive.css
+ * Puntos de quiebre: tablet (≤1024px), barra de navegación colapsada (≤992px), móvil (≤768px).
+ */
+
+/* ─── Tablet: 768px – 1024px ───────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .card-juego .card-img-top {
+    height: 240px;
+  }
+
+  .catalogo-top {
+    margin-bottom: 0.75rem;
+  }
+
+  .encabezado-pagina--catalogo {
+    margin-bottom: 0.85rem;
+  }
+
+  .encabezado-pagina--catalogo .encabezado-subtitulo {
+    margin-top: 0.45rem;
+  }
+}
+
+/* Barra de navegación colapsada en tablet/móvil */
+@media (max-width: 991.98px) {
+  .navbar-mesamaestra .navbar-collapse {
+    margin-top: 0.65rem;
+    padding: 0.5rem 0.35rem;
+    border-radius: 0.75rem;
+    background: rgba(26, 34, 72, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .navbar-mesamaestra .navbar-nav {
+    gap: 0.15rem;
+  }
+
+  .navbar-mesamaestra .nav-saludo {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.55rem !important;
+  }
+
+  .navbar-carrito-btn {
+    width: 2.15rem;
+    height: 2.15rem;
+  }
+
+  .navbar-carrito-icono {
+    font-size: 1rem;
+  }
+}
+
+/* Móvil: hasta 767px */
+@media (max-width: 767px) {
+  .hero-section {
+    padding: 1.5rem 0 0.5rem;
+    text-align: center;
+  }
+
+  .hero-section .hero-btn {
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .home-seccion {
+    margin-top: 0.35rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .home-seccion + .home-seccion {
+    margin-top: 1.25rem;
+  }
+
+  .encabezado-seccion {
+    margin-bottom: 1rem;
+    padding: 0.15rem 0 0.35rem;
+  }
+
+  .encabezado-seccion .encabezado-subtitulo {
+    margin-top: 0.4rem;
+    font-size: 0.88rem;
+  }
+
+  .hero-section h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero-icono--5,
+  .hero-icono--7,
+  .hero-icono--8,
+  .hero-icono--9,
+  .hero-icono--10 {
+    display: none;
+  }
+
+  .hero-icono {
+    font-size: 1.6rem !important;
+    opacity: 0.3;
+  }
+
+  .encabezado-pagina:not(.encabezado-pagina--catalogo) {
+    padding: 1rem 0 1.5rem;
+  }
+
+  .fondo-global .hero-icono {
+    font-size: 1.6rem !important;
+  }
+
+  .categoria-icono {
+    font-size: 2rem;
+  }
+
+  .catalogo-main {
+    height: calc(100dvh - 3.75rem);
+    max-height: calc(100dvh - 3.75rem);
+    margin-top: 0.75rem !important;
+    margin-bottom: 0 !important;
+  }
+
+  .catalogo-scroll-btn {
+    width: 2.1rem;
+    height: 2.1rem;
+    font-size: 0.78rem;
+  }
+
+  .catalogo-top {
+    margin-bottom: 0.65rem;
+  }
+
+  .encabezado-pagina--catalogo {
+    padding: 0.25rem 0 0;
+    margin-bottom: 0.75rem;
+  }
+
+  .encabezado-pagina--catalogo .encabezado-subtitulo {
+    margin-top: 0.35rem;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .catalogo-top .titulo-pagina {
+    font-size: 1.55rem;
+    padding-bottom: 0.4rem;
+  }
+
+  .catalogo-filtros {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+  }
+
+  .catalogo-filtro-wrap {
+    flex: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  .formulario-auth {
+    padding: var(--espaciado-md);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .formulario-perfil {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .auth-seccion + .auth-seccion {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+  }
+
+  .auth-seccion-titulo {
+    font-size: 0.95rem;
+  }
+
+  .auth-acciones {
+    margin-top: 1.25rem;
+    padding-top: 1.15rem;
+  }
+
+  .formulario-perfil form {
+    padding: var(--espaciado-md);
+  }
+
+  .perfil-seccion + .perfil-seccion {
+    margin-top: 1.35rem;
+    padding-top: 1.35rem;
+  }
+
+  .perfil-seccion-titulo {
+    font-size: 1rem;
+  }
+
+  .perfil-acciones {
+    margin-top: 1.35rem;
+    padding-top: 1.15rem;
+  }
+
+  .panel-admin {
+    padding: var(--espaciado-md);
+  }
+
+  .panel-admin h3 {
+    font-size: 0.98rem;
+  }
+
+  .panel-admin-resumen {
+    font-size: 0.84rem;
+  }
+
+  .panel-admin-tabla {
+    font-size: 0.8rem;
+  }
+
+  .panel-admin-tabla thead th,
+  .panel-admin-tabla tbody td {
+    padding: 0.45rem 0.45rem;
+    vertical-align: middle;
+  }
+
+  .panel-admin-tabla thead th {
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  .panel-admin-tabla tbody td {
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .admin-celda-juego {
+    word-break: break-word;
+  }
+
+  .admin-precio-celda {
+    gap: 0.08rem;
+  }
+
+  .admin-precio-normal {
+    font-size: 0.72rem;
+  }
+
+  .admin-oferta-btn {
+    font-size: 0.68rem;
+    padding: 0.22rem 0.42rem;
+  }
+
+  .admin-badge-rol,
+  .admin-badge-cliente,
+  .admin-badge-oferta {
+    font-size: 0.65rem;
+    padding: 0.3em 0.5em;
+  }
+
+  .admin-sin-oferta {
+    font-size: 0.76rem;
+  }
+
+  .admin-buscador {
+    font-size: 0.82rem;
+    padding-left: 2.15rem;
+  }
+
+  .panel-admin-tabla-wrap.panel-admin-scroll-y {
+    max-height: 260px;
+  }
+
+  .panel-admin-scroll-y--picker {
+    max-height: 220px;
+  }
+
+  .panel-admin-scroll-y--ofertas {
+    max-height: 240px;
+  }
+
+  .panel-admin-scroll-y--usuarios {
+    max-height: 220px;
+  }
+
+  .admin-ofertas-cabecera {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-ofertas-cabecera .btn {
+    width: 100%;
+  }
+
+  .admin-ofertas-botones {
+    flex-direction: column;
+  }
+
+  .admin-oferta-opciones {
+    flex-direction: column;
+  }
+
+  .admin-oferta-opcion {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .card-juego .card-img-top {
+    height: 200px;
+  }
+
+  .footer-mesamaestra {
+    padding: var(--espaciado-md) 0;
+  }
+
+  .footer-mesamaestra .footer-marca,
+  .footer-mesamaestra .footer-contacto,
+  .footer-mesamaestra .footer-horario {
+    text-align: center;
+  }
+
+  .footer-mesamaestra .footer-logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer-mesamaestra .footer-titulo {
+    font-size: 0.95rem;
+  }
+
+  .footer-mesamaestra .footer-texto {
+    font-size: 0.88rem;
+  }
+
+  .footer-mesamaestra .footer-copy {
+    font-size: 0.78rem;
+    padding: 0 0.5rem;
+  }
+
+  .panel-carrito {
+    padding: var(--espaciado-md);
+  }
+
+  .panel-carrito--vacio {
+    padding: 2rem var(--espaciado-md);
+  }
+
+  .carrito-tabla {
+    font-size: 0.82rem;
+  }
+
+  .carrito-tabla thead th,
+  .carrito-tabla tbody td {
+    padding: 0.45rem 0.35rem;
+  }
+
+  .carrito-tabla th.carrito-col-juego,
+  .carrito-tabla td.carrito-celda-juego { width: 30%; }
+
+  .carrito-tabla th.carrito-col-precio,
+  .carrito-tabla td.carrito-celda-precio { width: 18%; }
+
+  .carrito-tabla th.carrito-col-cantidad,
+  .carrito-tabla td.carrito-celda-cantidad { width: 24%; }
+
+  .carrito-tabla th.carrito-col-subtotal,
+  .carrito-tabla td.carrito-celda-subtotal { width: 16%; }
+
+  .carrito-tabla th.carrito-col-accion,
+  .carrito-tabla td.carrito-celda-accion { width: 12%; }
+
+  .carrito-cantidad-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .carrito-btn-quitar {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .carrito-acciones {
+    flex-direction: column;
+  }
+
+  .carrito-acciones .btn,
+  .carrito-acciones .btn-carrito-secundario {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Tablet: pie de página en 2 columnas debajo de la marca */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .footer-mesamaestra .footer-marca {
+    text-align: center;
+  }
+
+  .footer-mesamaestra .footer-marca .footer-logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer-mesamaestra .footer-contacto,
+  .footer-mesamaestra .footer-horario {
+    text-align: left;
+  }
+}
+
+/* Escritorio grande: más de 1024px */
+@media (min-width: 1025px) {
+  .container-main {
+    max-width: 1140px;
+  }
+}

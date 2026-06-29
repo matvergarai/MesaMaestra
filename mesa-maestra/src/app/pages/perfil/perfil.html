@@ -1,0 +1,99 @@
+<main class="container perfil-main my-5">
+  <div class="encabezado-pagina anim-fade-in">
+    <h1 class="titulo-pagina">Modificación de Perfil</h1>
+    <p class="encabezado-subtitulo">Actualiza tu información personal y los datos de tu cuenta</p>
+  </div>
+
+  <div class="formulario-perfil anim-fade-in" style="animation-delay: 0.12s">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
+      <section class="perfil-seccion" aria-labelledby="perfil-titulo-datos">
+        <h2 class="perfil-seccion-titulo" id="perfil-titulo-datos">Información personal</h2>
+
+        <div class="mb-3">
+          <label for="nombreCompleto" class="form-label">Nombre completo <span class="perfil-requerido">*</span></label>
+          <input type="text" class="form-control" id="nombreCompleto" formControlName="nombreCompleto"
+            autocomplete="name"
+            [class.campo-invalido]="campoInvalido('nombreCompleto')"
+            [class.campo-valido]="campoValido('nombreCompleto')">
+          @if (campoInvalido('nombreCompleto')) {
+            <div class="mensaje-error visible">{{ mensajeError('nombreCompleto') }}</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="usuarioDisplay" class="form-label">Nombre de usuario</label>
+          <input type="text" class="form-control" id="usuarioDisplay" [value]="usuarioDisplay" disabled aria-readonly="true">
+          <p class="perfil-ayuda">Este dato no se puede modificar.</p>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico <span class="perfil-requerido">*</span></label>
+          <input type="email" class="form-control" id="email" formControlName="email" autocomplete="email"
+            [class.campo-invalido]="campoInvalido('email')"
+            [class.campo-valido]="campoValido('email')">
+          @if (campoInvalido('email')) {
+            <div class="mensaje-error visible">{{ mensajeError('email') }}</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="fechaNacimiento" class="form-label">Fecha de nacimiento <span class="perfil-requerido">*</span></label>
+          <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento"
+            [class.campo-invalido]="campoInvalido('fechaNacimiento')"
+            [class.campo-valido]="campoValido('fechaNacimiento')">
+          @if (campoInvalido('fechaNacimiento')) {
+            <div class="mensaje-error visible">{{ mensajeError('fechaNacimiento') }}</div>
+          }
+        </div>
+
+        <div class="mb-0">
+          <label for="direccion" class="form-label">Dirección de despacho</label>
+          <textarea class="form-control" id="direccion" formControlName="direccion" rows="2"
+            placeholder="Calle, número, comuna, región"></textarea>
+        </div>
+      </section>
+
+      <section class="perfil-seccion" aria-labelledby="perfil-titulo-seguridad">
+        <h2 class="perfil-seccion-titulo" id="perfil-titulo-seguridad">Seguridad de la cuenta</h2>
+        <p class="perfil-seccion-nota">Deja los campos de contraseña en blanco si no deseas cambiarla.</p>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Nueva contraseña</label>
+          <div class="perfil-password-wrap auth-password-wrap">
+            <input [type]="mostrarPassword() ? 'text' : 'password'" class="form-control" id="password"
+              formControlName="password" autocomplete="new-password">
+            <button type="button" class="auth-password-toggle" (click)="alternarPassword()"
+              [attr.aria-label]="mostrarPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+              {{ mostrarPassword() ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+          @if (campoInvalido('password')) {
+            <div class="mensaje-error visible">{{ mensajeError('password') }}</div>
+          }
+        </div>
+
+        <div class="mb-0">
+          <label for="confirmarPassword" class="form-label">Confirmar nueva contraseña</label>
+          <div class="perfil-password-wrap auth-password-wrap">
+            <input [type]="mostrarConfirmar() ? 'text' : 'password'" class="form-control" id="confirmarPassword"
+              formControlName="confirmarPassword" autocomplete="new-password">
+            <button type="button" class="auth-password-toggle" (click)="alternarConfirmar()"
+              [attr.aria-label]="mostrarConfirmar() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+              {{ mostrarConfirmar() ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+          @if (campoInvalido('confirmarPassword')) {
+            <div class="mensaje-error visible">{{ mensajeError('confirmarPassword') }}</div>
+          }
+        </div>
+      </section>
+
+      <div class="perfil-acciones">
+        @if (mensajeExito()) {
+          <div class="mensaje-exito">{{ mensajeExito() }}</div>
+        }
+        <button type="submit" class="btn btn-principal btn-pulse w-100">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</main>

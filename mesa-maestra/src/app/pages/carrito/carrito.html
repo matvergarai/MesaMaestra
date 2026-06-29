@@ -1,0 +1,81 @@
+<main class="container carrito-main my-5">
+  <div class="encabezado-pagina anim-fade-in">
+    <h1 class="titulo-pagina">Carrito de compras</h1>
+    <p class="encabezado-subtitulo">Revisa tus juegos y confirma tu pedido cuando estés listo</p>
+  </div>
+
+  @if (items().length === 0) {
+    <div class="panel-carrito panel-carrito--vacio anim-fade-in" style="animation-delay: 0.1s">
+      <span class="carrito-vacio-icono" aria-hidden="true">🛒</span>
+      <h2 class="carrito-vacio-titulo">Tu carrito está vacío</h2>
+      <p class="carrito-vacio-texto">Aún no has agregado juegos. Explora el catálogo y encuentra tu próxima partida.</p>
+      <a routerLink="/catalogo" class="btn btn-principal btn-pulse">Ir al catálogo</a>
+    </div>
+  } @else {
+    <div class="panel-carrito anim-fade-in" style="animation-delay: 0.1s">
+      <section class="carrito-seccion" aria-labelledby="carrito-titulo-productos">
+        <h2 class="carrito-seccion-titulo" id="carrito-titulo-productos">Tus juegos</h2>
+        <p class="carrito-seccion-resumen">
+          Tienes <strong>{{ totalItems() }}</strong> producto(s) en el carrito
+        </p>
+
+        <div class="carrito-tabla-wrap">
+          <table class="table table-sm carrito-tabla">
+            <thead>
+              <tr>
+                <th class="carrito-col-juego">Juego</th>
+                <th class="carrito-col-precio">Precio</th>
+                <th class="carrito-col-cantidad">Cantidad</th>
+                <th class="carrito-col-subtotal">Subtotal</th>
+                <th class="carrito-col-accion">Quitar</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of items(); track item.id; let i = $index) {
+                <tr class="carrito-fila">
+                  <td class="carrito-celda-juego">
+                    <span class="carrito-juego-nombre">{{ item.nombre }}</span>
+                    <span class="carrito-juego-editorial">{{ editorial(item) }}</span>
+                  </td>
+                  <td class="carrito-celda-precio">{{ formatearPrecio(item.precio) }}</td>
+                  <td class="carrito-celda-cantidad">
+                    <div class="carrito-cantidad-grupo" role="group" [attr.aria-label]="'Cantidad de ' + item.nombre">
+                      <button type="button" class="carrito-cantidad-btn" (click)="cambiarCantidad(i, -1)"
+                        aria-label="Disminuir cantidad">−</button>
+                      <span class="carrito-cantidad-valor">{{ item.cantidad }}</span>
+                      <button type="button" class="carrito-cantidad-btn" (click)="cambiarCantidad(i, 1)"
+                        aria-label="Aumentar cantidad">+</button>
+                    </div>
+                  </td>
+                  <td class="carrito-celda-subtotal">{{ formatearPrecio(item.precio * item.cantidad) }}</td>
+                  <td class="carrito-celda-accion">
+                    <button type="button" class="carrito-btn-quitar" (click)="eliminarItem(i)"
+                      [attr.aria-label]="'Quitar ' + item.nombre + ' del carrito'">Quitar</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="carrito-resumen" aria-labelledby="carrito-titulo-resumen">
+        <h2 class="carrito-seccion-titulo" id="carrito-titulo-resumen">Resumen de compra</h2>
+        <div class="carrito-resumen-detalle">
+          <div class="carrito-resumen-fila">
+            <span>Subtotal productos</span>
+            <span>{{ formatearPrecio(subtotal()) }}</span>
+          </div>
+          <div class="carrito-resumen-fila carrito-resumen-fila--total">
+            <span>Total a pagar</span>
+            <span class="carrito-total-monto">{{ formatearPrecio(subtotal()) }}</span>
+          </div>
+        </div>
+        <div class="carrito-acciones">
+          <a routerLink="/catalogo" class="btn btn-carrito-secundario">Seguir comprando</a>
+          <button type="button" class="btn btn-principal btn-pulse" (click)="simularPago()">Simular pago</button>
+        </div>
+      </section>
+    </div>
+  }
+</main>

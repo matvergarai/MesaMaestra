@@ -1,0 +1,217 @@
+<main class="container admin-main my-5">
+  <div class="encabezado-pagina anim-fade-in">
+    <h1 class="titulo-pagina">Panel de Administración</h1>
+    <p class="encabezado-subtitulo">Gestión de inventario, ofertas y usuarios registrados</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-6">
+      <div class="panel-admin panel-admin-inventario anim-fade-in"
+        [class.is-resaltado]="inventarioResaltado()" style="animation-delay: 0.1s">
+        <h3>Inventario de Juegos</h3>
+        <p class="panel-admin-resumen">Mostrando: <strong>{{ totalProductosTexto() }}</strong></p>
+        <div class="admin-buscador-wrap">
+          <span class="admin-buscador-icono" aria-hidden="true">🔍</span>
+          <input type="search" class="admin-buscador" placeholder="Buscar por juego, autor, editorial o categoría..."
+            [ngModel]="buscarInventario" (ngModelChange)="renderizarInventario($event)" autocomplete="off">
+        </div>
+        <div class="panel-admin-tabla-wrap panel-admin-scroll-y">
+          <table class="table table-sm panel-admin-tabla panel-admin-tabla--inventario">
+            <thead>
+              <tr>
+                <th class="admin-col-juego">Juego</th>
+                <th class="admin-col-autor">Autor</th>
+                <th class="admin-col-editorial">Editorial</th>
+                <th class="admin-col-categoria">Categoría</th>
+                <th class="admin-col-precio">Precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (juegosInventario().length === 0) {
+                <tr><td colspan="5" class="admin-tabla-vacio">No hay juegos que coincidan con la búsqueda.</td></tr>
+              } @else {
+                @for (j of juegosInventario(); track j.id) {
+                  <tr class="admin-fila-inventario" [class.is-seleccionado]="filaSeleccionada(j.id)">
+                    <td class="admin-celda-juego">"{{ j.nombre }}"</td>
+                    <td class="admin-celda-autor">{{ j.autor }}</td>
+                    <td class="admin-celda-editorial">{{ j.marca }}</td>
+                    <td class="admin-celda-categoria">{{ nombreCategoria(j) }}</td>
+                    <td class="admin-celda-precio" [innerHTML]="precioHtml(j)"></td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="panel-admin anim-fade-in" style="animation-delay: 0.18s">
+        <h3>Usuarios Registrados</h3>
+        <p class="panel-admin-resumen">Total: <strong>{{ usuarios.length }}</strong></p>
+        <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--usuarios">
+          <table class="table table-sm panel-admin-tabla panel-admin-tabla--usuarios">
+            <thead>
+              <tr><th>Usuario</th><th>Email</th><th>Rol</th></tr>
+            </thead>
+            <tbody>
+              @for (u of usuarios; track u.usuario) {
+                <tr>
+                  <td class="admin-celda-usuario">{{ u.usuario }}</td>
+                  <td class="admin-celda-email">{{ u.email }}</td>
+                  <td>
+                    <span class="badge" [class.admin-badge-rol]="u.rol === 'admin'" [class.admin-badge-cliente]="u.rol === 'cliente'">{{ u.rol }}</span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="panel-admin panel-admin-ofertas anim-fade-in" style="animation-delay: 0.26s">
+        <div class="admin-ofertas-cabecera">
+          <h3>Gestión de ofertas</h3>
+          @if (!pickerVisible()) {
+            <button type="button" class="btn btn-principal btn-pulse btn-sm" (click)="abrirPicker()">Agregar oferta</button>
+          }
+        </div>
+
+        @if (pickerVisible()) {
+          <div class="admin-picker-inventario">
+            <p class="admin-picker-titulo">Selecciona un juego del inventario</p>
+            <div class="admin-buscador-wrap">
+              <span class="admin-buscador-icono" aria-hidden="true">🔍</span>
+              <input type="search" class="admin-buscador" placeholder="Buscar juego..."
+                [ngModel]="buscarPicker" (ngModelChange)="renderizarPicker($event)" autocomplete="off">
+            </div>
+            <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--picker">
+              <table class="table table-sm panel-admin-tabla panel-admin-tabla--picker">
+                <thead>
+                  <tr>
+                    <th class="admin-col-juego">Juego</th>
+                    <th class="admin-col-autor">Autor</th>
+                    <th class="admin-col-editorial">Editorial</th>
+                    <th class="admin-col-categoria">Categoría</th>
+                    <th class="admin-col-precio">Precio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (juegosPicker().length === 0) {
+                    <tr><td colspan="5" class="admin-tabla-vacio">No hay juegos que coincidan con la búsqueda.</td></tr>
+                  } @else {
+                    @for (j of juegosPicker(); track j.id) {
+                      <tr class="admin-fila-picker" [class.is-seleccionado]="filaSeleccionada(j.id)"
+                        tabindex="0" role="button"
+                        (click)="abrirEditorOferta(j.id, true)"
+                        (keydown.enter)="abrirEditorOferta(j.id, true)"
+                        (keydown.space)="$event.preventDefault(); abrirEditorOferta(j.id, true)">
+                        <td class="admin-celda-juego">"{{ j.nombre }}"</td>
+                        <td class="admin-celda-autor">{{ j.autor }}</td>
+                        <td class="admin-celda-editorial">{{ j.marca }}</td>
+                        <td class="admin-celda-categoria">{{ nombreCategoria(j) }}</td>
+                        <td class="admin-celda-precio" [innerHTML]="precioHtml(j)"></td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+            <div class="admin-picker-acciones">
+              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="cerrarPicker()">Cancelar</button>
+            </div>
+          </div>
+        }
+
+        @if (editorVisible()) {
+          <div class="admin-ofertas-editor">
+            <p class="panel-admin-resumen admin-ofertas-juego">Editando: <strong>{{ ofertaJuegoNombre }}</strong></p>
+            <form class="admin-ofertas-form" (submit)="$event.preventDefault(); guardarOferta()">
+              <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-4">
+                  <span class="admin-ofertas-etiqueta">¿En oferta?</span>
+                  <div class="admin-oferta-opciones" role="group" aria-label="Estado de oferta">
+                    <label class="admin-oferta-opcion">
+                      <input type="radio" name="oferta-activa" [checked]="ofertaActivaSi" (change)="setOfertaActiva(true)">
+                      <span>Sí</span>
+                    </label>
+                    <label class="admin-oferta-opcion">
+                      <input type="radio" name="oferta-activa" [checked]="!ofertaActivaSi" (change)="setOfertaActiva(false)">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4" [class.is-deshabilitado]="!ofertaActivaSi">
+                  <label for="oferta-porcentaje" class="admin-ofertas-etiqueta">Porcentaje de descuento</label>
+                  <div class="input-group admin-oferta-input-grupo">
+                    <input type="number" class="form-control admin-oferta-input" id="oferta-porcentaje"
+                      min="1" max="90" step="1" [(ngModel)]="ofertaPorcentaje" name="ofertaPorcentaje"
+                      [disabled]="!ofertaActivaSi" (ngModelChange)="actualizarPreviewOferta()">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="admin-ofertas-botones">
+                    <button type="button" class="btn btn-outline-secondary" (click)="cerrarEditor()">Cancelar</button>
+                    <button type="submit" class="btn btn-principal btn-pulse">Guardar oferta</button>
+                  </div>
+                </div>
+              </div>
+              <div class="admin-oferta-preview" [innerHTML]="previewHtml()" aria-live="polite"></div>
+              @if (mensajeExitoOferta()) {
+                <div class="mensaje-exito">{{ mensajeExitoOferta() }}</div>
+              }
+            </form>
+          </div>
+        }
+
+        <div class="admin-ofertas-activas">
+          <h4 class="admin-ofertas-lista-titulo">Juegos en oferta</h4>
+          <p class="panel-admin-resumen">Total: <strong>{{ totalOfertasTexto() }}</strong></p>
+          <div class="admin-buscador-wrap">
+            <span class="admin-buscador-icono" aria-hidden="true">🔍</span>
+            <input type="search" class="admin-buscador" placeholder="Buscar juego en oferta..."
+              [ngModel]="buscarOfertas" (ngModelChange)="renderizarTablaOfertas($event)" autocomplete="off">
+          </div>
+          <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--ofertas">
+            <table class="table table-sm panel-admin-tabla panel-admin-tabla--ofertas">
+              <thead>
+                <tr>
+                  <th class="admin-col-juego">Juego</th>
+                  <th class="admin-col-marca">Marca</th>
+                  <th class="admin-col-precio">P. normal</th>
+                  <th class="admin-col-precio">P. oferta</th>
+                  <th class="admin-col-descuento">Dcto.</th>
+                  <th class="admin-col-editar">Editar</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (juegosOfertas().length === 0) {
+                  <tr><td colspan="6" class="admin-tabla-vacio">No hay juegos en oferta{{ buscarOfertas.trim() ? ' que coincidan con la búsqueda' : '' }}.</td></tr>
+                } @else {
+                  @for (j of juegosOfertas(); track j.id) {
+                    <tr class="admin-fila-oferta" [class.is-seleccionado]="filaSeleccionada(j.id)">
+                      <td class="admin-celda-juego">"{{ j.nombre }}"</td>
+                      <td class="admin-celda-marca">{{ j.marca }}</td>
+                      <td class="admin-celda-precio"><span class="admin-precio-normal is-solo">{{ formatearPrecio(j.precio) }}</span></td>
+                      <td class="admin-celda-precio"><span class="admin-precio-oferta">{{ formatearPrecio(j.precioOferta!) }}</span></td>
+                      <td class="admin-celda-descuento">-{{ porcentajeOferta(j) }}%</td>
+                      <td class="admin-celda-editar">
+                        <button type="button" class="admin-oferta-btn is-si admin-oferta-btn--editar"
+                          [attr.aria-label]="'Editar oferta de ' + j.nombre"
+                          (click)="abrirEditorOferta(j.id, false)">Editar</button>
+                      </td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

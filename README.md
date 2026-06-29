@@ -4,100 +4,192 @@
   <img src="img/logo.svg" alt="Logo MesaMaestra" width="120">
 </p>
 
-> Aplicación web estática de una tienda ficticia de juegos de mesa en Chile. Incluye catálogo, carrito de compras, autenticación simulada con `localStorage` y panel de administración.
+> Tienda ficticia de juegos de mesa en Chile. Catálogo, carrito, autenticación simulada con `localStorage` y panel de administración.
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.3-7952B3?logo=bootstrap&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+**Entrega principal:** aplicación Angular en [`mesa-maestra/`](mesa-maestra/)  
+**Referencia histórica:** versión HTML/CSS/JS en la raíz del repositorio
+
+![Angular](https://img.shields.io/badge/Angular-22-DD0031?logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white)
 
 ## Índice
 
 - [Descripción](#descripción)
-- [Tecnologías](#tecnologías)
-- [Cómo ejecutar](#cómo-ejecutar)
-- [Estructura del proyecto](#estructura-del-proyecto)
+- [Requisitos](#requisitos)
+- [Instalación y ejecución](#instalación-y-ejecución)
+- [Scripts útiles](#scripts-útiles)
 - [Cuentas de prueba](#cuentas-de-prueba)
-- [Páginas principales](#páginas-principales)
-- [Características principales](#características-principales)
+- [Rutas de la aplicación](#rutas-de-la-aplicación)
+- [Funcionalidades](#funcionalidades)
+- [Estructura del repositorio](#estructura-del-repositorio)
+- [Documentación y pruebas](#documentación-y-pruebas)
 - [Notas técnicas](#notas-técnicas)
 - [Autor](#autor)
 
 ## Descripción
 
-MesaMaestra simula la experiencia de una PYME chilena dedicada a la venta de juegos de mesa. Los usuarios pueden explorar categorías, agregar productos al carrito y completar un flujo de compra simulado. Los administradores gestionan inventario, usuarios y ofertas desde un panel dedicado.
+MesaMaestra simula la experiencia de una PYME chilena dedicada a la venta de juegos de mesa. Los usuarios pueden explorar categorías, filtrar el catálogo, agregar productos al carrito y completar un flujo de compra simulado. Los administradores gestionan inventario, usuarios registrados y ofertas desde un panel dedicado.
 
-## Tecnologías
+El proyecto fue migrado desde una versión estática (HTML, CSS y JavaScript) a **Angular 22**, conservando el diseño visual y las funcionalidades del frontend original.
 
-- **HTML5** — Estructura semántica de las páginas
-- **CSS3** — Variables, animaciones y media queries
-- **Bootstrap 5.3.3** — Componentes y sistema de grillas
-- **JavaScript** — Validaciones, manipulación del DOM y persistencia con `localStorage`
+## Requisitos
 
-## Cómo ejecutar
+- **Node.js** LTS v20 o superior (recomendado v24)
+- **npm** (incluido con Node.js)
+- **Angular CLI** (opcional; el proyecto incluye `@angular/cli` como dependencia de desarrollo)
 
-No requiere instalación de dependencias.
+Verificar instalación:
 
-1. Clona el repositorio
-2. Abre `index.html` en el navegador o usa una extensión tipo Live Server en tu editor
+```bash
+node -v
+npm -v
+```
+
+## Instalación y ejecución
 
 ```bash
 git clone https://github.com/matvergarai/MesaMaestra.git
-cd MesaMaestra
+cd MesaMaestra/mesa-maestra
+npm install
+npm start
 ```
 
-Luego abre `index.html` directamente o inicia Live Server desde la raíz del proyecto.
+Abrir en el navegador: **http://localhost:4200/**
 
-## Estructura del proyecto
+Si el puerto 4200 está ocupado:
 
+```powershell
+# Windows — liberar el puerto 4200
+Get-NetTCPConnection -LocalPort 4200 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
-MesaMaestra/
-├── index.html          → Página principal
-├── css/                → Estilos
-├── js/                 → Lógica de la aplicación
-├── pages/              → Páginas internas
-└── img/                → Logo e imágenes
-```
+
+Documentación detallada del proyecto Angular: [`mesa-maestra/README.md`](mesa-maestra/README.md)
+
+## Scripts útiles
+
+Ejecutar desde la carpeta `mesa-maestra/`:
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm start` | Servidor de desarrollo (`ng serve`) |
+| `npm run build` | Compilar para producción |
+| `npm test` | Pruebas unitarias con Vitest |
+| `npm run doc` | Generar documentación Compodoc |
+| `npm run doc:serve` | Compodoc con servidor local |
 
 ## Cuentas de prueba
 
-Usa estas credenciales para probar los distintos roles de la aplicación:
+| Usuario | Contraseña | Rol | Acceso |
+|---------|------------|-----|--------|
+| `admin` | `Admin123` | Admin | Panel admin, inventario, ofertas |
+| `cliente` | `Cliente123` | Cliente | Catálogo, carrito, perfil |
 
-| Usuario | Contraseña | Rol     | Acceso                           |
-|---------|------------|---------|----------------------------------|
-| admin   | Admin123   | Admin   | Panel admin, inventario, ofertas |
-| cliente | Cliente123 | Cliente | Catálogo, carrito, perfil        |
+También puedes registrarte desde `/registro`; las cuentas nuevas se crean con rol **cliente**.
 
-También puedes crear cuentas con la opción de registro integrada; estas se asignan con el rol **cliente** por defecto.
+## Rutas de la aplicación
 
-## Páginas principales
+| Página | Ruta Angular |
+|--------|--------------|
+| Inicio | `/` |
+| Inicio de sesión | `/login` |
+| Registro | `/registro` |
+| Recuperar clave | `/recuperar` |
+| Perfil | `/perfil` *(requiere sesión)* |
+| Categorías | `/categorias` |
+| Juegos por categoría | `/categoria/:id` |
+| Catálogo completo | `/catalogo` |
+| Carrito | `/carrito` |
+| Pago simulado | `/pago-exitoso` |
+| Panel admin | `/admin` *(solo rol admin)* |
 
-| Página           | Ruta                    |
-|------------------|-------------------------|
-| Inicio           | `index.html`            |
-| Inicio de sesión | `pages/login.html`      |
-| Registro         | `pages/registro.html`   |
-| Recuperar clave  | `pages/recuperar.html`  |
-| Perfil           | `pages/perfil.html`     |
-| Categorías       | `pages/categorias.html` |
-| Catálogo         | `pages/catalogo.html`   |
-| Carrito          | `pages/carrito.html`    |
-| Pago simulado    | `pages/pago-exitoso.html` |
-| Panel admin      | `pages/admin.html`      |
+## Funcionalidades
 
-## Características principales
+- **4 categorías:** Estrategia, Familiar, Party y Rol
+- **12 juegos** (3 por categoría) con imagen, precio, ofertas y metadatos
+- **Carrito** independiente por usuario (invitado, cliente, admin) con fusión al iniciar sesión
+- **Catálogo** con búsqueda, filtro por categoría y scroll por filas
+- **Formularios reactivos** en login, registro, recuperar contraseña y perfil
+- **Validaciones personalizadas** (contraseña con 5 reglas, RUT chileno, etc.)
+- **Guards de ruta:** `authGuard` (perfil) y `adminGuard` (panel admin)
+- **Panel admin:** inventario, usuarios registrados y gestión de ofertas
+- **Diseño responsivo** para móvil, tablet y escritorio
 
-- 4 categorías: Estrategia, Familiar, Party y Rol
-- 12 juegos (3 por categoría) con imagen, precio y ofertas
-- Validaciones JS en formularios (contraseña con 5 reglas)
-- Diseño responsivo: móvil, tablet y escritorio
-- Carrito independiente por usuario (invitado, cliente, admin)
-- Panel admin: inventario, usuarios registrados y gestión de ofertas
+### Angular — elementos de la evaluación
+
+| Elemento | Implementación |
+|----------|----------------|
+| Componentes standalone | Todas las páginas y componentes compartidos |
+| Servicios | `Auth`, `Carrito`, `Productos`, `JuegoNubeService` |
+| Directivas | `*ngIf`, `*ngFor`, `[(ngModel)]` |
+| `@Input` / `@Output` | `card-juego`, `card-categoria` |
+| Formularios reactivos | Login, registro, recuperar, perfil |
+| Compodoc | `npm run doc` → carpeta `documentation/` |
+| Pruebas unitarias | `app.spec.ts`, `login.spec.ts`, `registro.spec.ts` |
+
+## Estructura del repositorio
+
+```
+MesaMaestra/
+├── mesa-maestra/              # Aplicación Angular (entrega principal)
+│   ├── src/app/
+│   │   ├── componentes/       # navbar, footer, card-juego, card-categoria, juego-nube
+│   │   ├── servicios/         # auth, carrito, productos, juego-nube
+│   │   ├── guards/            # auth-guard, admin-guard
+│   │   ├── pages/             # vistas de la aplicación
+│   │   ├── models/            # interfaces TypeScript
+│   │   ├── datos/             # catálogo estático de juegos
+│   │   └── utilidades/        # validadores de formularios
+│   ├── public/img/            # imágenes de la tienda
+│   ├── documentation/         # documentación Compodoc generada
+│   └── README.md              # documentación técnica Angular
+├── index.html                 # Versión HTML/JS legacy
+├── css/                       # Estilos originales
+├── js/                        # Lógica JavaScript original
+├── pages/                     # Páginas HTML originales
+├── img/                       # Imágenes compartidas
+└── instrucciones/             # Material de la asignatura
+```
+
+## Documentación y pruebas
+
+### Compodoc
+
+```bash
+cd mesa-maestra
+npm run doc
+npm run doc:serve
+```
+
+La documentación se genera en `mesa-maestra/documentation/`.
+
+### Pruebas unitarias
+
+```bash
+cd mesa-maestra
+npm test
+```
+
+Incluye 8 pruebas en total:
+
+- Componente raíz (`app.spec.ts`)
+- Formulario de login (`login.spec.ts`)
+- Validaciones de registro (`registro.spec.ts`)
 
 ## Notas técnicas
 
-- La autenticación y el carrito persisten en `localStorage`; no hay backend ni base de datos.
-- Los datos de productos y usuarios se gestionan desde JavaScript en el cliente.
+- No hay backend ni base de datos: autenticación, carrito y ofertas persisten en **`localStorage`** del navegador.
+- Los datos de productos están definidos en `mesa-maestra/src/app/datos/productos.data.ts`.
+- La carpeta `node_modules/` **no** debe subirse a Git (está en `.gitignore`).
+- Tras clonar el repositorio, siempre ejecutar `npm install` dentro de `mesa-maestra/`.
+
+### Versión HTML estática (legacy)
+
+Para ver la versión original sin Angular:
+
+1. Clona el repositorio
+2. Abre `index.html` en el navegador o usa Live Server
 
 ## Autor
 

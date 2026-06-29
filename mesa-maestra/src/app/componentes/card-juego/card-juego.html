@@ -1,0 +1,60 @@
+<div class="card card-juego h-100">
+    @if (!imagenOculta) {
+      <img [src]="juego.imagen" [alt]="juego.nombre" class="card-img-top"
+        [attr.loading]="loadingImage" decoding="async" (error)="onErrorImagen()">
+    }
+    @if (imagenOculta) {
+      <div class="card-img-top img-placeholder">{{ juego.nombre }}</div>
+    }
+    <div class="card-body d-flex flex-column">
+      <div class="juego-encabezado">
+        <div class="juego-placa">
+          <span class="juego-placa-clavo juego-placa-clavo--tl" aria-hidden="true"></span>
+          <span class="juego-placa-clavo juego-placa-clavo--tr" aria-hidden="true"></span>
+          <span class="juego-placa-clavo juego-placa-clavo--bl" aria-hidden="true"></span>
+          <span class="juego-placa-clavo juego-placa-clavo--br" aria-hidden="true"></span>
+          <h5 class="juego-titulo">{{ juego.nombre }}</h5>
+          <p class="juego-credito">
+            <span class="juego-autor">{{ juego.autor }}</span>
+            <span class="juego-credito-sep" aria-hidden="true">·</span>
+            <span class="juego-anio">{{ juego.anio }}</span>
+          </p>
+          <p class="juego-marca"><span class="juego-marca-sello">{{ juego.marca }}</span></p>
+        </div>
+      </div>
+
+      <div class="juego-bloques">
+        <button type="button" class="juego-info-btn" [class.is-active]="botonNubeActivo('descripcion')"
+          [attr.aria-expanded]="botonNubeActivo('descripcion')"
+          (click)="toggleNube($event, 'descripcion')">
+          <span class="juego-info-etiqueta">Acerca del juego</span>
+        </button>
+        <button type="button" class="juego-info-btn" [class.is-active]="botonNubeActivo('recomendacion')"
+          [attr.aria-expanded]="botonNubeActivo('recomendacion')"
+          (click)="toggleNube($event, 'recomendacion')">
+          <span class="juego-info-etiqueta">¿Por qué recomendamos?</span>
+        </button>
+      </div>
+
+      <ul class="juego-meta list-unstyled mb-2">
+        <li><span class="juego-meta-icono">👥</span> {{ formatearJugadores() }}</li>
+        <li><span class="juego-meta-icono">🎂</span> {{ juego.edadMin }}+</li>
+        <li><span class="juego-meta-icono">⏱️</span> {{ juego.duracion }}</li>
+        <li><span class="juego-meta-icono">{{ iconoCategoria() }}</span> {{ nombreCategoria() }}</li>
+      </ul>
+
+      <div class="juego-precio">
+        @if (juego.descuento && juego.precioOferta) {
+          <span class="precio-descuento">{{ formatearPrecio(juego.precio) }}</span>
+          <span class="precio">{{ formatearPrecio(juego.precioOferta) }}</span>
+          <span class="badge badge-oferta badge-descuento ms-2">Oferta</span>
+        } @else {
+          <span class="precio">{{ formatearPrecio(juego.precio) }}</span>
+        }
+      </div>
+
+      <button type="button" class="btn btn-carrito-juego btn-pulse" (click)="agregarAlCarrito()">
+        Agregar al carrito
+      </button>
+    </div>
+  </div>

@@ -1,0 +1,978 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>mesa-maestra documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">mesa-maestra documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+    <button type="button"
+        class="search-input-clear"
+        aria-label="Clear search"
+        data-search-input-clear>&times;</button>
+</div>
+            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#appConfig" title="src/app/app.config.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>appConfig</b>&nbsp;&nbsp;&nbsp;(src/.../app.config.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#CARRITO_PREFIX" title="src/app/servicios/carrito.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>CARRITO_PREFIX</b>&nbsp;&nbsp;&nbsp;(src/.../carrito.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#CARRO_INVITADO_KEY" title="src/app/servicios/carrito.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>CARRO_INVITADO_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../carrito.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#CARRO_LEGACY_KEY" title="src/app/servicios/carrito.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>CARRO_LEGACY_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../carrito.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#CATEGORIAS" title="src/app/datos/productos.data.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>CATEGORIAS</b>&nbsp;&nbsp;&nbsp;(src/.../productos.data.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#CLAVE_OFERTAS_ADMIN" title="src/app/servicios/productos.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>CLAVE_OFERTAS_ADMIN</b>&nbsp;&nbsp;&nbsp;(src/.../productos.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#Handlebars" title="documentation/template-playground/hbs-render.service.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>Handlebars</b>&nbsp;&nbsp;&nbsp;(documentation/.../hbs-render.service.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#JSZip" title="documentation/template-playground/zip-export.service.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>JSZip</b>&nbsp;&nbsp;&nbsp;(documentation/.../zip-export.service.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#JUEGOS" title="src/app/datos/productos.data.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>JUEGOS</b>&nbsp;&nbsp;&nbsp;(src/.../productos.data.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#monaco" title="documentation/template-playground/template-editor.service.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>monaco</b>&nbsp;&nbsp;&nbsp;(documentation/.../template-editor.service.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#REGEX_EMAIL" title="src/app/utilidades/validadores.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>REGEX_EMAIL</b>&nbsp;&nbsp;&nbsp;(src/.../validadores.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#REGEX_ESPECIAL" title="src/app/utilidades/validadores.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>REGEX_ESPECIAL</b>&nbsp;&nbsp;&nbsp;(src/.../validadores.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#routes" title="src/app/app.routes.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>routes</b>&nbsp;&nbsp;&nbsp;(src/.../app.routes.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#SESION_KEY" title="src/app/servicios/auth.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>SESION_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../auth.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#USUARIOS_KEY" title="src/app/servicios/auth.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>USUARIOS_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../auth.ts)</span></a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/app/app.config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appConfig"></a>
+                    <span class="name">
+                        <span ><b>appConfig</b></span>
+                        <a href="#appConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/App.html" target="_self" >ApplicationConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes)
+  ]
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Configuración global de la aplicación (enrutador y escuchadores globales de errores).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/servicios/carrito.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CARRITO_PREFIX"></a>
+                    <span class="name">
+                        <span ><b>CARRITO_PREFIX</b></span>
+                        <a href="#CARRITO_PREFIX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;mesamaestra_carrito_&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CARRO_INVITADO_KEY"></a>
+                    <span class="name">
+                        <span ><b>CARRO_INVITADO_KEY</b></span>
+                        <a href="#CARRO_INVITADO_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;mesamaestra_carrito_invitado&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CARRO_LEGACY_KEY"></a>
+                    <span class="name">
+                        <span ><b>CARRO_LEGACY_KEY</b></span>
+                        <a href="#CARRO_LEGACY_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;carrito&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clave del carrito de la versión HTML/JavaScript original.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/datos/productos.data.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CATEGORIAS"></a>
+                    <span class="name">
+                        <span ><b>CATEGORIAS</b></span>
+                        <a href="#CATEGORIAS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Categoria.html" target="_self" >Categoria[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  {
+    id: &#x27;estrategia&#x27;,
+    nombre: &#x27;Estrategia&#x27;,
+    icono: &#x27;♟️&#x27;,
+    descripcion: &#x27;Juegos de planificación y táctica para mentes analíticas.&#x27;,
+    imagen: &#x27;img/categorias/estrategia.webp&#x27;,
+    imagenRespaldo: &#x27;img/categorias/estrategia.webp&#x27;,
+  },
+  {
+    id: &#x27;familiar&#x27;,
+    nombre: &#x27;Familiar&#x27;,
+    icono: &#x27;👨‍👩‍👧‍👦&#x27;,
+    descripcion: &#x27;Diversión para toda la familia, fáciles de aprender.&#x27;,
+    imagen: &#x27;img/categorias/familiar.webp&#x27;,
+    imagenRespaldo: &#x27;img/categorias/familiar.webp&#x27;,
+  },
+  {
+    id: &#x27;party&#x27;,
+    nombre: &#x27;Party&#x27;,
+    icono: &#x27;🎉&#x27;,
+    descripcion: &#x27;Ideales para reuniones y grupos numerosos.&#x27;,
+    imagen: &#x27;img/categorias/party.webp&#x27;,
+    imagenRespaldo: &#x27;img/categorias/party.webp&#x27;,
+  },
+  {
+    id: &#x27;rol&#x27;,
+    nombre: &#x27;Rol&#x27;,
+    icono: &#x27;🐉&#x27;,
+    descripcion: &#x27;Aventuras épicas y narrativas inmersivas.&#x27;,
+    imagen: &#x27;img/categorias/rol.webp&#x27;,
+    imagenRespaldo: &#x27;img/categorias/rol.webp&#x27;,
+  },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="JUEGOS"></a>
+                    <span class="name">
+                        <span ><b>JUEGOS</b></span>
+                        <a href="#JUEGOS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Juego.html" target="_self" >Juego[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  {
+    id: 1,
+    nombre: &#x27;Catan&#x27;,
+    autor: &#x27;Klaus Teuber&#x27;,
+    anio: 1995,
+    marca: &#x27;Kosmos&#x27;,
+    categoria: &#x27;estrategia&#x27;,
+    descripcion:
+      &#x27;En un tablero de losetas hexagonales cultivas recursos, comercias con los demás y vas levantando caminos, asentamientos y ciudades.&#x27;,
+    recomendacion: &#x27;El comercio entre jugadores es lo central del juego.&#x27;,
+    precio: 34990,
+    descuento: true,
+    precioOferta: 29990,
+    imagen: &#x27;img/juegos/catan.webp&#x27;,
+    jugadoresMin: 3,
+    jugadoresMax: 4,
+    edadMin: 10,
+    duracion: &#x27;60-90 min&#x27;,
+  },
+  {
+    id: 2,
+    nombre: &#x27;Carcassonne&#x27;,
+    autor: &#x27;Klaus-Jürgen Wrede&#x27;,
+    anio: 2000,
+    marca: &#x27;Hans im Glück&#x27;,
+    categoria: &#x27;estrategia&#x27;,
+    descripcion: &#x27;Vas uniendo losetas y el mapa crece con ciudades, caminos y monasterios.&#x27;,
+    recomendacion: &#x27;Reglas simples con decisiones que generan buena discusión en la mesa.&#x27;,
+    precio: 27990,
+    descuento: false,
+    imagen: &#x27;img/juegos/carcassonne.webp&#x27;,
+    jugadoresMin: 2,
+    jugadoresMax: 5,
+    edadMin: 7,
+    duracion: &#x27;35 min&#x27;,
+  },
+  {
+    id: 3,
+    nombre: &#x27;Ticket to Ride&#x27;,
+    autor: &#x27;Alan R. Moon&#x27;,
+    anio: 2004,
+    marca: &#x27;Days of Wonder&#x27;,
+    categoria: &#x27;estrategia&#x27;,
+    descripcion: &#x27;Reclama tramos de tren y cierra tus billetes secretos antes que el resto.&#x27;,
+    recomendacion: &#x27;Estratégico pero liviano, ideal para familia o amigos.&#x27;,
+    precio: 38990,
+    descuento: true,
+    precioOferta: 32990,
+    imagen: &#x27;img/juegos/ticket-to-ride.webp&#x27;,
+    jugadoresMin: 2,
+    jugadoresMax: 5,
+    edadMin: 8,
+    duracion: &#x27;30-60 min&#x27;,
+  },
+  {
+    id: 4,
+    nombre: &#x27;Monopoly&#x27;,
+    autor: &#x27;Charles Darrow&#x27;,
+    anio: 1935,
+    marca: &#x27;Hasbro&#x27;,
+    categoria: &#x27;familiar&#x27;,
+    descripcion: &#x27;Compra propiedades, levanta casas y hoteles, y cobra arriendos.&#x27;,
+    recomendacion: &#x27;El clásico perfecto para juntarse en familia.&#x27;,
+    precio: 19990,
+    descuento: false,
+    imagen: &#x27;img/juegos/monopoly.webp&#x27;,
+    jugadoresMin: 2,
+    jugadoresMax: 6,
+    edadMin: 8,
+    duracion: &#x27;60-180 min&#x27;,
+  },
+  {
+    id: 5,
+    nombre: &#x27;UNO&#x27;,
+    autor: &#x27;Merle Robbins&#x27;,
+    anio: 1971,
+    marca: &#x27;Mattel&#x27;,
+    categoria: &#x27;familiar&#x27;,
+    descripcion: &#x27;Juega cartas de colores y números; gana quien se queda sin cartas.&#x27;,
+    recomendacion: &#x27;Ideal para una tarde relajada o para partir el hielo.&#x27;,
+    precio: 8990,
+    descuento: true,
+    precioOferta: 7490,
+    imagen: &#x27;img/juegos/uno.webp&#x27;,
+    jugadoresMin: 2,
+    jugadoresMax: 10,
+    edadMin: 7,
+    duracion: &#x27;15 min&#x27;,
+  },
+  {
+    id: 6,
+    nombre: &#x27;Dobble&#x27;,
+    autor: &#x27;Denis Blanchot&#x27;,
+    anio: 2009,
+    marca: &#x27;Asmodee&#x27;,
+    categoria: &#x27;familiar&#x27;,
+    descripcion: &#x27;Encuentra el símbolo en común entre dos cartas antes que los demás.&#x27;,
+    recomendacion: &#x27;Rápido y accesible para distintas edades.&#x27;,
+    precio: 12990,
+    descuento: false,
+    imagen: &#x27;img/juegos/dobble.webp&#x27;,
+    jugadoresMin: 2,
+    jugadoresMax: 8,
+    edadMin: 6,
+    duracion: &#x27;15 min&#x27;,
+  },
+  {
+    id: 7,
+    nombre: &#x27;Codenames&#x27;,
+    autor: &#x27;Vlaada Chvátil&#x27;,
+    anio: 2015,
+    marca: &#x27;Czech Games Edition&#x27;,
+    categoria: &#x27;party&#x27;,
+    descripcion: &#x27;Dos equipos adivinan palabras secretas con pistas de una sola palabra.&#x27;,
+    recomendacion: &#x27;Excelente party game para grupos grandes.&#x27;,
+    precio: 24990,
+    descuento: false,
+    imagen: &#x27;img/juegos/codenames.webp&#x27;,
+    jugadoresMin: 4,
+    jugadoresMax: 8,
+    edadMin: 14,
+    duracion: &#x27;15 min&#x27;,
+  },
+  {
+    id: 8,
+    nombre: &#x27;Dixit&#x27;,
+    autor: &#x27;Jean-Louis Roubira&#x27;,
+    anio: 2008,
+    marca: &#x27;Libellud&#x27;,
+    categoria: &#x27;party&#x27;,
+    descripcion: &#x27;Narrador da pistas creativas; los demás eligen imágenes que encajen.&#x27;,
+    recomendacion: &#x27;Creativo, tranquilo y con ilustraciones hermosas.&#x27;,
+    precio: 29990,
+    descuento: true,
+    precioOferta: 25990,
+    imagen: &#x27;img/juegos/dixit.webp&#x27;,
+    jugadoresMin: 3,
+    jugadoresMax: 6,
+    edadMin: 8,
+    duracion: &#x27;30 min&#x27;,
+  },
+  {
+    id: 9,
+    nombre: &#x27;Exploding Kittens&#x27;,
+    autor: &#x27;Elan Lee&#x27;,
+    anio: 2015,
+    marca: &#x27;Exploding Kittens&#x27;,
+    categoria: &#x27;party&#x27;,
+    descripcion: &#x27;Evita los gatos explosivos y sé el último en pie.&#x27;,
+    recomendacion: &#x27;Liviano, absurdo y muy divertido.&#x27;,
+    precio: 18990,
+    descuento: false,
+    imagen: &#x27;img/juegos/exploding-kittens.webp&#x27;,
+    jugadoresMin: 2,
+    jugadoresMax: 5,
+    edadMin: 7,
+    duracion: &#x27;15 min&#x27;,
+  },
+  {
+    id: 10,
+    nombre: &#x27;D&amp;D Starter Set&#x27;,
+    autor: &#x27;Gary Gygax &amp; Dave Arneson&#x27;,
+    anio: 2014,
+    marca: &#x27;Wizards of the Coast&#x27;,
+    categoria: &#x27;rol&#x27;,
+    descripcion: &#x27;Kit de entrada a Dungeons &amp; Dragons con aventura lista para jugar.&#x27;,
+    recomendacion: &#x27;La puerta más simple al rol de mesa.&#x27;,
+    precio: 45990,
+    descuento: true,
+    precioOferta: 39990,
+    imagen: &#x27;img/juegos/dnd-starter.webp&#x27;,
+    jugadoresMin: 3,
+    jugadoresMax: 6,
+    edadMin: 12,
+    duracion: &#x27;120+ min&#x27;,
+  },
+  {
+    id: 11,
+    nombre: &#x27;Pathfinder&#x27;,
+    autor: &#x27;Jason Bulmahn&#x27;,
+    anio: 2009,
+    marca: &#x27;Paizo&#x27;,
+    categoria: &#x27;rol&#x27;,
+    descripcion: &#x27;Rol de fantasía con personajes personalizables y campañas largas.&#x27;,
+    recomendacion: &#x27;Ideal para aventuras que duran semanas o meses.&#x27;,
+    precio: 52990,
+    descuento: false,
+    imagen: &#x27;img/juegos/pathfinder.webp&#x27;,
+    jugadoresMin: 3,
+    jugadoresMax: 6,
+    edadMin: 13,
+    duracion: &#x27;120+ min&#x27;,
+  },
+  {
+    id: 12,
+    nombre: &#x27;Call of Cthulhu&#x27;,
+    autor: &#x27;Sandy Petersen&#x27;,
+    anio: 1981,
+    marca: &#x27;Chaosium&#x27;,
+    categoria: &#x27;rol&#x27;,
+    descripcion: &#x27;Rol de investigación y horror cósmico inspirado en Lovecraft.&#x27;,
+    recomendacion: &#x27;Tensión, misterio y narrativa en cada sesión.&#x27;,
+    precio: 48990,
+    descuento: false,
+    imagen: &#x27;img/juegos/cthulhu.webp&#x27;,
+    jugadoresMin: 2,
+    jugadoresMax: 6,
+    edadMin: 14,
+    duracion: &#x27;120+ min&#x27;,
+  },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/servicios/productos.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CLAVE_OFERTAS_ADMIN"></a>
+                    <span class="name">
+                        <span ><b>CLAVE_OFERTAS_ADMIN</b></span>
+                        <a href="#CLAVE_OFERTAS_ADMIN"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;mesamaestra_ofertas&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>documentation/template-playground/hbs-render.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Handlebars"></a>
+                    <span class="name">
+                        <span ><b>Handlebars</b></span>
+                        <a href="#Handlebars"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>documentation/template-playground/zip-export.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="JSZip"></a>
+                    <span class="name">
+                        <span ><b>JSZip</b></span>
+                        <a href="#JSZip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>documentation/template-playground/template-editor.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="monaco"></a>
+                    <span class="name">
+                        <span ><b>monaco</b></span>
+                        <a href="#monaco"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/utilidades/validadores.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="REGEX_EMAIL"></a>
+                    <span class="name">
+                        <span ><b>REGEX_EMAIL</b></span>
+                        <a href="#REGEX_EMAIL"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>/^[^\s@]+@[^\s@]+\.[^\s@]+$/</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Expresiones regulares reutilizadas en validaciones de correo y contraseña.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="REGEX_ESPECIAL"></a>
+                    <span class="name">
+                        <span ><b>REGEX_ESPECIAL</b></span>
+                        <a href="#REGEX_ESPECIAL"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>/[!@#$%^&amp;*(),.?&quot;:{}|&lt;&gt;]/</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/app.routes.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="routes"></a>
+                    <span class="name">
+                        <span ><b>routes</b></span>
+                        <a href="#routes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.dev/api/router/Routes" target="_blank" >Routes</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  { path: &#x27;&#x27;, component: Home },
+  { path: &#x27;login&#x27;, component: Login },
+  { path: &#x27;registro&#x27;, component: Registro },
+  { path: &#x27;recuperar&#x27;, component: Recuperar },
+  { path: &#x27;perfil&#x27;, component: Perfil, canActivate: [authGuard] },
+  { path: &#x27;categorias&#x27;, component: Categorias },
+  { path: &#x27;categoria/:id&#x27;, component: Categoria },
+  { path: &#x27;catalogo&#x27;, component: Catalogo },
+  { path: &#x27;carrito&#x27;, component: CarritoPage },
+  { path: &#x27;pago-exitoso&#x27;, component: PagoExitoso },
+  { path: &#x27;admin&#x27;, component: Admin, canActivate: [adminGuard] },
+  { path: &#x27;**&#x27;, redirectTo: &#x27;&#x27; },
+]</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Rutas principales de la aplicación de una sola página MesaMaestra.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/servicios/auth.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SESION_KEY"></a>
+                    <span class="name">
+                        <span ><b>SESION_KEY</b></span>
+                        <a href="#SESION_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;mesamaestra_sesion&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="USUARIOS_KEY"></a>
+                    <span class="name">
+                        <span ><b>USUARIOS_KEY</b></span>
+                        <a href="#USUARIOS_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;mesamaestra_usuarios&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Claves de almacenamiento en localStorage.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var updateDarkModeSwitchOffset = function () {
+                    var content = document.querySelector('.content');
+                    var scrollbarWidth = 0;
+
+                    if (content) {
+                         scrollbarWidth = Math.max(0, content.offsetWidth - content.clientWidth);
+                    }
+
+                    document.documentElement.style.setProperty(
+                         '--content-scrollbar-width',
+                         scrollbarWidth + 'px'
+                    );
+               };
+
+               updateDarkModeSwitchOffset();
+               requestAnimationFrame(updateDarkModeSwitchOffset);
+               window.addEventListener('resize', updateDarkModeSwitchOffset);
+
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

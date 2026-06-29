@@ -17,3 +17,8 @@ Desktop.ini
 # Logs y temporales
 *.log
 *.tmp
+
+# Angular
+mesa-maestra/node_modules/
+mesa-maestra/dist/
+mesa-maestra/.angular/

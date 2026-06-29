@@ -1,0 +1,53 @@
+<main class="container auth-main my-5">
+  <div class="encabezado-pagina anim-fade-in">
+    <h1 class="titulo-pagina">Iniciar sesión</h1>
+    <p class="encabezado-subtitulo">Accede a tu cuenta para comprar y gestionar tu perfil</p>
+  </div>
+
+  <div class="formulario-auth anim-fade-in" style="animation-delay: 0.1s">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
+      <div class="mb-3">
+        <label for="usuario" class="form-label">Usuario o correo</label>
+        <input type="text" class="form-control" id="usuario" formControlName="usuario"
+          autocomplete="username" placeholder="Tu usuario o email"
+          [class.campo-invalido]="usuarioInvalido"
+          [class.campo-valido]="formulario.get('usuario')?.valid && formulario.get('usuario')?.touched">
+        <div class="mensaje-error visible" *ngIf="usuarioInvalido">Usuario o correo es obligatorio.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="auth-password-wrap">
+          <input [type]="mostrarPassword() ? 'text' : 'password'" class="form-control" id="password"
+            formControlName="password" autocomplete="current-password" placeholder="Tu contraseña"
+            [class.campo-invalido]="passwordInvalido"
+            [class.campo-valido]="formulario.get('password')?.valid && formulario.get('password')?.touched">
+          <button type="button" class="auth-password-toggle" (click)="alternarPassword()"
+            [attr.aria-label]="mostrarPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+            {{ mostrarPassword() ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
+        <div class="mensaje-error visible" *ngIf="passwordInvalido">Contraseña es obligatoria.</div>
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="recordar" name="recordar"
+          [(ngModel)]="recordarUsuario" [ngModelOptions]="{standalone: true}">
+        <label class="form-check-label" for="recordar">Recordar mi usuario</label>
+      </div>
+
+      <div class="mensaje-error auth-mensaje-global visible" *ngIf="mensajeError()">{{ mensajeError() }}</div>
+
+      <div class="auth-acciones">
+        <button type="submit" class="btn btn-principal btn-pulse w-100">Ingresar</button>
+      </div>
+    </form>
+
+    <p class="auth-demo-nota">Cuentas de prueba: <strong>admin</strong> / Admin123 · <strong>cliente</strong> / Cliente123</p>
+
+    <nav class="auth-enlaces" aria-label="Opciones de acceso">
+      <a routerLink="/registro" class="auth-enlace">¿No tienes cuenta? Regístrate</a>
+      <a routerLink="/recuperar" class="auth-enlace auth-enlace--secundario">¿Olvidaste tu contraseña?</a>
+    </nav>
+  </div>
+</main>

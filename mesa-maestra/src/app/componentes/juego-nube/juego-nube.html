@@ -1,0 +1,18 @@
+<div id="juego-nube-overlay" class="juego-nube-overlay"
+  [class.is-visible]="nube.visible()" [attr.aria-hidden]="!nube.visible()"
+  (click)="cerrar()"></div>
+
+@if (nube.visible()) {
+  <div id="juego-nube" class="juego-nube is-visible"
+    [class.juego-nube--abajo]="nube.abajo()"
+    role="dialog" aria-hidden="false"
+    [attr.aria-label]="nube.ariaLabel()"
+    [style.top.px]="nube.top()"
+    [style.left.px]="nube.left()"
+    [style.width.px]="nube.width()">
+    <div class="juego-nube-contenido">
+      <p class="juego-nube-texto">{{ nube.texto() }}</p>
+    </div>
+    <span class="juego-nube-flecha" aria-hidden="true" [style.left.px]="nube.flechaLeft()"></span>
+  </div>
+}

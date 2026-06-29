@@ -1,0 +1,2628 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>mesa-maestra documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">mesa-maestra documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+    <button type="button"
+        class="search-input-clear"
+        aria-label="Clear search"
+        data-search-input-clear>&times;</button>
+</div>
+            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  Admin</li>
+</ol>
+
+<div class="io-file io-file-path" data-compodoc="entity-file-path">
+    <span class="icon ion-ios-document" aria-hidden="true"></span>
+    <code>src/app/pages/admin/admin.ts</code>
+</div>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#api" class="nav-link"
+                role="tab" id="api-tab" data-bs-toggle="tab" data-link="api">API</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.dev/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-admin</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                        <div>        <code><a href="https://angular.dev/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./admin.css</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./admin.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./admin.css</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+        <section data-compodoc="block-relationships">
+            <h3>Relationships</h3>
+
+            <div class="row pt-3">
+                <div class="col-sm-6">
+                    <h4>Used by</h4>
+                        <p class="comment"><i>No results matching.</i></p>
+                </div>
+
+                <div class="col-sm-6">
+                    <h4>Depends on</h4>
+                        <ul class="list-unstyled relationships-list">
+                                <li>
+                                            <code><a href="https://angular.dev/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                                </li>
+                                <li>
+                                            <code><a href="https://angular.dev/api/core/OnInit" target="_blank" >OnInit</a></code>
+                                </li>
+                        </ul>
+                </div>
+            </div>
+        </section>
+</div>
+
+    <div class="tab-pane fade " id="api">    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                <a href="#auth" >auth</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#buscarInventario" >buscarInventario</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#buscarOfertas" >buscarOfertas</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#buscarPicker" >buscarPicker</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#editorVisible" >editorVisible</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#inventarioResaltado" >inventarioResaltado</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#juegoOfertaSeleccionado" >juegoOfertaSeleccionado</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#juegosInventario" >juegosInventario</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#juegosOfertas" >juegosOfertas</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#juegosPicker" >juegosPicker</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#mensajeExitoOferta" >mensajeExitoOferta</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#ofertaActivaSi" >ofertaActivaSi</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#ofertaJuegoNombre" >ofertaJuegoNombre</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#ofertaPorcentaje" >ofertaPorcentaje</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#pickerVisible" >pickerVisible</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#previewHtml" >previewHtml</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                <a href="#productos" >productos</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#totalOfertasTexto" >totalOfertasTexto</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#totalProductosTexto" >totalProductosTexto</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                <a href="#usuarios" >usuarios</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#abrirEditorOferta" >abrirEditorOferta</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#abrirPicker" >abrirPicker</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#actualizarPreviewOferta" >actualizarPreviewOferta</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#cerrarEditor" >cerrarEditor</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#cerrarPicker" >cerrarPicker</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#filaSeleccionada" >filaSeleccionada</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#formatearPrecio" >formatearPrecio</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#guardarOferta" >guardarOferta</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#nombreCategoria" >nombreCategoria</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#onOfertaActivaChange" >onOfertaActivaChange</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#porcentajeOferta" >porcentajeOferta</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#precioHtml" >precioHtml</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#renderizarInventario" >renderizarInventario</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#renderizarPicker" >renderizarPicker</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#renderizarTablaOfertas" >renderizarTablaOfertas</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#setOfertaActiva" >setOfertaActiva</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Accessors</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--accessor" aria-hidden="true">A</span>
+                                <a href="#ofertaActiva" >ofertaActiva</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="abrirEditorOferta"></a>
+                    <span class="name">
+                        <span ><b>abrirEditorOferta</b></span>
+                        <a href="#abrirEditorOferta"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>abrirEditorOferta(juegoId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, preferirNuevaOferta: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>juegoId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>preferirNuevaOferta</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="abrirPicker"></a>
+                    <span class="name">
+                        <span ><b>abrirPicker</b></span>
+                        <a href="#abrirPicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>abrirPicker()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="105"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:105</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actualizarPreviewOferta"></a>
+                    <span class="name">
+                        <span ><b>actualizarPreviewOferta</b></span>
+                        <a href="#actualizarPreviewOferta"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>actualizarPreviewOferta()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:148</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cerrarEditor"></a>
+                    <span class="name">
+                        <span ><b>cerrarEditor</b></span>
+                        <a href="#cerrarEditor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cerrarEditor()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="119"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cerrarPicker"></a>
+                    <span class="name">
+                        <span ><b>cerrarPicker</b></span>
+                        <a href="#cerrarPicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cerrarPicker()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filaSeleccionada"></a>
+                    <span class="name">
+                        <span ><b>filaSeleccionada</b></span>
+                        <a href="#filaSeleccionada"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>filaSeleccionada(juegoId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:185</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>juegoId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatearPrecio"></a>
+                    <span class="name">
+                        <span ><b>formatearPrecio</b></span>
+                        <a href="#formatearPrecio"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatearPrecio(precio: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="57"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>precio</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="guardarOferta"></a>
+                    <span class="name">
+                        <span ><b>guardarOferta</b></span>
+                        <a href="#guardarOferta"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>guardarOferta()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="171"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:171</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="51"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nombreCategoria"></a>
+                    <span class="name">
+                        <span ><b>nombreCategoria</b></span>
+                        <a href="#nombreCategoria"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>nombreCategoria(juego: <a href="../interfaces/Juego.html" target="_self">Juego</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>juego</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Juego.html" target="_self" >Juego</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onOfertaActivaChange"></a>
+                    <span class="name">
+                        <span ><b>onOfertaActivaChange</b></span>
+                        <a href="#onOfertaActivaChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onOfertaActivaChange()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="167"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:167</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="porcentajeOferta"></a>
+                    <span class="name">
+                        <span ><b>porcentajeOferta</b></span>
+                        <a href="#porcentajeOferta"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>porcentajeOferta(j: <a href="../interfaces/Juego.html" target="_self">Juego</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:189</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>j</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Juego.html" target="_self" >Juego</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="precioHtml"></a>
+                    <span class="name">
+                        <span ><b>precioHtml</b></span>
+                        <a href="#precioHtml"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>precioHtml(j: <a href="../interfaces/Juego.html" target="_self">Juego</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="65"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>j</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Juego.html" target="_self" >Juego</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderizarInventario"></a>
+                    <span class="name">
+                        <span ><b>renderizarInventario</b></span>
+                        <a href="#renderizarInventario"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>renderizarInventario(busqueda: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="72"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>busqueda</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderizarPicker"></a>
+                    <span class="name">
+                        <span ><b>renderizarPicker</b></span>
+                        <a href="#renderizarPicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>renderizarPicker(busqueda: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="83"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>busqueda</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderizarTablaOfertas"></a>
+                    <span class="name">
+                        <span ><b>renderizarTablaOfertas</b></span>
+                        <a href="#renderizarTablaOfertas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>renderizarTablaOfertas(busqueda?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>busqueda</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setOfertaActiva"></a>
+                    <span class="name">
+                        <span ><b>setOfertaActiva</b></span>
+                        <a href="#setOfertaActiva"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setOfertaActiva(activa: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="46"
+                                    class="link-to-prism">src/app/pages/admin/admin.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>activa</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="auth"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>auth</b></span>
+                        <a href="#auth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Auth)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/pages/admin/admin.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buscarInventario"></a>
+                    <span class="name">
+                        <span ><b>buscarInventario</b></span>
+                        <a href="#buscarInventario"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/pages/admin/admin.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buscarOfertas"></a>
+                    <span class="name">
+                        <span ><b>buscarOfertas</b></span>
+                        <a href="#buscarOfertas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/pages/admin/admin.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buscarPicker"></a>
+                    <span class="name">
+                        <span ><b>buscarPicker</b></span>
+                        <a href="#buscarPicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/pages/admin/admin.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editorVisible"></a>
+                    <span class="name">
+                        <span ><b>editorVisible</b></span>
+                        <a href="#editorVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/pages/admin/admin.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inventarioResaltado"></a>
+                    <span class="name">
+                        <span ><b>inventarioResaltado</b></span>
+                        <a href="#inventarioResaltado"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/pages/admin/admin.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="juegoOfertaSeleccionado"></a>
+                    <span class="name">
+                        <span ><b>juegoOfertaSeleccionado</b></span>
+                        <a href="#juegoOfertaSeleccionado"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/pages/admin/admin.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="juegosInventario"></a>
+                    <span class="name">
+                        <span ><b>juegosInventario</b></span>
+                        <a href="#juegosInventario"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Juego[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/pages/admin/admin.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="juegosOfertas"></a>
+                    <span class="name">
+                        <span ><b>juegosOfertas</b></span>
+                        <a href="#juegosOfertas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Juego[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/pages/admin/admin.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="juegosPicker"></a>
+                    <span class="name">
+                        <span ><b>juegosPicker</b></span>
+                        <a href="#juegosPicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Juego[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/pages/admin/admin.ts:21</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mensajeExitoOferta"></a>
+                    <span class="name">
+                        <span ><b>mensajeExitoOferta</b></span>
+                        <a href="#mensajeExitoOferta"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/pages/admin/admin.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ofertaActivaSi"></a>
+                    <span class="name">
+                        <span ><b>ofertaActivaSi</b></span>
+                        <a href="#ofertaActivaSi"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/pages/admin/admin.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ofertaJuegoNombre"></a>
+                    <span class="name">
+                        <span ><b>ofertaJuegoNombre</b></span>
+                        <a href="#ofertaJuegoNombre"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/pages/admin/admin.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ofertaPorcentaje"></a>
+                    <span class="name">
+                        <span ><b>ofertaPorcentaje</b></span>
+                        <a href="#ofertaPorcentaje"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>10</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/pages/admin/admin.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pickerVisible"></a>
+                    <span class="name">
+                        <span ><b>pickerVisible</b></span>
+                        <a href="#pickerVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/pages/admin/admin.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="previewHtml"></a>
+                    <span class="name">
+                        <span ><b>previewHtml</b></span>
+                        <a href="#previewHtml"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/pages/admin/admin.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="productos"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>productos</b></span>
+                        <a href="#productos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Productos)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/pages/admin/admin.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalOfertasTexto"></a>
+                    <span class="name">
+                        <span ><b>totalOfertasTexto</b></span>
+                        <a href="#totalOfertasTexto"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;0&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/pages/admin/admin.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalProductosTexto"></a>
+                    <span class="name">
+                        <span ><b>totalProductosTexto</b></span>
+                        <a href="#totalProductosTexto"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;0&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/pages/admin/admin.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usuarios"></a>
+                    <span class="name">
+                        <span ><b>usuarios</b></span>
+                        <a href="#usuarios"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Usuario.html" target="_self" >Usuario[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/pages/admin/admin.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ofertaActiva"></a>
+                        <span class="name"><b>ofertaActiva</b><a href="#ofertaActiva"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>ofertaActiva()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/pages/admin/admin.ts:42</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, OnInit, signal } from &#x27;@angular/core&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { Juego } from &#x27;../../models/juego.model&#x27;;
+import { Usuario } from &#x27;../../models/usuario.model&#x27;;
+import { Auth } from &#x27;../../servicios/auth&#x27;;
+import { Productos } from &#x27;../../servicios/productos&#x27;;
+
+@Component({
+  selector: &#x27;app-admin&#x27;,
+  imports: [FormsModule],
+  templateUrl: &#x27;./admin.html&#x27;,
+  styleUrl: &#x27;./admin.css&#x27;,
+})
+/** Panel de administración: inventario, usuarios y gestión de ofertas. */
+export class Admin implements OnInit {
+  private auth &#x3D; inject(Auth);
+  private productos &#x3D; inject(Productos);
+
+  usuarios: Usuario[] &#x3D; [];
+  juegosInventario &#x3D; signal&lt;Juego[]&gt;([]);
+  juegosPicker &#x3D; signal&lt;Juego[]&gt;([]);
+  juegosOfertas &#x3D; signal&lt;Juego[]&gt;([]);
+
+  totalProductosTexto &#x3D; signal(&#x27;0&#x27;);
+  totalOfertasTexto &#x3D; signal(&#x27;0&#x27;);
+
+  buscarInventario &#x3D; &#x27;&#x27;;
+  buscarPicker &#x3D; &#x27;&#x27;;
+  buscarOfertas &#x3D; &#x27;&#x27;;
+
+  pickerVisible &#x3D; signal(false);
+  editorVisible &#x3D; signal(false);
+  inventarioResaltado &#x3D; signal(false);
+  mensajeExitoOferta &#x3D; signal(&#x27;&#x27;);
+
+  juegoOfertaSeleccionado: number | null &#x3D; null;
+  ofertaJuegoNombre &#x3D; &#x27;&#x27;;
+  ofertaActivaSi &#x3D; true;
+  ofertaPorcentaje &#x3D; 10;
+  previewHtml &#x3D; signal(&#x27;&#x27;);
+
+  get ofertaActiva(): boolean {
+    return this.ofertaActivaSi;
+  }
+
+  setOfertaActiva(activa: boolean): void {
+    this.ofertaActivaSi &#x3D; activa;
+    this.onOfertaActivaChange();
+  }
+
+  ngOnInit(): void {
+    this.usuarios &#x3D; this.auth.obtenerUsuarios();
+    this.renderizarInventario(&#x27;&#x27;);
+    this.renderizarTablaOfertas(&#x27;&#x27;);
+  }
+
+  formatearPrecio(precio: number): string {
+    return this.productos.formatearPrecio(precio);
+  }
+
+  nombreCategoria(juego: Juego): string {
+    return this.productos.obtenerCategoria(juego.categoria)?.nombre ?? juego.categoria;
+  }
+
+  precioHtml(j: Juego): string {
+    if (j.descuento &amp;&amp; j.precioOferta) {
+      return &#x60;&lt;div class&#x3D;&quot;admin-precio-celda&quot;&gt;&lt;span class&#x3D;&quot;admin-precio-normal&quot;&gt;${this.formatearPrecio(j.precio)}&lt;/span&gt;&lt;span class&#x3D;&quot;admin-precio-oferta&quot;&gt;${this.formatearPrecio(j.precioOferta)}&lt;/span&gt;&lt;/div&gt;&#x60;;
+    }
+    return &#x60;&lt;span class&#x3D;&quot;admin-precio-unico&quot;&gt;${this.formatearPrecio(j.precio)}&lt;/span&gt;&#x60;;
+  }
+
+  renderizarInventario(busqueda: string): void {
+    this.buscarInventario &#x3D; busqueda;
+    const filtrados &#x3D; this.productos.filtrarJuegos(this.productos.obtenerJuegosOrdenados(), busqueda);
+    this.juegosInventario.set(filtrados);
+    this.totalProductosTexto.set(
+      busqueda.trim()
+        ? filtrados.length + &#x27; de &#x27; + this.productos.juegosBase.length
+        : String(this.productos.juegosBase.length),
+    );
+  }
+
+  renderizarPicker(busqueda: string): void {
+    this.buscarPicker &#x3D; busqueda;
+    const filtrados &#x3D; this.productos.filtrarJuegos(this.productos.obtenerJuegosOrdenados(), busqueda);
+    this.juegosPicker.set(filtrados);
+  }
+
+  renderizarTablaOfertas(busqueda?: string): void {
+    if (busqueda !&#x3D;&#x3D; undefined) this.buscarOfertas &#x3D; busqueda;
+    const enOferta &#x3D; this.productos
+      .obtenerJuegosEnOferta()
+      .slice()
+      .sort((a, b) &#x3D;&gt; a.nombre.localeCompare(b.nombre, &#x27;es&#x27;));
+    const filtrados &#x3D; this.productos.filtrarJuegos(enOferta, this.buscarOfertas);
+
+    this.juegosOfertas.set(filtrados);
+    this.totalOfertasTexto.set(
+      this.buscarOfertas.trim()
+        ? filtrados.length + &#x27; de &#x27; + enOferta.length
+        : String(enOferta.length),
+    );
+  }
+
+  abrirPicker(): void {
+    this.editorVisible.set(false);
+    this.mensajeExitoOferta.set(&#x27;&#x27;);
+    this.pickerVisible.set(true);
+    this.inventarioResaltado.set(true);
+    this.buscarPicker &#x3D; &#x27;&#x27;;
+    this.renderizarPicker(&#x27;&#x27;);
+  }
+
+  cerrarPicker(): void {
+    this.pickerVisible.set(false);
+    this.inventarioResaltado.set(false);
+  }
+
+  cerrarEditor(): void {
+    this.juegoOfertaSeleccionado &#x3D; null;
+    this.editorVisible.set(false);
+    this.mensajeExitoOferta.set(&#x27;&#x27;);
+    this.cerrarPicker();
+    this.renderizarInventario(this.buscarInventario);
+    this.renderizarTablaOfertas();
+  }
+
+  abrirEditorOferta(juegoId: number, preferirNuevaOferta: boolean): void {
+    const juego &#x3D; this.productos.juegosBase.find((j) &#x3D;&gt; j.id &#x3D;&#x3D;&#x3D; juegoId);
+    if (!juego) return;
+
+    this.juegoOfertaSeleccionado &#x3D; juegoId;
+    const config &#x3D; this.productos.obtenerConfigOferta(juegoId);
+
+    this.cerrarPicker();
+    this.ofertaJuegoNombre &#x3D; &#x27;&quot;&#x27; + juego.nombre + &#x27;&quot;&#x27;;
+    this.editorVisible.set(true);
+    this.mensajeExitoOferta.set(&#x27;&#x27;);
+
+    this.ofertaActivaSi &#x3D; preferirNuevaOferta ? true : config.activa;
+    this.ofertaPorcentaje &#x3D; preferirNuevaOferta &amp;&amp; !config.activa ? 10 : config.porcentaje;
+
+    this.actualizarPreviewOferta();
+    this.renderizarInventario(this.buscarInventario);
+    this.renderizarTablaOfertas();
+  }
+
+  actualizarPreviewOferta(): void {
+    if (!this.juegoOfertaSeleccionado) return;
+    const juegoBase &#x3D; this.productos.juegosBase.find((j) &#x3D;&gt; j.id &#x3D;&#x3D;&#x3D; this.juegoOfertaSeleccionado);
+    if (!juegoBase) return;
+
+    if (!this.ofertaActiva) {
+      this.previewHtml.set(
+        &#x60;&lt;p class&#x3D;&quot;admin-oferta-preview-texto&quot;&gt;Precio en tienda: &lt;strong&gt;${this.formatearPrecio(juegoBase.precio)}&lt;/strong&gt; &lt;span class&#x3D;&quot;admin-oferta-preview-nota&quot;&gt;(sin descuento)&lt;/span&gt;&lt;/p&gt;&#x60;,
+      );
+      return;
+    }
+
+    const pct &#x3D; Math.max(1, Math.min(90, this.ofertaPorcentaje || 10));
+    const precioFinal &#x3D; this.productos.calcularPrecioConDescuento(juegoBase.precio, pct);
+    this.previewHtml.set(
+      &#x60;&lt;p class&#x3D;&quot;admin-oferta-preview-texto&quot;&gt;&lt;span class&#x3D;&quot;admin-precio-normal&quot;&gt;${this.formatearPrecio(juegoBase.precio)}&lt;/span&gt; → &lt;strong class&#x3D;&quot;admin-precio-oferta&quot;&gt;${this.formatearPrecio(precioFinal)}&lt;/strong&gt; &lt;span class&#x3D;&quot;admin-oferta-preview-pct&quot;&gt;(-${pct}%)&lt;/span&gt;&lt;/p&gt;&#x60;,
+    );
+  }
+
+  onOfertaActivaChange(): void {
+    this.actualizarPreviewOferta();
+  }
+
+  guardarOferta(): void {
+    if (!this.juegoOfertaSeleccionado) return;
+
+    this.productos.guardarOfertaJuego(this.juegoOfertaSeleccionado, {
+      activa: this.ofertaActiva,
+      porcentaje: this.ofertaPorcentaje,
+    });
+
+    this.mensajeExitoOferta.set(&#x27;Oferta guardada correctamente.&#x27;);
+    this.renderizarInventario(this.buscarInventario);
+    this.renderizarTablaOfertas();
+    this.actualizarPreviewOferta();
+  }
+
+  filaSeleccionada(juegoId: number): boolean {
+    return this.juegoOfertaSeleccionado &#x3D;&#x3D;&#x3D; juegoId;
+  }
+
+  porcentajeOferta(j: Juego): number {
+    return j.porcentajeDescuento ?? this.productos.inferirPorcentajeDescuento(j);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;main class&#x3D;&quot;container admin-main my-5&quot;&gt;
+  &lt;div class&#x3D;&quot;encabezado-pagina anim-fade-in&quot;&gt;
+    &lt;h1 class&#x3D;&quot;titulo-pagina&quot;&gt;Panel de Administración&lt;/h1&gt;
+    &lt;p class&#x3D;&quot;encabezado-subtitulo&quot;&gt;Gestión de inventario, ofertas y usuarios registrados&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;row g-4&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12 col-lg-6&quot;&gt;
+      &lt;div class&#x3D;&quot;panel-admin panel-admin-inventario anim-fade-in&quot;
+        [class.is-resaltado]&#x3D;&quot;inventarioResaltado()&quot; style&#x3D;&quot;animation-delay: 0.1s&quot;&gt;
+        &lt;h3&gt;Inventario de Juegos&lt;/h3&gt;
+        &lt;p class&#x3D;&quot;panel-admin-resumen&quot;&gt;Mostrando: &lt;strong&gt;{{ totalProductosTexto() }}&lt;/strong&gt;&lt;/p&gt;
+        &lt;div class&#x3D;&quot;admin-buscador-wrap&quot;&gt;
+          &lt;span class&#x3D;&quot;admin-buscador-icono&quot; aria-hidden&#x3D;&quot;true&quot;&gt;🔍&lt;/span&gt;
+          &lt;input type&#x3D;&quot;search&quot; class&#x3D;&quot;admin-buscador&quot; placeholder&#x3D;&quot;Buscar por juego, autor, editorial o categoría...&quot;
+            [ngModel]&#x3D;&quot;buscarInventario&quot; (ngModelChange)&#x3D;&quot;renderizarInventario($event)&quot; autocomplete&#x3D;&quot;off&quot;&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;panel-admin-tabla-wrap panel-admin-scroll-y&quot;&gt;
+          &lt;table class&#x3D;&quot;table table-sm panel-admin-tabla panel-admin-tabla--inventario&quot;&gt;
+            &lt;thead&gt;
+              &lt;tr&gt;
+                &lt;th class&#x3D;&quot;admin-col-juego&quot;&gt;Juego&lt;/th&gt;
+                &lt;th class&#x3D;&quot;admin-col-autor&quot;&gt;Autor&lt;/th&gt;
+                &lt;th class&#x3D;&quot;admin-col-editorial&quot;&gt;Editorial&lt;/th&gt;
+                &lt;th class&#x3D;&quot;admin-col-categoria&quot;&gt;Categoría&lt;/th&gt;
+                &lt;th class&#x3D;&quot;admin-col-precio&quot;&gt;Precio&lt;/th&gt;
+              &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+              @if (juegosInventario().length &#x3D;&#x3D;&#x3D; 0) {
+                &lt;tr&gt;&lt;td colspan&#x3D;&quot;5&quot; class&#x3D;&quot;admin-tabla-vacio&quot;&gt;No hay juegos que coincidan con la búsqueda.&lt;/td&gt;&lt;/tr&gt;
+              } @else {
+                @for (j of juegosInventario(); track j.id) {
+                  &lt;tr class&#x3D;&quot;admin-fila-inventario&quot; [class.is-seleccionado]&#x3D;&quot;filaSeleccionada(j.id)&quot;&gt;
+                    &lt;td class&#x3D;&quot;admin-celda-juego&quot;&gt;&quot;{{ j.nombre }}&quot;&lt;/td&gt;
+                    &lt;td class&#x3D;&quot;admin-celda-autor&quot;&gt;{{ j.autor }}&lt;/td&gt;
+                    &lt;td class&#x3D;&quot;admin-celda-editorial&quot;&gt;{{ j.marca }}&lt;/td&gt;
+                    &lt;td class&#x3D;&quot;admin-celda-categoria&quot;&gt;{{ nombreCategoria(j) }}&lt;/td&gt;
+                    &lt;td class&#x3D;&quot;admin-celda-precio&quot; [innerHTML]&#x3D;&quot;precioHtml(j)&quot;&gt;&lt;/td&gt;
+                  &lt;/tr&gt;
+                }
+              }
+            &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;col-12 col-lg-6&quot;&gt;
+      &lt;div class&#x3D;&quot;panel-admin anim-fade-in&quot; style&#x3D;&quot;animation-delay: 0.18s&quot;&gt;
+        &lt;h3&gt;Usuarios Registrados&lt;/h3&gt;
+        &lt;p class&#x3D;&quot;panel-admin-resumen&quot;&gt;Total: &lt;strong&gt;{{ usuarios.length }}&lt;/strong&gt;&lt;/p&gt;
+        &lt;div class&#x3D;&quot;panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--usuarios&quot;&gt;
+          &lt;table class&#x3D;&quot;table table-sm panel-admin-tabla panel-admin-tabla--usuarios&quot;&gt;
+            &lt;thead&gt;
+              &lt;tr&gt;&lt;th&gt;Usuario&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;&lt;th&gt;Rol&lt;/th&gt;&lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+              @for (u of usuarios; track u.usuario) {
+                &lt;tr&gt;
+                  &lt;td class&#x3D;&quot;admin-celda-usuario&quot;&gt;{{ u.usuario }}&lt;/td&gt;
+                  &lt;td class&#x3D;&quot;admin-celda-email&quot;&gt;{{ u.email }}&lt;/td&gt;
+                  &lt;td&gt;
+                    &lt;span class&#x3D;&quot;badge&quot; [class.admin-badge-rol]&#x3D;&quot;u.rol &#x3D;&#x3D;&#x3D; &#x27;admin&#x27;&quot; [class.admin-badge-cliente]&#x3D;&quot;u.rol &#x3D;&#x3D;&#x3D; &#x27;cliente&#x27;&quot;&gt;{{ u.rol }}&lt;/span&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              }
+            &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;col-12&quot;&gt;
+      &lt;div class&#x3D;&quot;panel-admin panel-admin-ofertas anim-fade-in&quot; style&#x3D;&quot;animation-delay: 0.26s&quot;&gt;
+        &lt;div class&#x3D;&quot;admin-ofertas-cabecera&quot;&gt;
+          &lt;h3&gt;Gestión de ofertas&lt;/h3&gt;
+          @if (!pickerVisible()) {
+            &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-principal btn-pulse btn-sm&quot; (click)&#x3D;&quot;abrirPicker()&quot;&gt;Agregar oferta&lt;/button&gt;
+          }
+        &lt;/div&gt;
+
+        @if (pickerVisible()) {
+          &lt;div class&#x3D;&quot;admin-picker-inventario&quot;&gt;
+            &lt;p class&#x3D;&quot;admin-picker-titulo&quot;&gt;Selecciona un juego del inventario&lt;/p&gt;
+            &lt;div class&#x3D;&quot;admin-buscador-wrap&quot;&gt;
+              &lt;span class&#x3D;&quot;admin-buscador-icono&quot; aria-hidden&#x3D;&quot;true&quot;&gt;🔍&lt;/span&gt;
+              &lt;input type&#x3D;&quot;search&quot; class&#x3D;&quot;admin-buscador&quot; placeholder&#x3D;&quot;Buscar juego...&quot;
+                [ngModel]&#x3D;&quot;buscarPicker&quot; (ngModelChange)&#x3D;&quot;renderizarPicker($event)&quot; autocomplete&#x3D;&quot;off&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--picker&quot;&gt;
+              &lt;table class&#x3D;&quot;table table-sm panel-admin-tabla panel-admin-tabla--picker&quot;&gt;
+                &lt;thead&gt;
+                  &lt;tr&gt;
+                    &lt;th class&#x3D;&quot;admin-col-juego&quot;&gt;Juego&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;admin-col-autor&quot;&gt;Autor&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;admin-col-editorial&quot;&gt;Editorial&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;admin-col-categoria&quot;&gt;Categoría&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;admin-col-precio&quot;&gt;Precio&lt;/th&gt;
+                  &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+                  @if (juegosPicker().length &#x3D;&#x3D;&#x3D; 0) {
+                    &lt;tr&gt;&lt;td colspan&#x3D;&quot;5&quot; class&#x3D;&quot;admin-tabla-vacio&quot;&gt;No hay juegos que coincidan con la búsqueda.&lt;/td&gt;&lt;/tr&gt;
+                  } @else {
+                    @for (j of juegosPicker(); track j.id) {
+                      &lt;tr class&#x3D;&quot;admin-fila-picker&quot; [class.is-seleccionado]&#x3D;&quot;filaSeleccionada(j.id)&quot;
+                        tabindex&#x3D;&quot;0&quot; role&#x3D;&quot;button&quot;
+                        (click)&#x3D;&quot;abrirEditorOferta(j.id, true)&quot;
+                        (keydown.enter)&#x3D;&quot;abrirEditorOferta(j.id, true)&quot;
+                        (keydown.space)&#x3D;&quot;$event.preventDefault(); abrirEditorOferta(j.id, true)&quot;&gt;
+                        &lt;td class&#x3D;&quot;admin-celda-juego&quot;&gt;&quot;{{ j.nombre }}&quot;&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;admin-celda-autor&quot;&gt;{{ j.autor }}&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;admin-celda-editorial&quot;&gt;{{ j.marca }}&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;admin-celda-categoria&quot;&gt;{{ nombreCategoria(j) }}&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;admin-celda-precio&quot; [innerHTML]&#x3D;&quot;precioHtml(j)&quot;&gt;&lt;/td&gt;
+                      &lt;/tr&gt;
+                    }
+                  }
+                &lt;/tbody&gt;
+              &lt;/table&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;admin-picker-acciones&quot;&gt;
+              &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-outline-secondary btn-sm&quot; (click)&#x3D;&quot;cerrarPicker()&quot;&gt;Cancelar&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        }
+
+        @if (editorVisible()) {
+          &lt;div class&#x3D;&quot;admin-ofertas-editor&quot;&gt;
+            &lt;p class&#x3D;&quot;panel-admin-resumen admin-ofertas-juego&quot;&gt;Editando: &lt;strong&gt;{{ ofertaJuegoNombre }}&lt;/strong&gt;&lt;/p&gt;
+            &lt;form class&#x3D;&quot;admin-ofertas-form&quot; (submit)&#x3D;&quot;$event.preventDefault(); guardarOferta()&quot;&gt;
+              &lt;div class&#x3D;&quot;row g-3 align-items-end&quot;&gt;
+                &lt;div class&#x3D;&quot;col-12 col-md-4&quot;&gt;
+                  &lt;span class&#x3D;&quot;admin-ofertas-etiqueta&quot;&gt;¿En oferta?&lt;/span&gt;
+                  &lt;div class&#x3D;&quot;admin-oferta-opciones&quot; role&#x3D;&quot;group&quot; aria-label&#x3D;&quot;Estado de oferta&quot;&gt;
+                    &lt;label class&#x3D;&quot;admin-oferta-opcion&quot;&gt;
+                      &lt;input type&#x3D;&quot;radio&quot; name&#x3D;&quot;oferta-activa&quot; [checked]&#x3D;&quot;ofertaActivaSi&quot; (change)&#x3D;&quot;setOfertaActiva(true)&quot;&gt;
+                      &lt;span&gt;Sí&lt;/span&gt;
+                    &lt;/label&gt;
+                    &lt;label class&#x3D;&quot;admin-oferta-opcion&quot;&gt;
+                      &lt;input type&#x3D;&quot;radio&quot; name&#x3D;&quot;oferta-activa&quot; [checked]&#x3D;&quot;!ofertaActivaSi&quot; (change)&#x3D;&quot;setOfertaActiva(false)&quot;&gt;
+                      &lt;span&gt;No&lt;/span&gt;
+                    &lt;/label&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;col-12 col-md-4&quot; [class.is-deshabilitado]&#x3D;&quot;!ofertaActivaSi&quot;&gt;
+                  &lt;label for&#x3D;&quot;oferta-porcentaje&quot; class&#x3D;&quot;admin-ofertas-etiqueta&quot;&gt;Porcentaje de descuento&lt;/label&gt;
+                  &lt;div class&#x3D;&quot;input-group admin-oferta-input-grupo&quot;&gt;
+                    &lt;input type&#x3D;&quot;number&quot; class&#x3D;&quot;form-control admin-oferta-input&quot; id&#x3D;&quot;oferta-porcentaje&quot;
+                      min&#x3D;&quot;1&quot; max&#x3D;&quot;90&quot; step&#x3D;&quot;1&quot; [(ngModel)]&#x3D;&quot;ofertaPorcentaje&quot; name&#x3D;&quot;ofertaPorcentaje&quot;
+                      [disabled]&#x3D;&quot;!ofertaActivaSi&quot; (ngModelChange)&#x3D;&quot;actualizarPreviewOferta()&quot;&gt;
+                    &lt;span class&#x3D;&quot;input-group-text&quot;&gt;%&lt;/span&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;col-12 col-md-4&quot;&gt;
+                  &lt;div class&#x3D;&quot;admin-ofertas-botones&quot;&gt;
+                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-outline-secondary&quot; (click)&#x3D;&quot;cerrarEditor()&quot;&gt;Cancelar&lt;/button&gt;
+                    &lt;button type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-principal btn-pulse&quot;&gt;Guardar oferta&lt;/button&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div class&#x3D;&quot;admin-oferta-preview&quot; [innerHTML]&#x3D;&quot;previewHtml()&quot; aria-live&#x3D;&quot;polite&quot;&gt;&lt;/div&gt;
+              @if (mensajeExitoOferta()) {
+                &lt;div class&#x3D;&quot;mensaje-exito&quot;&gt;{{ mensajeExitoOferta() }}&lt;/div&gt;
+              }
+            &lt;/form&gt;
+          &lt;/div&gt;
+        }
+
+        &lt;div class&#x3D;&quot;admin-ofertas-activas&quot;&gt;
+          &lt;h4 class&#x3D;&quot;admin-ofertas-lista-titulo&quot;&gt;Juegos en oferta&lt;/h4&gt;
+          &lt;p class&#x3D;&quot;panel-admin-resumen&quot;&gt;Total: &lt;strong&gt;{{ totalOfertasTexto() }}&lt;/strong&gt;&lt;/p&gt;
+          &lt;div class&#x3D;&quot;admin-buscador-wrap&quot;&gt;
+            &lt;span class&#x3D;&quot;admin-buscador-icono&quot; aria-hidden&#x3D;&quot;true&quot;&gt;🔍&lt;/span&gt;
+            &lt;input type&#x3D;&quot;search&quot; class&#x3D;&quot;admin-buscador&quot; placeholder&#x3D;&quot;Buscar juego en oferta...&quot;
+              [ngModel]&#x3D;&quot;buscarOfertas&quot; (ngModelChange)&#x3D;&quot;renderizarTablaOfertas($event)&quot; autocomplete&#x3D;&quot;off&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--ofertas&quot;&gt;
+            &lt;table class&#x3D;&quot;table table-sm panel-admin-tabla panel-admin-tabla--ofertas&quot;&gt;
+              &lt;thead&gt;
+                &lt;tr&gt;
+                  &lt;th class&#x3D;&quot;admin-col-juego&quot;&gt;Juego&lt;/th&gt;
+                  &lt;th class&#x3D;&quot;admin-col-marca&quot;&gt;Marca&lt;/th&gt;
+                  &lt;th class&#x3D;&quot;admin-col-precio&quot;&gt;P. normal&lt;/th&gt;
+                  &lt;th class&#x3D;&quot;admin-col-precio&quot;&gt;P. oferta&lt;/th&gt;
+                  &lt;th class&#x3D;&quot;admin-col-descuento&quot;&gt;Dcto.&lt;/th&gt;
+                  &lt;th class&#x3D;&quot;admin-col-editar&quot;&gt;Editar&lt;/th&gt;
+                &lt;/tr&gt;
+              &lt;/thead&gt;
+              &lt;tbody&gt;
+                @if (juegosOfertas().length &#x3D;&#x3D;&#x3D; 0) {
+                  &lt;tr&gt;&lt;td colspan&#x3D;&quot;6&quot; class&#x3D;&quot;admin-tabla-vacio&quot;&gt;No hay juegos en oferta{{ buscarOfertas.trim() ? &#x27; que coincidan con la búsqueda&#x27; : &#x27;&#x27; }}.&lt;/td&gt;&lt;/tr&gt;
+                } @else {
+                  @for (j of juegosOfertas(); track j.id) {
+                    &lt;tr class&#x3D;&quot;admin-fila-oferta&quot; [class.is-seleccionado]&#x3D;&quot;filaSeleccionada(j.id)&quot;&gt;
+                      &lt;td class&#x3D;&quot;admin-celda-juego&quot;&gt;&quot;{{ j.nombre }}&quot;&lt;/td&gt;
+                      &lt;td class&#x3D;&quot;admin-celda-marca&quot;&gt;{{ j.marca }}&lt;/td&gt;
+                      &lt;td class&#x3D;&quot;admin-celda-precio&quot;&gt;&lt;span class&#x3D;&quot;admin-precio-normal is-solo&quot;&gt;{{ formatearPrecio(j.precio) }}&lt;/span&gt;&lt;/td&gt;
+                      &lt;td class&#x3D;&quot;admin-celda-precio&quot;&gt;&lt;span class&#x3D;&quot;admin-precio-oferta&quot;&gt;{{ formatearPrecio(j.precioOferta!) }}&lt;/span&gt;&lt;/td&gt;
+                      &lt;td class&#x3D;&quot;admin-celda-descuento&quot;&gt;-{{ porcentajeOferta(j) }}%&lt;/td&gt;
+                      &lt;td class&#x3D;&quot;admin-celda-editar&quot;&gt;
+                        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;admin-oferta-btn is-si admin-oferta-btn--editar&quot;
+                          [attr.aria-label]&#x3D;&quot;&#x27;Editar oferta de &#x27; + j.nombre&quot;
+                          (click)&#x3D;&quot;abrirEditorOferta(j.id, false)&quot;&gt;Editar&lt;/button&gt;
+                      &lt;/td&gt;
+                    &lt;/tr&gt;
+                  }
+                }
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/main&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./admin.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><main class="container admin-main my-5">  <div class="encabezado-pagina anim-fade-in">    <h1 class="titulo-pagina">Panel de Administración</h1>    <p class="encabezado-subtitulo">Gestión de inventario, ofertas y usuarios registrados</p>  </div>  <div class="row g-4">    <div class="col-12 col-lg-6">      <div class="panel-admin panel-admin-inventario anim-fade-in"        [class.is-resaltado]="inventarioResaltado()" style="animation-delay: 0.1s">        <h3>Inventario de Juegos</h3>        <p class="panel-admin-resumen">Mostrando: <strong>{{ totalProductosTexto() }}</strong></p>        <div class="admin-buscador-wrap">          <span class="admin-buscador-icono" aria-hidden="true">🔍</span>          <input type="search" class="admin-buscador" placeholder="Buscar por juego, autor, editorial o categoría..."            [ngModel]="buscarInventario" (ngModelChange)="renderizarInventario($event)" autocomplete="off">        </div>        <div class="panel-admin-tabla-wrap panel-admin-scroll-y">          <table class="table table-sm panel-admin-tabla panel-admin-tabla--inventario">            <thead>              <tr>                <th class="admin-col-juego">Juego</th>                <th class="admin-col-autor">Autor</th>                <th class="admin-col-editorial">Editorial</th>                <th class="admin-col-categoria">Categoría</th>                <th class="admin-col-precio">Precio</th>              </tr>            </thead>            <tbody>              @if (juegosInventario().length === 0) {                <tr><td colspan="5" class="admin-tabla-vacio">No hay juegos que coincidan con la búsqueda.</td></tr>              } @else {                @for (j of juegosInventario(); track j.id) {                  <tr class="admin-fila-inventario" [class.is-seleccionado]="filaSeleccionada(j.id)">                    <td class="admin-celda-juego">"{{ j.nombre }}"</td>                    <td class="admin-celda-autor">{{ j.autor }}</td>                    <td class="admin-celda-editorial">{{ j.marca }}</td>                    <td class="admin-celda-categoria">{{ nombreCategoria(j) }}</td>                    <td class="admin-celda-precio" [innerHTML]="precioHtml(j)"></td>                  </tr>                }              }            </tbody>          </table>        </div>      </div>    </div>    <div class="col-12 col-lg-6">      <div class="panel-admin anim-fade-in" style="animation-delay: 0.18s">        <h3>Usuarios Registrados</h3>        <p class="panel-admin-resumen">Total: <strong>{{ usuarios.length }}</strong></p>        <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--usuarios">          <table class="table table-sm panel-admin-tabla panel-admin-tabla--usuarios">            <thead>              <tr><th>Usuario</th><th>Email</th><th>Rol</th></tr>            </thead>            <tbody>              @for (u of usuarios; track u.usuario) {                <tr>                  <td class="admin-celda-usuario">{{ u.usuario }}</td>                  <td class="admin-celda-email">{{ u.email }}</td>                  <td>                    <span class="badge" [class.admin-badge-rol]="u.rol === \'admin\'" [class.admin-badge-cliente]="u.rol === \'cliente\'">{{ u.rol }}</span>                  </td>                </tr>              }            </tbody>          </table>        </div>      </div>    </div>    <div class="col-12">      <div class="panel-admin panel-admin-ofertas anim-fade-in" style="animation-delay: 0.26s">        <div class="admin-ofertas-cabecera">          <h3>Gestión de ofertas</h3>          @if (!pickerVisible()) {            <button type="button" class="btn btn-principal btn-pulse btn-sm" (click)="abrirPicker()">Agregar oferta</button>          }        </div>        @if (pickerVisible()) {          <div class="admin-picker-inventario">            <p class="admin-picker-titulo">Selecciona un juego del inventario</p>            <div class="admin-buscador-wrap">              <span class="admin-buscador-icono" aria-hidden="true">🔍</span>              <input type="search" class="admin-buscador" placeholder="Buscar juego..."                [ngModel]="buscarPicker" (ngModelChange)="renderizarPicker($event)" autocomplete="off">            </div>            <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--picker">              <table class="table table-sm panel-admin-tabla panel-admin-tabla--picker">                <thead>                  <tr>                    <th class="admin-col-juego">Juego</th>                    <th class="admin-col-autor">Autor</th>                    <th class="admin-col-editorial">Editorial</th>                    <th class="admin-col-categoria">Categoría</th>                    <th class="admin-col-precio">Precio</th>                  </tr>                </thead>                <tbody>                  @if (juegosPicker().length === 0) {                    <tr><td colspan="5" class="admin-tabla-vacio">No hay juegos que coincidan con la búsqueda.</td></tr>                  } @else {                    @for (j of juegosPicker(); track j.id) {                      <tr class="admin-fila-picker" [class.is-seleccionado]="filaSeleccionada(j.id)"                        tabindex="0" role="button"                        (click)="abrirEditorOferta(j.id, true)"                        (keydown.enter)="abrirEditorOferta(j.id, true)"                        (keydown.space)="$event.preventDefault(); abrirEditorOferta(j.id, true)">                        <td class="admin-celda-juego">"{{ j.nombre }}"</td>                        <td class="admin-celda-autor">{{ j.autor }}</td>                        <td class="admin-celda-editorial">{{ j.marca }}</td>                        <td class="admin-celda-categoria">{{ nombreCategoria(j) }}</td>                        <td class="admin-celda-precio" [innerHTML]="precioHtml(j)"></td>                      </tr>                    }                  }                </tbody>              </table>            </div>            <div class="admin-picker-acciones">              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="cerrarPicker()">Cancelar</button>            </div>          </div>        }        @if (editorVisible()) {          <div class="admin-ofertas-editor">            <p class="panel-admin-resumen admin-ofertas-juego">Editando: <strong>{{ ofertaJuegoNombre }}</strong></p>            <form class="admin-ofertas-form" (submit)="$event.preventDefault(); guardarOferta()">              <div class="row g-3 align-items-end">                <div class="col-12 col-md-4">                  <span class="admin-ofertas-etiqueta">¿En oferta?</span>                  <div class="admin-oferta-opciones" role="group" aria-label="Estado de oferta">                    <label class="admin-oferta-opcion">                      <input type="radio" name="oferta-activa" [checked]="ofertaActivaSi" (change)="setOfertaActiva(true)">                      <span>Sí</span>                    </label>                    <label class="admin-oferta-opcion">                      <input type="radio" name="oferta-activa" [checked]="!ofertaActivaSi" (change)="setOfertaActiva(false)">                      <span>No</span>                    </label>                  </div>                </div>                <div class="col-12 col-md-4" [class.is-deshabilitado]="!ofertaActivaSi">                  <label for="oferta-porcentaje" class="admin-ofertas-etiqueta">Porcentaje de descuento</label>                  <div class="input-group admin-oferta-input-grupo">                    <input type="number" class="form-control admin-oferta-input" id="oferta-porcentaje"                      min="1" max="90" step="1" [(ngModel)]="ofertaPorcentaje" name="ofertaPorcentaje"                      [disabled]="!ofertaActivaSi" (ngModelChange)="actualizarPreviewOferta()">                    <span class="input-group-text">%</span>                  </div>                </div>                <div class="col-12 col-md-4">                  <div class="admin-ofertas-botones">                    <button type="button" class="btn btn-outline-secondary" (click)="cerrarEditor()">Cancelar</button>                    <button type="submit" class="btn btn-principal btn-pulse">Guardar oferta</button>                  </div>                </div>              </div>              <div class="admin-oferta-preview" [innerHTML]="previewHtml()" aria-live="polite"></div>              @if (mensajeExitoOferta()) {                <div class="mensaje-exito">{{ mensajeExitoOferta() }}</div>              }            </form>          </div>        }        <div class="admin-ofertas-activas">          <h4 class="admin-ofertas-lista-titulo">Juegos en oferta</h4>          <p class="panel-admin-resumen">Total: <strong>{{ totalOfertasTexto() }}</strong></p>          <div class="admin-buscador-wrap">            <span class="admin-buscador-icono" aria-hidden="true">🔍</span>            <input type="search" class="admin-buscador" placeholder="Buscar juego en oferta..."              [ngModel]="buscarOfertas" (ngModelChange)="renderizarTablaOfertas($event)" autocomplete="off">          </div>          <div class="panel-admin-tabla-wrap panel-admin-scroll-y panel-admin-scroll-y--ofertas">            <table class="table table-sm panel-admin-tabla panel-admin-tabla--ofertas">              <thead>                <tr>                  <th class="admin-col-juego">Juego</th>                  <th class="admin-col-marca">Marca</th>                  <th class="admin-col-precio">P. normal</th>                  <th class="admin-col-precio">P. oferta</th>                  <th class="admin-col-descuento">Dcto.</th>                  <th class="admin-col-editar">Editar</th>                </tr>              </thead>              <tbody>                @if (juegosOfertas().length === 0) {                  <tr><td colspan="6" class="admin-tabla-vacio">No hay juegos en oferta{{ buscarOfertas.trim() ? \' que coincidan con la búsqueda\' : \'\' }}.</td></tr>                } @else {                  @for (j of juegosOfertas(); track j.id) {                    <tr class="admin-fila-oferta" [class.is-seleccionado]="filaSeleccionada(j.id)">                      <td class="admin-celda-juego">"{{ j.nombre }}"</td>                      <td class="admin-celda-marca">{{ j.marca }}</td>                      <td class="admin-celda-precio"><span class="admin-precio-normal is-solo">{{ formatearPrecio(j.precio) }}</span></td>                      <td class="admin-celda-precio"><span class="admin-precio-oferta">{{ formatearPrecio(j.precioOferta!) }}</span></td>                      <td class="admin-celda-descuento">-{{ porcentajeOferta(j) }}%</td>                      <td class="admin-celda-editar">                        <button type="button" class="admin-oferta-btn is-si admin-oferta-btn--editar"                          [attr.aria-label]="\'Editar oferta de \' + j.nombre"                          (click)="abrirEditorOferta(j.id, false)">Editar</button>                      </td>                    </tr>                  }                }              </tbody>            </table>          </div>        </div>      </div>    </div>  </div></main></div>'
+    var COMPONENTS = [{'name': 'Admin', 'selector': 'app-admin'},{'name': 'App', 'selector': 'app-root'},{'name': 'CardCategoria', 'selector': 'app-card-categoria'},{'name': 'CardJuego', 'selector': 'app-card-juego'},{'name': 'CarritoPage', 'selector': 'app-carrito-page'},{'name': 'Catalogo', 'selector': 'app-catalogo'},{'name': 'Categoria', 'selector': 'app-categoria'},{'name': 'Categorias', 'selector': 'app-categorias'},{'name': 'Footer', 'selector': 'app-footer'},{'name': 'Home', 'selector': 'app-home'},{'name': 'JuegoNube', 'selector': 'app-juego-nube'},{'name': 'Login', 'selector': 'app-login'},{'name': 'Navbar', 'selector': 'app-navbar'},{'name': 'PagoExitoso', 'selector': 'app-pago-exitoso'},{'name': 'Perfil', 'selector': 'app-perfil'},{'name': 'Recuperar', 'selector': 'app-recuperar'},{'name': 'Registro', 'selector': 'app-registro'},{'name': 'TemplatePlaygroundComponent', 'selector': 'template-playground-root'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'Admin'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'Admin.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var updateDarkModeSwitchOffset = function () {
+                    var content = document.querySelector('.content');
+                    var scrollbarWidth = 0;
+
+                    if (content) {
+                         scrollbarWidth = Math.max(0, content.offsetWidth - content.clientWidth);
+                    }
+
+                    document.documentElement.style.setProperty(
+                         '--content-scrollbar-width',
+                         scrollbarWidth + 'px'
+                    );
+               };
+
+               updateDarkModeSwitchOffset();
+               requestAnimationFrame(updateDarkModeSwitchOffset);
+               window.addEventListener('resize', updateDarkModeSwitchOffset);
+
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

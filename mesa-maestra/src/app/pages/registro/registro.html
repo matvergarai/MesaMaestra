@@ -1,0 +1,121 @@
+<main class="container auth-main my-5">
+  <div class="encabezado-pagina anim-fade-in">
+    <h1 class="titulo-pagina">Crear cuenta</h1>
+    <p class="encabezado-subtitulo">Únete a MesaMaestra y descubre tu próximo juego favorito</p>
+  </div>
+
+  <div class="formulario-auth formulario-auth--ancho anim-fade-in" style="animation-delay: 0.1s">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
+      <section class="auth-seccion" aria-labelledby="registro-titulo-datos">
+        <h2 class="auth-seccion-titulo" id="registro-titulo-datos">Datos personales</h2>
+
+        <div class="mb-3">
+          <label for="nombreCompleto" class="form-label">Nombre completo <span class="auth-requerido">*</span></label>
+          <input type="text" class="form-control" id="nombreCompleto" formControlName="nombreCompleto"
+            autocomplete="name"
+            [class.campo-invalido]="campoInvalido('nombreCompleto')"
+            [class.campo-valido]="campoValido('nombreCompleto')">
+          @if (campoInvalido('nombreCompleto') || mensajeDuplicado('nombreCompleto')) {
+            <div class="mensaje-error visible">{{ mensajeError('nombreCompleto') || mensajeDuplicado('nombreCompleto') }}</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="usuario" class="form-label">Nombre de usuario <span class="auth-requerido">*</span></label>
+          <input type="text" class="form-control" id="usuario" formControlName="usuario"
+            autocomplete="username"
+            [class.campo-invalido]="campoInvalido('usuario') || mensajeDuplicado('usuario')"
+            [class.campo-valido]="campoValido('usuario')">
+          @if (campoInvalido('usuario') || mensajeDuplicado('usuario')) {
+            <div class="mensaje-error visible">{{ mensajeError('usuario') || mensajeDuplicado('usuario') }}</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico <span class="auth-requerido">*</span></label>
+          <input type="email" class="form-control" id="email" formControlName="email"
+            autocomplete="email"
+            [class.campo-invalido]="campoInvalido('email') || mensajeDuplicado('email')"
+            [class.campo-valido]="campoValido('email')">
+          @if (campoInvalido('email') || mensajeDuplicado('email')) {
+            <div class="mensaje-error visible">{{ mensajeError('email') || mensajeDuplicado('email') }}</div>
+          }
+        </div>
+
+        <div class="mb-0">
+          <label for="fechaNacimiento" class="form-label">Fecha de nacimiento <span class="auth-requerido">*</span></label>
+          <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento"
+            [class.campo-invalido]="campoInvalido('fechaNacimiento')"
+            [class.campo-valido]="campoValido('fechaNacimiento')">
+          @if (campoInvalido('fechaNacimiento')) {
+            <div class="mensaje-error visible">{{ mensajeError('fechaNacimiento') }}</div>
+          }
+        </div>
+      </section>
+
+      <section class="auth-seccion" aria-labelledby="registro-titulo-seguridad">
+        <h2 class="auth-seccion-titulo" id="registro-titulo-seguridad">Contraseña</h2>
+        <p class="auth-ayuda">Entre 6 y 18 caracteres, con mayúscula, minúscula, número y carácter especial.</p>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña <span class="auth-requerido">*</span></label>
+          <div class="auth-password-wrap">
+            <input [type]="mostrarPassword() ? 'text' : 'password'" class="form-control" id="password"
+              formControlName="password" autocomplete="new-password"
+              [class.campo-invalido]="campoInvalido('password')"
+              [class.campo-valido]="campoValido('password')">
+            <button type="button" class="auth-password-toggle" (click)="alternarPassword()"
+              [attr.aria-label]="mostrarPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+              {{ mostrarPassword() ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+          @if (campoInvalido('password')) {
+            <div class="mensaje-error visible">{{ mensajeError('password') }}</div>
+          }
+        </div>
+
+        <div class="mb-0">
+          <label for="confirmarPassword" class="form-label">Confirmar contraseña <span class="auth-requerido">*</span></label>
+          <div class="auth-password-wrap">
+            <input [type]="mostrarConfirmar() ? 'text' : 'password'" class="form-control" id="confirmarPassword"
+              formControlName="confirmarPassword" autocomplete="new-password"
+              [class.campo-invalido]="campoInvalido('confirmarPassword')"
+              [class.campo-valido]="campoValido('confirmarPassword')">
+            <button type="button" class="auth-password-toggle" (click)="alternarConfirmar()"
+              [attr.aria-label]="mostrarConfirmar() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+              {{ mostrarConfirmar() ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+          @if (campoInvalido('confirmarPassword')) {
+            <div class="mensaje-error visible">{{ mensajeError('confirmarPassword') }}</div>
+          }
+        </div>
+      </section>
+
+      <section class="auth-seccion" aria-labelledby="registro-titulo-despacho">
+        <h2 class="auth-seccion-titulo" id="registro-titulo-despacho">Despacho</h2>
+
+        <div class="mb-0">
+          <label for="direccion" class="form-label">Dirección <span class="auth-opcional">(opcional)</span></label>
+          <textarea class="form-control" id="direccion" formControlName="direccion" rows="2"
+            placeholder="Calle, número, comuna, región"></textarea>
+        </div>
+      </section>
+
+      @if (mensajeExito()) {
+        <div class="mensaje-exito">{{ mensajeExito() }}</div>
+      }
+
+      <div class="auth-acciones">
+        <button type="submit" class="btn btn-principal btn-pulse w-100">Crear cuenta</button>
+        <button type="button" class="btn-auth-limpiar" (click)="limpiarFormulario()">
+          Limpiar formulario
+        </button>
+      </div>
+    </form>
+
+    <nav class="auth-enlaces" aria-label="Opciones de acceso">
+      <a routerLink="/login" class="auth-enlace">¿Ya tienes cuenta? Inicia sesión</a>
+    </nav>
+  </div>
+</main>

@@ -1,0 +1,80 @@
+<main class="container catalogo-main" (click)="cerrarDropdown()">
+  <div class="catalogo-top anim-fade-in">
+    <div class="encabezado-pagina encabezado-pagina--catalogo">
+      <h1 class="titulo-pagina">Catálogo Completo</h1>
+      <p class="encabezado-subtitulo">¡Encuentra tu próximo juego favorito!</p>
+    </div>
+
+    <div class="catalogo-filtros">
+      <div class="catalogo-filtro-wrap">
+        <span class="catalogo-filtro-icono catalogo-filtro-icono--izq" aria-hidden="true">🔍</span>
+        <input type="text" class="form-control catalogo-filtro-input" placeholder="Buscar juego..."
+          [ngModel]="busqueda()" (ngModelChange)="onBusquedaInput($event)">
+        <span class="catalogo-filtro-icono catalogo-filtro-icono--der" aria-hidden="true">🔍</span>
+      </div>
+
+      <div class="catalogo-filtro-wrap">
+        <span class="catalogo-filtro-icono catalogo-filtro-icono--izq" aria-hidden="true">🎲</span>
+        <div class="catalogo-dropdown" [class.is-abierto]="dropdownAbierto()" (click)="$event.stopPropagation()">
+          <button type="button" class="catalogo-filtro-input catalogo-dropdown-btn"
+            [attr.aria-expanded]="dropdownAbierto()" aria-haspopup="listbox"
+            (click)="toggleDropdown($event)">
+            <span>{{ categoriaTexto() }}</span>
+          </button>
+          <div class="catalogo-dropdown-panel" [attr.aria-hidden]="!dropdownAbierto()">
+            <div class="catalogo-dropdown-lista-wrap">
+              <ul class="catalogo-dropdown-lista" role="listbox">
+                @for (op of opcionesCategoria; track op.value) {
+                  <li class="catalogo-dropdown-opcion"
+                    [class.is-selected]="categoriaFiltro() === op.value"
+                    role="option"
+                    (click)="seleccionarCategoria(op.value, op.label)">
+                    {{ op.label }}
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+        <span class="catalogo-filtro-icono catalogo-filtro-icono--der" aria-hidden="true">🎲</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="catalogo-juegos-area">
+    <div class="catalogo-juegos-scroll" #scrollJuegos (scroll)="actualizarControlesScroll()">
+      <div class="row" id="catalogo-juegos">
+        @if (juegosFiltrados().length === 0) {
+          <div class="col-12 catalogo-vacio-wrap">
+            <div class="catalogo-vacio texto-sobre-fondo">
+              <p class="catalogo-vacio-titulo">
+                <span class="catalogo-vacio-emoji" aria-hidden="true">😔</span>
+                Lamentablemente no tenemos el juego que estás buscando en estos momentos.
+              </p>
+              <p class="catalogo-vacio-texto">No dudes en contactarnos para ayudarte a conseguirlo de ser posible o a recomendarte algo parecido a lo que buscas.</p>
+              <a href="mailto:contacto@mesamaestra.cl" class="catalogo-vacio-contacto">contacto@mesamaestra.cl</a>
+              <div class="catalogo-vacio-firma">
+                <span class="catalogo-vacio-atte">Atte.</span>
+                <img src="img/logo.svg" alt="MesaMaestra" class="catalogo-vacio-logo">
+              </div>
+            </div>
+          </div>
+        } @else {
+          @for (juego of juegosFiltrados(); track juego.id; let i = $index) {
+            <app-card-juego [juego]="juego" [indice]="i" [animar]="animarCards" [eagerImage]="true" />
+          }
+        }
+      </div>
+    </div>
+    <div class="catalogo-scroll-controles" [class.is-oculto]="controlesOcultos()">
+      <button type="button" class="catalogo-scroll-btn" [disabled]="scrollArribaDisabled()"
+        (click)="desplazarJuegos(-1)" aria-label="Ver juegos anteriores" title="Subir">
+        <span aria-hidden="true">▲</span>
+      </button>
+      <button type="button" class="catalogo-scroll-btn" [disabled]="scrollAbajoDisabled()"
+        (click)="desplazarJuegos(1)" aria-label="Ver más juegos" title="Bajar">
+        <span aria-hidden="true">▼</span>
+      </button>
+    </div>
+  </div>
+</main>

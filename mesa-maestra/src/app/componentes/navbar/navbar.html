@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark navbar-mesamaestra">
+  <div class="container navbar-contenedor">
+    <a class="navbar-brand" routerLink="/">
+      <img src="img/logo.svg" alt="MesaMaestra" class="logo-img"
+        onerror="this.outerHTML='🎲 <span class=\'fw-bold\'>MesaMaestra</span>'">
+    </a>
+
+    <div class="navbar-panel">
+      <a class="navbar-carrito-btn" routerLink="/carrito"
+        [attr.aria-label]="'Ir al carrito' + (totalCarrito() > 0 ? ' (' + totalCarrito() + ' productos)' : '')"
+        title="Carrito">
+        <span class="navbar-carrito-icono" aria-hidden="true">🛒</span>
+        <span class="navbar-carrito-badge" *ngIf="badgeCarrito()">{{ badgeCarrito() }}</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-lg-auto">
+        <li class="nav-item" *ngIf="sesion()">
+          <span class="nav-link nav-saludo">Hola, {{ primerNombre() }}</span>
+        </li>
+        <li class="nav-item"><a class="nav-link" routerLink="/">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/categorias">Categorías</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/catalogo">Catálogo</a></li>
+        <ng-container *ngIf="sesion(); else sinSesion">
+          <li class="nav-item"><a class="nav-link" routerLink="/perfil">Mi Perfil</a></li>
+          <li class="nav-item" *ngIf="sesion()?.rol === 'admin'">
+            <a class="nav-link" routerLink="/admin">Panel Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" (click)="cerrarSesion($event)">Cerrar sesión</a>
+          </li>
+        </ng-container>
+        <ng-template #sinSesion>
+          <li class="nav-item"><a class="nav-link" routerLink="/login">Iniciar sesión</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/registro">Registrarse</a></li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>

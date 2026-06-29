@@ -1,0 +1,33 @@
+<section class="hero-section text-center">
+  <div class="container">
+    <h1 class="display-4 hero-titulo">Bienvenido a <span class="hero-marca">MesaMaestra</span></h1>
+    <p class="lead hero-subtitulo">Tu tienda especializada en juegos de mesa para todos los gustos</p>
+    <a routerLink="/catalogo" class="btn btn-secundario btn-lg btn-pulse hero-btn">Ver catálogo</a>
+  </div>
+</section>
+
+<section class="container home-seccion">
+  <div class="encabezado-seccion anim-fade-in">
+    <h2 class="titulo-seccion">Nuestras Categorías</h2>
+    <p class="encabezado-subtitulo">Elige el estilo de juego que más te guste explorando nuestras categorías</p>
+  </div>
+  <div class="row g-4">
+    <div class="col-6 col-md-3" *ngFor="let cat of categorias; let i = index">
+      <app-card-categoria [categoria]="cat" [indice]="i" />
+    </div>
+  </div>
+</section>
+
+<section class="container home-seccion">
+  <div class="encabezado-seccion anim-fade-in">
+    <h2 class="titulo-seccion">Nuestros Destacados</h2>
+    <p class="encabezado-subtitulo">¡Los favoritos de la tienda con precios especiales!</p>
+  </div>
+  <div class="row" id="destacados-home">
+    <app-card-juego
+      *ngFor="let juego of destacados; let i = index"
+      [juego]="juego"
+      [indice]="i"
+      (juegoAgregado)="onJuegoAgregado($event)" />
+  </div>
+</section>
