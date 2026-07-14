@@ -4,7 +4,9 @@
   <img src="public/img/logo.svg" alt="Logo MesaMaestra" width="120">
 </p>
 
-> SPA de tienda ficticia de juegos de mesa. Angular 22, Bootstrap 5, formularios reactivos, servicios, guards, Compodoc y pruebas unitarias.
+> SPA de tienda ficticia de juegos de mesa. Angular 22, Bootstrap 5, json-server, HttpClient, Docker Compose, formularios reactivos y pruebas unitarias.
+
+Documentación del sistema: [`documentacion/SISTEMA.md`](documentacion/SISTEMA.md)
 
 ## Índice
 
@@ -12,12 +14,13 @@
 - [Instalación](#instalación)
 - [Scripts](#scripts)
 - [Rutas y guards](#rutas-y-guards)
+- [Consumo JSON y API](#consumo-json-y-api)
+- [Docker](#docker)
 - [Cuentas de prueba](#cuentas-de-prueba)
 - [Arquitectura](#arquitectura)
 - [Servicios](#servicios)
 - [Componentes compartidos](#componentes-compartidos)
 - [Formularios reactivos](#formularios-reactivos)
-- [Directivas y comunicación entre componentes](#directivas-y-comunicación-entre-componentes)
 - [Documentación Compodoc](#documentación-compodoc)
 - [Pruebas unitarias](#pruebas-unitarias)
 - [Build de producción](#build-de-producción)
@@ -27,31 +30,54 @@
 
 | Herramienta | Versión mínima |
 |-------------|----------------|
-| Node.js | v20 LTS |
+| Node.js | v20 LTS (v22 recomendado para Docker) |
 | npm | v10+ |
+| Docker Desktop | Opcional (para Compose) |
 
-Este proyecto usa **Angular 22**, **TypeScript 6** y **Vitest** para pruebas.
+Stack: **Angular 22**, **TypeScript 6**, **json-server**, **Vitest**.
 
 ## Instalación
 
 ```bash
 cd mesa-maestra
 npm install
+```
+
+### Desarrollo con API
+
+Terminal 1 — json-server:
+
+```bash
+npm run api
+```
+
+Terminal 2 — Angular:
+
+```bash
 npm start
 ```
 
-Abrir: **http://localhost:4200/**
+- App: http://localhost:4200  
+- API: http://localhost:3000/juegos
+
+> No ejecutar `npm run api` y `docker compose` al mismo tiempo: ambos usan el puerto 3000.
 
 ## Scripts
 
 | Comando | Descripción |
 |---------|-------------|
-| `npm start` | Servidor de desarrollo (`ng serve`) |
+| `npm start` | Servidor de desarrollo (`ng serve`, :4200) |
+| `npm run api` | json-server con `db.json` (:3000) |
 | `npm run build` | Compilar para producción en `dist/` |
-| `npm test` | Ejecutar pruebas unitarias (Vitest, modo watch) |
-| `ng test --no-watch` | Ejecutar pruebas una sola vez |
-| `npm run doc` | Generar documentación Compodoc |
-| `npm run doc:serve` | Compodoc con servidor en http://127.0.0.1:8080 |
+| `npm run docker:up` | Docker Compose: web (:8080) + api (:3000) |
+| `npm run docker:down` | Detener contenedores |
+| `npm run docker:build` | Imagen solo frontend |
+| `npm run docker:run` | Contenedor frontend (:8080) |
+| `npm test` | Pruebas unitarias (Vitest, modo watch) |
+| `ng test --no-watch` | Pruebas una sola vez |
+| `npm run doc` | Generar Compodoc |
+| `npm run doc:serve` | Compodoc en http://127.0.0.1:8080 |
+| `npm run firebase:seed` | Generar seed Firebase (opcional) |
 
 ## Rutas y guards
 
@@ -70,7 +96,57 @@ Definidas en `src/app/app.routes.ts`:
 | `/carrito` | CarritoPage | — |
 | `/pago-exitoso` | PagoExitoso | — |
 | `/admin` | Admin | `adminGuard` |
+| `/juegos-storage` | JuegosStorage | — |
+| `/juegos-json-server` | JuegosJsonServer | — |
 | `**` | — | Redirige a `/` |
+
+## Consumo JSON y API
+
+### json-server (`JuegosApi`)
+
+Backend REST local con `db.json`. Usado por catálogo, admin y `/juegos-json-server`.
+
+| Método servicio | HTTP | Endpoint |
+|-----------------|------|----------|
+| `obtenerJuegos()` | GET | `/juegos` |
+| `obtenerJuegoPorId(id)` | GET | `/juegos/:id` |
+| `crearJuego(juego)` | POST | `/juegos` |
+| `actualizarJuego(juego)` | PUT | `/juegos/:id` |
+| `eliminarJuego(id)` | DELETE | `/juegos/:id` |
+
+Configuración en `src/environments/environment.ts`:
+
+```typescript
+jsonServerUrl: 'http://localhost:3000'
+```
+
+### JSON estático + localStorage (`JuegosGithub`)
+
+Ruta `/juegos-storage`:
+
+- **GET** desde `public/data/juegos.json` (o URL de GitHub Pages).
+- **POST / PUT / DELETE** simulados en localStorage (`mesamaestra_juegos_github`).
+
+### Catálogo y admin (`Productos`)
+
+- Carga juegos y categorías desde `JuegosApi` (json-server).
+- Ofertas del panel admin en localStorage (`mesamaestra_ofertas`).
+- CRUD de inventario en `/admin` persiste en `db.json`.
+
+## Docker
+
+```bash
+npm run docker:up
+```
+
+| Servicio | URL |
+|----------|-----|
+| Angular + Nginx | http://localhost:8080 |
+| json-server | http://localhost:3000/juegos |
+
+Archivos: `Dockerfile`, `Dockerfile.api`, `docker-compose.yml`, `nginx.conf`.
+
+Imagen publicada (opcional): `matvergarai/mesa-maestra:latest`
 
 ## Cuentas de prueba
 
@@ -84,58 +160,67 @@ Los usuarios registrados desde `/registro` se guardan en `localStorage` con rol 
 ## Arquitectura
 
 ```
-src/app/
-├── app.ts / app.html / app.routes.ts   # Shell y routing
-├── componentes/
-│   ├── navbar/                         # Navegación y sesión
-│   ├── footer/                         # Pie de página
-│   ├── card-juego/                     # Tarjeta de producto
-│   ├── card-categoria/                 # Tarjeta de categoría
-│   └── juego-nube/                     # Tooltip flotante de info
-├── servicios/
-│   ├── auth.ts                         # Login, registro, sesión
-│   ├── carrito.ts                      # Carrito por usuario
-│   ├── productos.ts                    # Catálogo, ofertas, filtros
-│   └── juego-nube.ts                   # Estado de la nube informativa
-├── guards/
-│   ├── auth-guard.ts                   # Protege /perfil
-│   └── admin-guard.ts                  # Protege /admin
-├── pages/                              # Vistas por ruta
-├── models/                             # Juego, Categoria, Usuario, ItemCarrito
-├── datos/productos.data.ts             # 12 juegos y 4 categorías
-└── utilidades/validadores.ts           # Validadores de formularios
+mesa-maestra/
+├── db.json                              # Datos REST
+├── docker-compose.yml
+├── public/data/juegos.json              # JSON estático
+├── src/app/
+│   ├── app.config.ts                    # provideHttpClient()
+│   ├── servicios/
+│   │   ├── auth.ts                      # Sesión y usuarios
+│   │   ├── carrito.ts                   # Carrito por usuario
+│   │   ├── productos.ts                 # Catálogo + ofertas (→ JuegosApi)
+│   │   ├── juegos-api.ts                # CRUD REST json-server
+│   │   └── juegos-github.ts             # CRUD simulado localStorage
+│   ├── pages/
+│   │   ├── juegos-storage/              # JSON + localStorage
+│   │   ├── juegos-json-server/          # CRUD REST
+│   │   ├── admin/                       # Panel admin + CRUD inventario
+│   │   └── ...
+│   ├── guards/                          # auth-guard, admin-guard
+│   ├── models/
+│   └── utilidades/validadores.ts
+└── src/environments/
+    ├── environment.ts
+    └── environment.prod.ts
 ```
 
-Estilos globales en `src/styles/` (CSS migrado del proyecto original). Imágenes en `public/img/`.
+Estilos en `src/styles/`. Imágenes en `public/img/`.
 
 ## Servicios
 
 ### `Auth`
-- Inicio y cierre de sesión
-- Registro de usuarios
+- Login, registro y cierre de sesión
 - Persistencia en `localStorage` (`mm_usuarios`, `mm_sesion`)
-- Usuarios demo precargados (`admin`, `cliente`)
+- Cuentas demo: `admin`, `cliente`
 
 ### `Carrito`
 - Carrito separado para invitado y usuarios autenticados
 - Fusión del carrito de invitado al iniciar sesión
-- Agregar, quitar y modificar cantidades
 
 ### `Productos`
-- Catálogo estático con categorías y ofertas
+- Catálogo y categorías desde json-server vía `JuegosApi`
 - Filtros, búsqueda y formateo de precios
-- Gestión de descuentos desde el panel admin
+- Ofertas configuradas en localStorage desde el panel admin
+
+### `JuegosApi`
+- CRUD HTTP contra json-server
+- Usado por catálogo, admin e inventario
+
+### `JuegosGithub`
+- Lectura desde JSON estático remoto
+- CRUD simulado en localStorage
 
 ### `JuegoNubeService`
-- Controla el panel flotante de descripción/recomendación en las tarjetas de juego
+- Panel flotante de descripción en las tarjetas de juego
 
 ## Componentes compartidos
 
 | Componente | Selector | Descripción |
 |------------|----------|-------------|
-| CardJuego | `app-card-juego` | Tarjeta de juego con `@Input` (juego, índice) y `@Output` (juegoAgregado) |
+| CardJuego | `app-card-juego` | Tarjeta de juego con `@Input` y `@Output` |
 | CardCategoria | `app-card-categoria` | Enlace visual a cada categoría |
-| Navbar | `app-navbar` | Menú, carrito y estado de sesión |
+| Navbar | `app-navbar` | Menú, carrito, sesión y rutas CRUD |
 | Footer | `app-footer` | Contacto y horario |
 | JuegoNube | `app-juego-nube` | Nube informativa global |
 
@@ -144,53 +229,31 @@ Estilos globales en `src/styles/` (CSS migrado del proyecto original). Imágenes
 | Página | Archivo | Validaciones destacadas |
 |--------|---------|---------------------------|
 | Login | `pages/login/login.ts` | Usuario y contraseña requeridos |
-| Registro | `pages/registro/registro.ts` | RUT, email, contraseña (5 reglas), confirmación |
+| Registro | `pages/registro/registro.ts` | RUT, email, contraseña (5 reglas) |
 | Recuperar | `pages/recuperar/recuperar.ts` | Email registrado |
-| Perfil | `pages/perfil/perfil.ts` | Edición de datos del usuario logueado |
+| Perfil | `pages/perfil/perfil.ts` | Edición de datos del usuario |
 
-Validadores personalizados en `utilidades/validadores.ts` (equivalente a `validaciones.js` del proyecto original).
-
-## Directivas y comunicación entre componentes
-
-Ejemplos implementados en el proyecto:
-
-- **`*ngFor`:** listado de categorías y destacados en `home.html`
-- **`*ngIf`:** mensajes condicionales en `login.html` y `navbar.html`
-- **`[(ngModel)]`:** búsqueda en catálogo/admin, checkbox "recordar usuario" en login
-- **`@Input`:** datos en `card-juego` y `card-categoria`
-- **`@Output`:** evento `juegoAgregado` en `card-juego`
+Validadores en `utilidades/validadores.ts`.
 
 ## Documentación Compodoc
 
-Generar documentación del frontend:
-
 ```bash
 npm run doc
-```
-
-Ver en el navegador:
-
-```bash
 npm run doc:serve
 ```
 
-Salida en `documentation/` (componentes, servicios, interfaces, rutas).
+Salida en `documentation/`.
 
 ## Pruebas unitarias
 
-Archivos de prueba:
-
 | Archivo | Qué prueba |
 |---------|------------|
-| `app.spec.ts` | Creación del componente raíz y render del hero en home |
-| `pages/login/login.spec.ts` | Formulario inválido vacío y login con credenciales válidas |
-| `pages/registro/registro.spec.ts` | Creación del componente y validaciones del formulario |
-
-Ejecutar:
+| `app.spec.ts` | Componente raíz y hero en home |
+| `pages/login/login.spec.ts` | Formulario y login válido |
+| `pages/registro/registro.spec.ts` | Validaciones de registro |
 
 ```bash
 npm test
-# o una sola ejecución:
 ng test --no-watch
 ```
 
@@ -200,7 +263,7 @@ ng test --no-watch
 npm run build
 ```
 
-Los archivos compilados quedan en `dist/mesa-maestra/`. Para servirlos localmente:
+Salida en `dist/mesa-maestra/`. Servir localmente:
 
 ```bash
 npx serve dist/mesa-maestra/browser
@@ -208,7 +271,6 @@ npx serve dist/mesa-maestra/browser
 
 ## Autor
 
-**matvergarai**  
-Duoc UC — Desarrollo Full Stack 2 — 2026
+**matvergarai**
 
 Repositorio: [github.com/matvergarai/MesaMaestra](https://github.com/matvergarai/MesaMaestra)
