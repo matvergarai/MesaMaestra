@@ -4,10 +4,16 @@
     <p class="encabezado-subtitulo">Elige el estilo de juego que más te guste explorando nuestras categorías</p>
   </div>
   <div class="row g-4">
-    @for (cat of categorias; track cat.id; let i = $index) {
-      <div class="col-6 col-md-3">
-        <app-card-categoria [categoria]="cat" [indice]="i" [extraHtml]="badgeHtml(cat.id)" />
-      </div>
+    @if (cargando()) {
+      <div class="col-12 text-center text-muted py-4">Cargando categorías…</div>
+    } @else if (error()) {
+      <div class="col-12 text-center text-danger py-4">{{ error() }}</div>
+    } @else {
+      @for (cat of categorias(); track cat.id; let i = $index) {
+        <div class="col-6 col-md-3">
+          <app-card-categoria [categoria]="cat" [indice]="i" [extraHtml]="badgeHtml(cat.id)" />
+        </div>
+      }
     }
   </div>
 </main>

@@ -29,10 +29,8 @@ export class Catalogo implements OnInit, OnDestroy {
   controlesOcultos = signal(true);
 
   categorias = this.productos.obtenerCategorias();
-
-  opcionesCategoria = [
+  opcionesCategoria: { value: string; label: string }[] = [
     { value: '', label: 'Todas las categorías' },
-    ...this.categorias.map((c) => ({ value: c.id, label: c.icono + ' ' + c.nombre })),
   ];
 
   /** Retraso de 200 ms antes de filtrar al escribir en el buscador. */
@@ -40,7 +38,17 @@ export class Catalogo implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     document.body.classList.add('pagina-catalogo');
-    this.renderizar(true);
+    this.productos.cargarCatalogo().subscribe({
+      next: () => {
+        this.categorias = this.productos.obtenerCategorias();
+        this.opcionesCategoria = [
+          { value: '', label: 'Todas las categorías' },
+          ...this.categorias.map((c) => ({ value: c.id, label: c.icono + ' ' + c.nombre })),
+        ];
+        this.renderizar(true);
+      },
+      error: () => this.renderizar(true),
+    });
   }
 
   ngOnDestroy(): void {

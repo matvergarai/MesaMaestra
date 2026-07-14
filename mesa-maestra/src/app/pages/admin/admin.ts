@@ -33,6 +33,13 @@ export class Admin implements OnInit {
   inventarioResaltado = signal(false);
   mensajeExitoOferta = signal('');
 
+  juegoFormVisible = signal(false);
+  juegoFormModo: 'crear' | 'editar' = 'crear';
+  juegoForm: Juego = this.nuevoJuegoPlantilla();
+  mensajeCrud = signal('');
+  errorCrud = signal('');
+  guardandoCrud = signal(false);
+
   juegoOfertaSeleccionado: number | null = null;
   ofertaJuegoNombre = '';
   ofertaActivaSi = true;
@@ -50,8 +57,134 @@ export class Admin implements OnInit {
 
   ngOnInit(): void {
     this.usuarios = this.auth.obtenerUsuarios();
-    this.renderizarInventario('');
-    this.renderizarTablaOfertas('');
+    this.productos.cargarCatalogo().subscribe({
+      next: () => {
+        this.renderizarInventario('');
+        this.renderizarTablaOfertas('');
+      },
+      error: () => {
+        this.errorCrud.set('No se pudo cargar el inventario desde json-server.');
+      },
+    });
+  }
+
+  categoriasDisponibles() {
+    return this.productos.obtenerCategorias();
+  }
+
+  private nuevoJuegoPlantilla(): Juego {
+    return {
+      id: this.productos.obtenerProximoId(),
+      nombre: 'Nuevo juego',
+      autor: 'Autor demo',
+      anio: 2024,
+      marca: 'Editorial demo',
+      categoria: 'familiar',
+      descripcion: 'Descripción del juego de mesa.',
+      recomendacion: 'Ideal para partidas en familia.',
+      precio: 19990,
+      descuento: false,
+      imagen: 'img/juegos/dobble.webp',
+      jugadoresMin: 2,
+      jugadoresMax: 4,
+      edadMin: 8,
+      duracion: '30 min',
+      stock: 10,
+    };
+  }
+
+  abrirFormularioCrear(): void {
+    this.cerrarEditor();
+    this.juegoFormModo = 'crear';
+    this.juegoForm = this.nuevoJuegoPlantilla();
+    this.juegoForm.id = this.productos.obtenerProximoId();
+    this.mensajeCrud.set('');
+    this.errorCrud.set('');
+    this.juegoFormVisible.set(true);
+  }
+
+  abrirFormularioEditar(juego: Juego): void {
+    this.cerrarEditor();
+    this.juegoFormModo = 'editar';
+    this.juegoForm = { ...this.productos.juegosBase.find((j) => j.id === juego.id) ?? juego };
+    this.mensajeCrud.set('');
+    this.errorCrud.set('');
+    this.juegoFormVisible.set(true);
+  }
+
+  cerrarFormularioJuego(): void {
+    this.juegoFormVisible.set(false);
+    this.mensajeCrud.set('');
+    this.errorCrud.set('');
+  }
+
+  guardarFormularioJuego(): void {
+    const juego = { ...this.juegoForm };
+    if (!juego.nombre.trim()) {
+      this.errorCrud.set('El nombre del juego es obligatorio.');
+      return;
+    }
+
+    this.guardandoCrud.set(true);
+    this.errorCrud.set('');
+
+    if (this.juegoFormModo === 'crear') {
+      this.productos.existeJuego(juego.id).subscribe({
+        next: (existe) => {
+          if (existe) {
+            this.errorCrud.set('Ya existe un juego con el id ' + juego.id + '.');
+            this.guardandoCrud.set(false);
+            return;
+          }
+          this.productos.crearJuego(juego).subscribe({
+            next: () => {
+              this.mensajeCrud.set('Juego creado correctamente (POST).');
+              this.guardandoCrud.set(false);
+              this.renderizarInventario(this.buscarInventario);
+              this.renderizarTablaOfertas();
+            },
+            error: () => {
+              this.errorCrud.set('Error al crear el juego en json-server.');
+              this.guardandoCrud.set(false);
+            },
+          });
+        },
+        error: () => {
+          this.errorCrud.set('No se pudo validar el id del juego.');
+          this.guardandoCrud.set(false);
+        },
+      });
+      return;
+    }
+
+    this.productos.actualizarJuego(juego).subscribe({
+      next: () => {
+        this.mensajeCrud.set('Juego actualizado correctamente (PUT).');
+        this.guardandoCrud.set(false);
+        this.renderizarInventario(this.buscarInventario);
+        this.renderizarTablaOfertas();
+      },
+      error: () => {
+        this.errorCrud.set('Error al actualizar el juego en json-server.');
+        this.guardandoCrud.set(false);
+      },
+    });
+  }
+
+  eliminarJuego(juego: Juego): void {
+    const confirmar = confirm('¿Eliminar "' + juego.nombre + '" del inventario?');
+    if (!confirmar) return;
+
+    this.productos.eliminarJuego(juego.id).subscribe({
+      next: () => {
+        this.mensajeCrud.set('Juego eliminado correctamente (DELETE).');
+        this.renderizarInventario(this.buscarInventario);
+        this.renderizarTablaOfertas();
+      },
+      error: () => {
+        this.errorCrud.set('Error al eliminar el juego en json-server.');
+      },
+    });
   }
 
   formatearPrecio(precio: number): string {

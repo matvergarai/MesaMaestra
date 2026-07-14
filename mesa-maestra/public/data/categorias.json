@@ -1,0 +1,34 @@
+[
+  {
+    "id": "estrategia",
+    "nombre": "Estrategia",
+    "icono": "♟️",
+    "descripcion": "Juegos de planificación y táctica para mentes analíticas.",
+    "imagen": "img/categorias/estrategia.webp",
+    "imagenRespaldo": "img/categorias/estrategia.webp"
+  },
+  {
+    "id": "familiar",
+    "nombre": "Familiar",
+    "icono": "👨‍👩‍👧‍👦",
+    "descripcion": "Diversión para toda la familia, fáciles de aprender.",
+    "imagen": "img/categorias/familiar.webp",
+    "imagenRespaldo": "img/categorias/familiar.webp"
+  },
+  {
+    "id": "party",
+    "nombre": "Party",
+    "icono": "🎉",
+    "descripcion": "Ideales para reuniones y grupos numerosos.",
+    "imagen": "img/categorias/party.webp",
+    "imagenRespaldo": "img/categorias/party.webp"
+  },
+  {
+    "id": "rol",
+    "nombre": "Rol",
+    "icono": "🐉",
+    "descripcion": "Aventuras épicas y narrativas inmersivas.",
+    "imagen": "img/categorias/rol.webp",
+    "imagenRespaldo": "img/categorias/rol.webp"
+  }
+]

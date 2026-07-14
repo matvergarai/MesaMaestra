@@ -1,0 +1,103 @@
+<main class="container my-5 crud-page">
+  <div class="encabezado-pagina anim-fade-in">
+    <h1 class="titulo-pagina">Juegos — json-server + db.json</h1>
+    <p class="encabezado-subtitulo">
+      API REST real: <strong>GET · POST · PUT · DELETE</strong> → <code>db.json</code>
+    </p>
+  </div>
+
+  <div class="alert alert-success">
+    Endpoint base: <code>http://localhost:3000/juegos</code>
+  </div>
+
+  @if (mensaje()) {
+    <div class="alert alert-success">{{ mensaje() }}</div>
+  }
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  <div class="mb-3">
+    <button type="button" class="btn btn-principal btn-sm" (click)="abrirCrear()">Agregar juego</button>
+  </div>
+
+  @if (formVisible()) {
+    <div class="card mb-4 crud-form-card">
+      <div class="card-body">
+        <h5 class="card-title">{{ formModo === 'crear' ? 'Nuevo juego (POST)' : 'Editar juego (PUT)' }}</h5>
+        <form class="row g-2" (submit)="$event.preventDefault(); guardar()">
+          <div class="col-6 col-md-2">
+            <label class="form-label">ID</label>
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="juegoForm.id" name="id"
+              [readonly]="formModo === 'editar'" required>
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="juegoForm.nombre" name="nombre" required>
+          </div>
+          <div class="col-6 col-md-3">
+            <label class="form-label">Autor</label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="juegoForm.autor" name="autor">
+          </div>
+          <div class="col-6 col-md-3">
+            <label class="form-label">Precio</label>
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="juegoForm.precio" name="precio" min="0">
+          </div>
+          <div class="col-6 col-md-3">
+            <label class="form-label">Stock</label>
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="juegoForm.stock" name="stock" min="0">
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label">Categoría</label>
+            <select class="form-select form-select-sm" [(ngModel)]="juegoForm.categoria" name="categoria">
+              <option value="estrategia">Estrategia</option>
+              <option value="familiar">Familiar</option>
+              <option value="party">Party</option>
+              <option value="rol">Rol</option>
+            </select>
+          </div>
+          <div class="col-12 d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="cerrarForm()">Cancelar</button>
+            <button type="submit" class="btn btn-principal btn-sm" [disabled]="guardando()">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  @if (cargando()) {
+    <p class="text-muted">Cargando juegos desde json-server…</p>
+  } @else {
+    <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Autor</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (j of juegos(); track j.id) {
+            <tr>
+              <td>{{ j.id }}</td>
+              <td>{{ j.nombre }}</td>
+              <td>{{ j.autor }}</td>
+              <td>{{ j.categoria }}</td>
+              <td>{{ formatearPrecio(j.precio) }}</td>
+              <td>{{ j.stock ?? '—' }}</td>
+              <td>
+                <button type="button" class="btn btn-outline-primary btn-sm me-1" (click)="abrirEditar(j)">Editar</button>
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="eliminar(j)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</main>

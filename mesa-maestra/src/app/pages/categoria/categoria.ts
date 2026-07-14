@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CardJuego } from '../../componentes/card-juego/card-juego';
 import { Categoria as CategoriaModel } from '../../models/categoria.model';
@@ -16,16 +16,26 @@ export class Categoria implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private productos = inject(Productos);
 
-  categoria: CategoriaModel | null = null;
-  juegos: Juego[] = [];
+  categoria = signal<CategoriaModel | null>(null);
+  juegos = signal<Juego[]>([]);
+  cargando = signal(true);
 
   ngOnInit(): void {
     document.body.classList.add('pagina-listado');
     const catId = this.route.snapshot.paramMap.get('id') ?? '';
-    this.categoria = this.productos.obtenerCategoria(catId) ?? null;
-    if (this.categoria) {
-      this.juegos = this.productos.obtenerJuegosPorCategoria(catId);
-    }
+
+    this.productos.cargarCatalogo().subscribe({
+      next: () => {
+        this.categoria.set(this.productos.obtenerCategoria(catId) ?? null);
+        if (this.categoria()) {
+          this.juegos.set(this.productos.obtenerJuegosPorCategoria(catId));
+        }
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.cargando.set(false);
+      },
+    });
   }
 
   ngOnDestroy(): void {

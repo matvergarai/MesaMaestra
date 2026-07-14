@@ -3,21 +3,23 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/">Inicio</a></li>
       <li class="breadcrumb-item"><a routerLink="/categorias">Categorías</a></li>
-      <li class="breadcrumb-item active">{{ categoria?.nombre ?? 'Categoría' }}</li>
+      <li class="breadcrumb-item active">{{ categoria()?.nombre ?? 'Categoría' }}</li>
     </ol>
   </nav>
 
-  @if (!categoria) {
+  @if (cargando()) {
+    <p class="text-center text-muted py-4">Cargando juegos…</p>
+  } @else if (!categoria()) {
     <div class="encabezado-pagina anim-fade-in">
       <h1 class="titulo-pagina">Categoría no encontrada</h1>
     </div>
   } @else {
     <div class="encabezado-pagina anim-fade-in">
-      <h1 class="titulo-pagina">{{ categoria.icono }} {{ categoria.nombre }}</h1>
-      <p class="encabezado-subtitulo">{{ categoria.descripcion }}</p>
+      <h1 class="titulo-pagina">{{ categoria()!.icono }} {{ categoria()!.nombre }}</h1>
+      <p class="encabezado-subtitulo">{{ categoria()!.descripcion }}</p>
     </div>
     <div class="row" id="juegos-categoria">
-      @for (juego of juegos; track juego.id; let i = $index) {
+      @for (juego of juegos(); track juego.id; let i = $index) {
         <app-card-juego [juego]="juego" [indice]="i" />
       }
     </div>

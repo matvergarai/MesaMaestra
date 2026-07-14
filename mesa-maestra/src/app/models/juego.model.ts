@@ -1,5 +1,6 @@
 /** Modelo de un juego de mesa en el catálogo. */
-export interface Juego {  id: number;
+export interface Juego {
+  id: number;
   nombre: string;
   autor: string;
   anio: number;
@@ -16,4 +17,5 @@ export interface Juego {  id: number;
   jugadoresMax: number;
   edadMin: number;
   duracion: string;
+  stock?: number;
 }

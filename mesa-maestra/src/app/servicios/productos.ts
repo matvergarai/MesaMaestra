@@ -1,7 +1,8 @@
-import { Service } from '@angular/core';
+import { inject, Service, signal, computed } from '@angular/core';
+import { forkJoin, map, Observable, tap } from 'rxjs';
 import { Categoria } from '../models/categoria.model';
 import { Juego } from '../models/juego.model';
-import { CATEGORIAS, JUEGOS } from '../datos/productos.data';
+import { JuegosApi } from './juegos-api';
 
 const CLAVE_OFERTAS_ADMIN = 'mesamaestra_ofertas';
 
@@ -13,18 +14,88 @@ export interface ConfigOferta {
 
 /**
  * Servicio del catálogo de juegos y categorías.
- * Combina datos estáticos con ofertas configuradas desde el panel de administración.
+ * Carga datos desde json-server y combina ofertas configuradas en el panel admin.
  */
 @Service()
 export class Productos {
-  readonly juegosBase = JUEGOS;
+  private api = inject(JuegosApi);
+
+  private _juegosRaw = signal<Juego[]>([]);
+  private _categorias = signal<Categoria[]>([]);
+  private _cargando = signal(false);
+  private _error = signal<string | null>(null);
+
+  readonly cargando = this._cargando.asReadonly();
+  readonly error = this._error.asReadonly();
+  readonly categorias = this._categorias.asReadonly();
+  readonly juegos = computed(() => this._juegosRaw().map((j) => this.resolverOfertaJuego(j)));
+
+  /** Juegos base tal como vienen de json-server (sin recalcular ofertas locales). */
+  get juegosBase(): Juego[] {
+    return this._juegosRaw();
+  }
+
+  /** Carga juegos y categorías desde json-server (GET). */
+  cargarCatalogo(): Observable<void> {
+    this._cargando.set(true);
+    this._error.set(null);
+
+    return forkJoin({
+      juegos: this.api.obtenerJuegos(),
+      categorias: this.api.obtenerCategorias(),
+    }).pipe(
+      tap({
+        next: ({ juegos, categorias }) => {
+          this._juegosRaw.set(juegos);
+          this._categorias.set(categorias);
+          this._cargando.set(false);
+        },
+        error: () => {
+          this._error.set('No se pudo cargar el catálogo desde la API REST.');
+          this._cargando.set(false);
+        },
+      }),
+      map(() => void 0),
+    );
+  }
+
+  /** Recarga el catálogo tras crear, editar o eliminar un juego. */
+  recargarCatalogo(): Observable<void> {
+    return this.cargarCatalogo();
+  }
+
+  crearJuego(juego: Juego): Observable<Juego> {
+    return this.api.crearJuego(juego).pipe(tap(() => this._juegosRaw.update((lista) => [...lista, juego])));
+  }
+
+  actualizarJuego(juego: Juego): Observable<Juego> {
+    return this.api.actualizarJuego(juego).pipe(
+      tap(() =>
+        this._juegosRaw.update((lista) => lista.map((j) => (j.id === juego.id ? { ...juego } : j))),
+      ),
+    );
+  }
+
+  eliminarJuego(id: number): Observable<void> {
+    return this.api.eliminarJuego(id).pipe(
+      tap(() => this._juegosRaw.update((lista) => lista.filter((j) => j.id !== id))),
+    );
+  }
+
+  existeJuego(id: number): Observable<boolean> {
+    return this.api.existeJuego(id);
+  }
+
+  obtenerProximoId(): number {
+    return this.api.obtenerProximoId(this._juegosRaw());
+  }
 
   obtenerCategorias(): Categoria[] {
-    return CATEGORIAS;
+    return this._categorias();
   }
 
   obtenerCategoria(categoriaId: string): Categoria | undefined {
-    return CATEGORIAS.find((c) => c.id === categoriaId);
+    return this._categorias().find((c) => c.id === categoriaId);
   }
 
   obtenerIconoCategoria(categoriaId: string): string {
@@ -32,15 +103,17 @@ export class Productos {
   }
 
   obtenerJuegos(): Juego[] {
-    return JUEGOS.map((j) => this.resolverOfertaJuego(j));
+    return this._juegosRaw().map((j) => this.resolverOfertaJuego(j));
   }
 
   obtenerJuegosOrdenados(): Juego[] {
-    return this.obtenerJuegos().slice().sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+    return this.obtenerJuegos()
+      .slice()
+      .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
   }
 
   obtenerJuegoPorId(juegoId: number): Juego | null {
-    const juego = JUEGOS.find((j) => j.id === juegoId);
+    const juego = this._juegosRaw().find((j) => j.id === juegoId);
     return juego ? this.resolverOfertaJuego(juego) : null;
   }
 
@@ -89,7 +162,7 @@ export class Productos {
 
   obtenerConfigOferta(juegoId: number): ConfigOferta {
     const override = this.obtenerOfertasGuardadas()[String(juegoId)];
-    const juego = JUEGOS.find((j) => j.id === juegoId);
+    const juego = this._juegosRaw().find((j) => j.id === juegoId);
     if (!juego) return { activa: false, porcentaje: 10 };
 
     if (override) {
@@ -116,7 +189,7 @@ export class Productos {
     }
   }
 
-  /** Aplica descuentos del administrador o los precios por defecto del catálogo estático. */
+  /** Aplica descuentos del administrador o los precios por defecto del catálogo en json-server. */
   private resolverOfertaJuego(juego: Juego): Juego {
     const copia = { ...juego };
     const override = this.obtenerOfertasGuardadas()[String(juego.id)];

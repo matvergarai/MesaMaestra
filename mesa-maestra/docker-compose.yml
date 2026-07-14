@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: mesamaestra-api
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./db.json:/data/db.json
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mesamaestra-web
+    ports:
+      - '8080:80'
+    depends_on:
+      - api

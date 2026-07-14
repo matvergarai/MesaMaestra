@@ -12,6 +12,8 @@ import { PagoExitoso } from './pages/pago-exitoso/pago-exitoso';
 import { Perfil } from './pages/perfil/perfil';
 import { Recuperar } from './pages/recuperar/recuperar';
 import { Registro } from './pages/registro/registro';
+import { JuegosStorage } from './pages/juegos-storage/juegos-storage';
+import { JuegosJsonServer } from './pages/juegos-json-server/juegos-json-server';
 
 /** Rutas principales de la aplicación de una sola página MesaMaestra. */
 export const routes: Routes = [
@@ -25,6 +27,8 @@ export const routes: Routes = [
   { path: 'catalogo', component: Catalogo },
   { path: 'carrito', component: CarritoPage },
   { path: 'pago-exitoso', component: PagoExitoso },
+  { path: 'juegos-storage', component: JuegosStorage },
+  { path: 'juegos-json-server', component: JuegosJsonServer },
   { path: 'admin', component: Admin, canActivate: [adminGuard] },
   { path: '**', redirectTo: '' },
 ];

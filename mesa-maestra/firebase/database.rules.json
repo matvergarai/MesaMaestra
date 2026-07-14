@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "categorias": {
+      ".read": true,
+      ".write": true
+    },
+    "juegos": {
+      ".read": true,
+      ".write": true
+    },
+    "compras": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

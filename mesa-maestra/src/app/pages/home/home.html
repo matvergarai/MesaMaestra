@@ -12,7 +12,7 @@
     <p class="encabezado-subtitulo">Elige el estilo de juego que más te guste explorando nuestras categorías</p>
   </div>
   <div class="row g-4">
-    <div class="col-6 col-md-3" *ngFor="let cat of categorias; let i = index">
+    <div class="col-6 col-md-3" *ngFor="let cat of categorias(); let i = index">
       <app-card-categoria [categoria]="cat" [indice]="i" />
     </div>
   </div>
@@ -25,7 +25,7 @@
   </div>
   <div class="row" id="destacados-home">
     <app-card-juego
-      *ngFor="let juego of destacados; let i = index"
+      *ngFor="let juego of destacados(); let i = index"
       [juego]="juego"
       [indice]="i"
       (juegoAgregado)="onJuegoAgregado($event)" />

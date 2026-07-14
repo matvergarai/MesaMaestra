@@ -8,8 +8,63 @@
     <div class="col-12 col-lg-6">
       <div class="panel-admin panel-admin-inventario anim-fade-in"
         [class.is-resaltado]="inventarioResaltado()" style="animation-delay: 0.1s">
-        <h3>Inventario de Juegos</h3>
+        <div class="admin-ofertas-cabecera">
+          <h3>Inventario de Juegos</h3>
+          <button type="button" class="btn btn-principal btn-pulse btn-sm" (click)="abrirFormularioCrear()">Agregar juego</button>
+        </div>
         <p class="panel-admin-resumen">Mostrando: <strong>{{ totalProductosTexto() }}</strong></p>
+        @if (mensajeCrud()) {
+          <div class="mensaje-exito">{{ mensajeCrud() }}</div>
+        }
+        @if (errorCrud()) {
+          <div class="mensaje-error">{{ errorCrud() }}</div>
+        }
+        @if (juegoFormVisible()) {
+          <div class="admin-juego-form panel-admin-subpanel">
+            <h4>{{ juegoFormModo === 'crear' ? 'Nuevo juego (POST)' : 'Editar juego (PUT)' }}</h4>
+            <form class="row g-2" (submit)="$event.preventDefault(); guardarFormularioJuego()">
+              <div class="col-6 col-md-2">
+                <label class="form-label">ID</label>
+                <input type="number" class="form-control form-control-sm" [(ngModel)]="juegoForm.id" name="juegoId"
+                  [readonly]="juegoFormModo === 'editar'" required>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="juegoForm.nombre" name="juegoNombre" required>
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label">Autor</label>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="juegoForm.autor" name="juegoAutor">
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label">Marca</label>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="juegoForm.marca" name="juegoMarca">
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label">Precio</label>
+                <input type="number" class="form-control form-control-sm" [(ngModel)]="juegoForm.precio" name="juegoPrecio" min="0">
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label">Stock</label>
+                <input type="number" class="form-control form-control-sm" [(ngModel)]="juegoForm.stock" name="juegoStock" min="0">
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Categoría</label>
+                <select class="form-select form-select-sm" [(ngModel)]="juegoForm.categoria" name="juegoCategoria">
+                  @for (cat of categoriasDisponibles(); track cat.id) {
+                    <option [value]="cat.id">{{ cat.nombre }}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-12 d-flex gap-2 justify-content-end">
+                <button type="button" class="btn btn-outline-secondary btn-sm" (click)="cerrarFormularioJuego()">Cancelar</button>
+                <button type="submit" class="btn btn-principal btn-sm" [disabled]="guardandoCrud()">
+                  {{ juegoFormModo === 'crear' ? 'Crear' : 'Guardar cambios' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        }
         <div class="admin-buscador-wrap">
           <span class="admin-buscador-icono" aria-hidden="true">🔍</span>
           <input type="search" class="admin-buscador" placeholder="Buscar por juego, autor, editorial o categoría..."
@@ -24,11 +79,13 @@
                 <th class="admin-col-editorial">Editorial</th>
                 <th class="admin-col-categoria">Categoría</th>
                 <th class="admin-col-precio">Precio</th>
+                <th class="admin-col-stock">Stock</th>
+                <th class="admin-col-acciones">Acciones</th>
               </tr>
             </thead>
             <tbody>
               @if (juegosInventario().length === 0) {
-                <tr><td colspan="5" class="admin-tabla-vacio">No hay juegos que coincidan con la búsqueda.</td></tr>
+                <tr><td colspan="7" class="admin-tabla-vacio">No hay juegos que coincidan con la búsqueda.</td></tr>
               } @else {
                 @for (j of juegosInventario(); track j.id) {
                   <tr class="admin-fila-inventario" [class.is-seleccionado]="filaSeleccionada(j.id)">
@@ -37,6 +94,11 @@
                     <td class="admin-celda-editorial">{{ j.marca }}</td>
                     <td class="admin-celda-categoria">{{ nombreCategoria(j) }}</td>
                     <td class="admin-celda-precio" [innerHTML]="precioHtml(j)"></td>
+                    <td class="admin-celda-stock">{{ j.stock ?? '—' }}</td>
+                    <td class="admin-celda-acciones">
+                      <button type="button" class="btn btn-outline-primary btn-sm me-1" (click)="abrirFormularioEditar(j)">Editar</button>
+                      <button type="button" class="btn btn-outline-danger btn-sm" (click)="eliminarJuego(j)">Eliminar</button>
+                    </td>
                   </tr>
                 }
               }

@@ -1,0 +1,13 @@
+node_modules
+dist
+.angular
+.git
+.gitignore
+documentation
+coverage
+*.md
+.vscode
+.idea
+__screenshots__
+npm-debug.log
+.firebase

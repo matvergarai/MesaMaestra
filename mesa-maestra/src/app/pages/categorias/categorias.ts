@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { Productos } from '../../servicios/productos';
 import { CardCategoria } from '../../componentes/card-categoria/card-categoria';
 
@@ -12,7 +12,10 @@ import { CardCategoria } from '../../componentes/card-categoria/card-categoria';
 export class Categorias implements OnInit, OnDestroy {
   private productos = inject(Productos);
 
-  categorias = this.productos.obtenerCategorias();
+  /** Señal reactiva: Angular 22 actualiza la vista al cargar desde la API. */
+  categorias = signal(this.productos.obtenerCategorias());
+  cargando = signal(true);
+  error = signal<string | null>(null);
 
   contarJuegos(categoriaId: string): number {
     return this.productos.obtenerJuegosPorCategoria(categoriaId).length;
@@ -24,6 +27,16 @@ export class Categorias implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     document.body.classList.add('pagina-listado');
+    this.productos.cargarCatalogo().subscribe({
+      next: () => {
+        this.categorias.set(this.productos.obtenerCategorias());
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.error.set('No se pudieron cargar las categorías.');
+        this.cargando.set(false);
+      },
+    });
   }
 
   ngOnDestroy(): void {
